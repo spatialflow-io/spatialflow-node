@@ -1,4 +1,4 @@
-## @spatialflow/sdk@1.0.0
+## @spatialflow/sdk@v1.1.0
 
 This generator creates TypeScript/JavaScript client that utilizes [axios](https://github.com/axios/axios). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install @spatialflow/sdk@1.0.0 --save
+npm install @spatialflow/sdk@v1.1.0 --save
 ```
 
 _unPublished (not recommended):_

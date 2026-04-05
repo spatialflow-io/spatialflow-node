@@ -11,12 +11,13 @@ import {
   WebhooksApi,
   DevicesApi,
   AccountApi,
+  StorageApi,
 } from "./_generated/api";
 import { Configuration } from "./_generated/configuration";
 import { BASE_PATH } from "./_generated/base";
 import { SpatialFlowError, raiseForStatus } from "./errors";
 
-export const VERSION = "0.1.0";
+export const VERSION = "1.1.0";
 export const DEFAULT_BASE_URL = BASE_PATH;
 const DEFAULT_TIMEOUT = 30000; // 30 seconds
 const DEFAULT_MAX_RETRIES = 3;
@@ -91,6 +92,7 @@ export class SpatialFlow {
   private _webhooks?: WebhooksApi;
   private _devices?: DevicesApi;
   private _account?: AccountApi;
+  private _storage?: StorageApi;
 
   constructor(options: SpatialFlowOptions) {
     const { apiKey, accessToken, baseUrl, timeout, maxRetries } = options;
@@ -238,5 +240,19 @@ export class SpatialFlow {
       );
     }
     return this._account;
+  }
+
+  /**
+   * Access storage operations.
+   */
+  get storage(): StorageApi {
+    if (!this._storage) {
+      this._storage = new StorageApi(
+        this.config,
+        undefined,
+        this.axiosInstance
+      );
+    }
+    return this._storage;
   }
 }
