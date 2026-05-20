@@ -2,6 +2,8 @@
 
 The official Node.js/TypeScript SDK for [SpatialFlow](https://spatialflow.io) - a real-time geospatial automation platform.
 
+> **Beta Notice:** This SDK is in beta. APIs are usable for early integrations but may change before a stable v1.0 release.
+
 ## Installation
 
 ```bash

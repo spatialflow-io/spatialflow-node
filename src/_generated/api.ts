@@ -160,6 +160,56 @@ export interface ActionRetryConfigSchema {
 /**
  * 
  * @export
+ * @interface ActiveGeofenceSummaryItemOut
+ */
+export interface ActiveGeofenceSummaryItemOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof ActiveGeofenceSummaryItemOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActiveGeofenceSummaryItemOut
+     */
+    'name': string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof ActiveGeofenceSummaryItemOut
+     */
+    'geometry': { [key: string]: any; };
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof ActiveGeofenceSummaryItemOut
+     */
+    'center': Array<number>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ActiveGeofenceSummaryItemOut
+     */
+    'event_count_today': number;
+}
+/**
+ * 
+ * @export
+ * @interface ActiveGeofenceSummaryOut
+ */
+export interface ActiveGeofenceSummaryOut {
+    /**
+     * 
+     * @type {Array<ActiveGeofenceSummaryItemOut>}
+     * @memberof ActiveGeofenceSummaryOut
+     */
+    'geofences': Array<ActiveGeofenceSummaryItemOut>;
+}
+/**
+ * 
+ * @export
  * @interface ActivitySummary
  */
 export interface ActivitySummary {
@@ -218,6 +268,31 @@ export interface AdminUserStatsResponse {
      * @memberof AdminUserStatsResponse
      */
     'has_more': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ApiDocsOut
+ */
+export interface ApiDocsOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof ApiDocsOut
+     */
+    'openapi': string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof ApiDocsOut
+     */
+    'info': { [key: string]: any; };
+    /**
+     * 
+     * @type {Array<{ [key: string]: any; }>}
+     * @memberof ApiDocsOut
+     */
+    'servers': Array<{ [key: string]: any; }>;
 }
 /**
  * API key creation request schema.
@@ -664,10 +739,10 @@ export interface AuditLogOut {
     'description': string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {any}
      * @memberof AuditLogOut
      */
-    'changes': { [key: string]: any; };
+    'changes': any;
     /**
      * 
      * @type {string}
@@ -741,6 +816,38 @@ export interface BatchLocationUpdateIn {
     'locations': Array<LocationUpdateIn>;
 }
 /**
+ * Request to bulk approve users.
+ * @export
+ * @interface BulkApproveRequest
+ */
+export interface BulkApproveRequest {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof BulkApproveRequest
+     */
+    'user_ids': Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkApproveRequest
+     */
+    'notes'?: string;
+}
+/**
+ * Request to bulk deactivate users.
+ * @export
+ * @interface BulkDeactivateRequest
+ */
+export interface BulkDeactivateRequest {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof BulkDeactivateRequest
+     */
+    'user_ids': Array<string>;
+}
+/**
  * 
  * @export
  * @interface BulkGeofenceRequest
@@ -752,6 +859,112 @@ export interface BulkGeofenceRequest {
      * @memberof BulkGeofenceRequest
      */
     'geofences': Array<CreateGeofenceRequest>;
+}
+/**
+ * Single invite in a bulk invite request.
+ * @export
+ * @interface BulkInviteItem
+ */
+export interface BulkInviteItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkInviteItem
+     */
+    'email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkInviteItem
+     */
+    'workspace_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkInviteItem
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkInviteItem
+     */
+    'role'?: string;
+}
+/**
+ * Request to bulk invite users.
+ * @export
+ * @interface BulkInviteRequest
+ */
+export interface BulkInviteRequest {
+    /**
+     * 
+     * @type {Array<BulkInviteItem>}
+     * @memberof BulkInviteRequest
+     */
+    'invites': Array<BulkInviteItem>;
+}
+/**
+ * Response for bulk operations.
+ * @export
+ * @interface BulkOperationResponse
+ */
+export interface BulkOperationResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof BulkOperationResponse
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof BulkOperationResponse
+     */
+    'succeeded': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof BulkOperationResponse
+     */
+    'failed': number;
+    /**
+     * 
+     * @type {Array<BulkResultItem>}
+     * @memberof BulkOperationResponse
+     */
+    'results': Array<BulkResultItem>;
+}
+/**
+ * Result for a single item in a bulk operation.
+ * @export
+ * @interface BulkResultItem
+ */
+export interface BulkResultItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkResultItem
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkResultItem
+     */
+    'email': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BulkResultItem
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof BulkResultItem
+     */
+    'message': string;
 }
 /**
  * Category metadata for grouping configurations.
@@ -1392,11 +1605,11 @@ export interface CreateGeofenceRequest {
      */
     'description'?: string | null;
     /**
-     * GeoJSON geometry (Polygon, MultiPolygon, or Circle)
-     * @type {{ [key: string]: any; }}
+     * 
+     * @type {Geometry}
      * @memberof CreateGeofenceRequest
      */
-    'geometry': { [key: string]: any; };
+    'geometry': Geometry;
     /**
      * 
      * @type {string}
@@ -1477,43 +1690,6 @@ export interface CreateInvitationIn {
      * @memberof CreateInvitationIn
      */
     'role'?: string;
-}
-/**
- * Request schema for creating a new simulation.
- * @export
- * @interface CreateSimulationRequest
- */
-export interface CreateSimulationRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateSimulationRequest
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateSimulationRequest
-     */
-    'description'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof CreateSimulationRequest
-     */
-    'speed_multiplier'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CreateSimulationRequest
-     */
-    'loop_enabled'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CreateSimulationRequest
-     */
-    'mute_external_actions'?: boolean;
 }
 /**
  * 
@@ -1734,52 +1910,89 @@ export interface DashboardMetricsResponse {
 /**
  * 
  * @export
- * @interface DashboardStatsResponse
+ * @interface DashboardStatsOut
  */
-export interface DashboardStatsResponse {
+export interface DashboardStatsOut {
     /**
      * 
      * @type {number}
-     * @memberof DashboardStatsResponse
+     * @memberof DashboardStatsOut
      */
-    'total_users': number;
+    'live_count': number;
     /**
      * 
      * @type {number}
-     * @memberof DashboardStatsResponse
+     * @memberof DashboardStatsOut
      */
-    'active_users': number;
+    'offline_stale_count': number;
     /**
      * 
      * @type {number}
-     * @memberof DashboardStatsResponse
+     * @memberof DashboardStatsOut
      */
-    'new_users_this_week': number;
+    'in_geofence_count': number;
     /**
      * 
      * @type {number}
-     * @memberof DashboardStatsResponse
+     * @memberof DashboardStatsOut
      */
-    'total_workspaces': number;
+    'alerts_open': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardStatsOut
+     */
+    'workflow_failures_1h': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardStatsOut
+     */
+    'webhook_retries_1h': number;
 }
 /**
  * 
  * @export
- * @interface DeleteFileResponse
+ * @interface DashboardStatsTimelineOut
  */
-export interface DeleteFileResponse {
+export interface DashboardStatsTimelineOut {
     /**
      * 
      * @type {string}
-     * @memberof DeleteFileResponse
+     * @memberof DashboardStatsTimelineOut
      */
-    'message': string;
+    'time_range': string;
     /**
      * 
-     * @type {string}
-     * @memberof DeleteFileResponse
+     * @type {Array<TimelineBucketOut>}
+     * @memberof DashboardStatsTimelineOut
      */
-    'key': string;
+    'buckets': Array<TimelineBucketOut>;
+    /**
+     * 
+     * @type {TimelinePreviousOut}
+     * @memberof DashboardStatsTimelineOut
+     */
+    'previous': TimelinePreviousOut;
+}
+/**
+ * Response for dashboard trends endpoint.
+ * @export
+ * @interface DashboardTrendsResponse
+ */
+export interface DashboardTrendsResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardTrendsResponse
+     */
+    'days': number;
+    /**
+     * 
+     * @type {Array<TrendSeries>}
+     * @memberof DashboardTrendsResponse
+     */
+    'series': Array<TrendSeries>;
 }
 /**
  * Webhook delivery status
@@ -1933,10 +2146,10 @@ export interface DeviceOut {
     'shift_resumed_at'?: string | null;
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {LatLonOut}
      * @memberof DeviceOut
      */
-    'last_location'?: { [key: string]: any; } | null;
+    'last_location'?: LatLonOut | null;
     /**
      * 
      * @type {string}
@@ -1957,16 +2170,16 @@ export interface DeviceOut {
     'current_session_notes'?: string;
     /**
      * 
-     * @type {Array<string | null>}
+     * @type {Array<string>}
      * @memberof DeviceOut
      */
-    'in_geofence_ids'?: Array<string | null>;
+    'in_geofence_ids'?: Array<string>;
     /**
      * 
-     * @type {{ [key: string]: string | null; }}
+     * @type {{ [key: string]: string; }}
      * @memberof DeviceOut
      */
-    'in_geofence_entries'?: { [key: string]: string | null; };
+    'in_geofence_entries'?: { [key: string]: string; };
     /**
      * 
      * @type {string}
@@ -1981,7 +2194,7 @@ export interface DeviceOut {
     'updated_at': string;
 }
 /**
- * Response schema for a completed tracking session.
+ * Response schema for a tracking session (active or completed).
  * @export
  * @interface DeviceSessionOut
  */
@@ -2003,13 +2216,13 @@ export interface DeviceSessionOut {
      * @type {string}
      * @memberof DeviceSessionOut
      */
-    'ended_at': string;
+    'ended_at'?: string | null;
     /**
      * 
      * @type {number}
      * @memberof DeviceSessionOut
      */
-    'duration_seconds': number;
+    'duration_seconds'?: number | null;
     /**
      * 
      * @type {number}
@@ -2022,12 +2235,6 @@ export interface DeviceSessionOut {
      * @memberof DeviceSessionOut
      */
     'distance_meters'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof DeviceSessionOut
-     */
-    'notes': string;
     /**
      * 
      * @type {boolean}
@@ -2053,6 +2260,172 @@ export interface DeviceSessionsOut {
      * @memberof DeviceSessionsOut
      */
     'total_count': number;
+}
+/**
+ * 
+ * @export
+ * @interface DeviceStatsOut
+ */
+export interface DeviceStatsOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'total_devices': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'active_devices': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'inactive_devices': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'events_today': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'events_yesterday': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'events_this_week': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'events_last_week': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'entries_today': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'exits_today': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeviceStatsOut
+     */
+    'active_geofences': number;
+}
+/**
+ * 
+ * @export
+ * @interface DocsUiOut
+ */
+export interface DocsUiOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof DocsUiOut
+     */
+    'message': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DocsUiOut
+     */
+    'docs_url': string;
+}
+/**
+ * Workspace with dormancy information.
+ * @export
+ * @interface DormantWorkspaceItem
+ */
+export interface DormantWorkspaceItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof DormantWorkspaceItem
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DormantWorkspaceItem
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DormantWorkspaceItem
+     */
+    'slug': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DormantWorkspaceItem
+     */
+    'member_count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DormantWorkspaceItem
+     */
+    'subscription_tier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DormantWorkspaceItem
+     */
+    'last_activity'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof DormantWorkspaceItem
+     */
+    'inactive_days': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DormantWorkspaceItem
+     */
+    'created_at': string | null;
+}
+/**
+ * Response for dormant workspaces endpoint.
+ * @export
+ * @interface DormantWorkspaceResponse
+ */
+export interface DormantWorkspaceResponse {
+    /**
+     * 
+     * @type {Array<DormantWorkspaceItem>}
+     * @memberof DormantWorkspaceResponse
+     */
+    'workspaces': Array<DormantWorkspaceItem>;
+    /**
+     * 
+     * @type {number}
+     * @memberof DormantWorkspaceResponse
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DormantWorkspaceResponse
+     */
+    'inactive_days_threshold': number;
 }
 /**
  * Email configuration info for debugging.
@@ -2103,6 +2476,86 @@ export interface EmailHealthResponse {
      * @memberof EmailHealthResponse
      */
     'timestamp': string;
+}
+/**
+ * 
+ * @export
+ * @interface EmailHistoryItemOut
+ */
+export interface EmailHistoryItemOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'to_email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'subject': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'created_at': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'delivered_at'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EmailHistoryItemOut
+     */
+    'template'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface EmailHistoryOut
+ */
+export interface EmailHistoryOut {
+    /**
+     * 
+     * @type {Array<EmailHistoryItemOut>}
+     * @memberof EmailHistoryOut
+     */
+    'items': Array<EmailHistoryItemOut>;
+    /**
+     * 
+     * @type {number}
+     * @memberof EmailHistoryOut
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EmailHistoryOut
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EmailHistoryOut
+     */
+    'offset': number;
 }
 /**
  * 
@@ -2271,6 +2724,274 @@ export interface EmailTestResponse {
     'error'?: string | null;
 }
 /**
+ * Enhanced dashboard stats with revenue metrics.
+ * @export
+ * @interface EnhancedDashboardStatsResponse
+ */
+export interface EnhancedDashboardStatsResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'total_users': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'active_users': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'new_users_this_week': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'total_workspaces': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'paid_subscriptions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'trial_subscriptions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'canceled_subscriptions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedDashboardStatsResponse
+     */
+    'monthly_recurring_revenue'?: number;
+}
+/**
+ * Enhanced workspace detail with subscription and usage limits.
+ * @export
+ * @interface EnhancedWorkspaceDetailResponse
+ */
+export interface EnhancedWorkspaceDetailResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'slug': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'billing_email': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'website': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'logo_url': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'timezone': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'stripe_customer_id': string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'member_count': number;
+    /**
+     * 
+     * @type {SubscriptionInfo}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'subscription': SubscriptionInfo;
+    /**
+     * 
+     * @type {UsageLimits}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'usage': UsageLimits;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'created_at': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceDetailResponse
+     */
+    'updated_at': string | null;
+}
+/**
+ * Workspace item with subscription and usage data.
+ * @export
+ * @interface EnhancedWorkspaceListItem
+ */
+export interface EnhancedWorkspaceListItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'slug': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'billing_email': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'website': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'logo_url': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'timezone': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'member_count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'subscription_tier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'subscription_status'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'usage_this_month'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'last_activity'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'created_at': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnhancedWorkspaceListItem
+     */
+    'updated_at': string | null;
+}
+/**
+ * Response for enhanced workspace list.
+ * @export
+ * @interface EnhancedWorkspaceListResponse
+ */
+export interface EnhancedWorkspaceListResponse {
+    /**
+     * 
+     * @type {Array<EnhancedWorkspaceListItem>}
+     * @memberof EnhancedWorkspaceListResponse
+     */
+    'workspaces': Array<EnhancedWorkspaceListItem>;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceListResponse
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceListResponse
+     */
+    'page': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceListResponse
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnhancedWorkspaceListResponse
+     */
+    'pages': number;
+}
+/**
  * Standard error response schema for all API endpoints.  Follows Django Ninja standard format and aligns with validation errors. Compatible with frontend apiClient.ts error handling.  Attributes:     detail: Human-readable error message or machine-readable error code     error_code: Optional machine-readable error identifier     details: Optional additional context (field errors, validation details, etc.)  Examples:     Simple error:         {\"detail\": \"Resource not found\"}      Error with code:         {\"detail\": \"FORBIDDEN\", \"error_code\": \"INSUFFICIENT_PERMISSIONS\"}      Validation error:         {             \"detail\": \"Validation failed\",             \"details\": {                 \"name\": [\"This field is required\"],                 \"email\": [\"Invalid email format\"]             }         }
  * @export
  * @interface ErrorResponse
@@ -2294,6 +3015,178 @@ export interface ErrorResponse {
      * @memberof ErrorResponse
      */
     'details'?: { [key: string]: any; } | null;
+}
+/**
+ * 
+ * @export
+ * @interface EventDeviceOut
+ */
+export interface EventDeviceOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof EventDeviceOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventDeviceOut
+     */
+    'device_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventDeviceOut
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventDeviceOut
+     */
+    'type': string;
+}
+/**
+ * 
+ * @export
+ * @interface EventGeofenceOut
+ */
+export interface EventGeofenceOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof EventGeofenceOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventGeofenceOut
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EventGeofenceOut
+     */
+    'description'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface EventLocationOut
+ */
+export interface EventLocationOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof EventLocationOut
+     */
+    'latitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventLocationOut
+     */
+    'longitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventLocationOut
+     */
+    'accuracy'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof EventLocationOut
+     */
+    'speed'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface ExecutionDetailOut
+ */
+export interface ExecutionDetailOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'workflow_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'workflow_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'execution_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'trigger_source': string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof ExecutionDetailOut
+     */
+    'trigger_data'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionDetailOut
+     */
+    'current_step'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'error_message'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'started_at'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionDetailOut
+     */
+    'completed_at'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionDetailOut
+     */
+    'duration_seconds'?: number | null;
+    /**
+     * 
+     * @type {Array<ExecutionStepDetailOut>}
+     * @memberof ExecutionDetailOut
+     */
+    'steps': Array<ExecutionStepDetailOut>;
 }
 /**
  * 
@@ -2363,6 +3256,79 @@ export interface ExecutionOut {
     'error_message': string | null;
 }
 /**
+ * 
+ * @export
+ * @interface ExecutionStepDetailOut
+ */
+export interface ExecutionStepDetailOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionStepDetailOut
+     */
+    'step_index': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'node_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'step_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'step_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'started_at'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'completed_at'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExecutionStepDetailOut
+     */
+    'duration_ms'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExecutionStepDetailOut
+     */
+    'error_message'?: string | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof ExecutionStepDetailOut
+     */
+    'input_data'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof ExecutionStepDetailOut
+     */
+    'output_data'?: { [key: string]: any; } | null;
+}
+/**
  * Schema for exported integration data
  * @export
  * @interface ExportIntegrationSchema
@@ -2406,6 +3372,19 @@ export interface ExportIntegrationSchema {
     'version'?: string;
 }
 /**
+ * Input schema for PATCH /invitations/{id}.
+ * @export
+ * @interface ExtendInvitationIn
+ */
+export interface ExtendInvitationIn {
+    /**
+     * 
+     * @type {string}
+     * @memberof ExtendInvitationIn
+     */
+    'expires_at': string;
+}
+/**
  * 
  * @export
  * @interface FileListResponse
@@ -2429,6 +3408,44 @@ export interface FileListResponse {
      * @memberof FileListResponse
      */
     'file_type': string;
+}
+/**
+ * 
+ * @export
+ * @interface FileTypeConfigOut
+ */
+export interface FileTypeConfigOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof FileTypeConfigOut
+     */
+    'max_size': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FileTypeConfigOut
+     */
+    'max_size_mb': number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof FileTypeConfigOut
+     */
+    'allowed_extensions': Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface FileTypesOut
+ */
+export interface FileTypesOut {
+    /**
+     * 
+     * @type {{ [key: string]: FileTypeConfigOut; }}
+     * @memberof FileTypesOut
+     */
+    'file_types': { [key: string]: FileTypeConfigOut; };
 }
 /**
  * 
@@ -2698,6 +3715,67 @@ export interface GeoJSONPolygon {
 /**
  * 
  * @export
+ * @interface GeofenceEventOut
+ */
+export interface GeofenceEventOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceEventOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceEventOut
+     */
+    'event_type': string;
+    /**
+     * 
+     * @type {EventDeviceOut}
+     * @memberof GeofenceEventOut
+     */
+    'device': EventDeviceOut;
+    /**
+     * 
+     * @type {EventGeofenceOut}
+     * @memberof GeofenceEventOut
+     */
+    'geofence': EventGeofenceOut;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceEventOut
+     */
+    'timestamp': string;
+    /**
+     * 
+     * @type {EventLocationOut}
+     * @memberof GeofenceEventOut
+     */
+    'location': EventLocationOut;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof GeofenceEventOut
+     */
+    'workflows_triggered'?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof GeofenceEventOut
+     */
+    'webhooks_triggered'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceEventOut
+     */
+    'created_at': string;
+}
+/**
+ * 
+ * @export
  * @interface GeofenceGeometryOut
  */
 export interface GeofenceGeometryOut {
@@ -2719,6 +3797,87 @@ export interface GeofenceGeometryOut {
      * @memberof GeofenceGeometryOut
      */
     'radius_meters'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface GeofenceGroupItemOut
+ */
+export interface GeofenceGroupItemOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupItemOut
+     */
+    'group_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupItemOut
+     */
+    'group_name'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GeofenceGroupItemOut
+     */
+    'geofence_count': number;
+}
+/**
+ * 
+ * @export
+ * @interface GeofenceGroupUpdateOut
+ */
+export interface GeofenceGroupUpdateOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupUpdateOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupUpdateOut
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupUpdateOut
+     */
+    'group_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupUpdateOut
+     */
+    'group_name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GeofenceGroupUpdateOut
+     */
+    'updated_at': string;
+}
+/**
+ * 
+ * @export
+ * @interface GeofenceGroupsOut
+ */
+export interface GeofenceGroupsOut {
+    /**
+     * 
+     * @type {Array<GeofenceGroupItemOut>}
+     * @memberof GeofenceGroupsOut
+     */
+    'groups': Array<GeofenceGroupItemOut>;
+    /**
+     * 
+     * @type {number}
+     * @memberof GeofenceGroupsOut
+     */
+    'count': number;
 }
 /**
  * Schema for geofence list response
@@ -2780,7 +3939,7 @@ export interface GeofenceResponse {
      * @type {string}
      * @memberof GeofenceResponse
      */
-    'geometry_type': string;
+    'geometry_type': GeofenceResponseGeometryTypeEnum;
     /**
      * 
      * @type {number}
@@ -2836,6 +3995,15 @@ export interface GeofenceResponse {
      */
     'updated_at': string;
 }
+
+export const GeofenceResponseGeometryTypeEnum = {
+    Polygon: 'Polygon',
+    MultiPolygon: 'MultiPolygon',
+    Circle: 'Circle'
+} as const;
+
+export type GeofenceResponseGeometryTypeEnum = typeof GeofenceResponseGeometryTypeEnum[keyof typeof GeofenceResponseGeometryTypeEnum];
+
 /**
  * 
  * @export
@@ -2918,6 +4086,37 @@ export interface Geometry {
     'radius_meters': number;
 }
 /**
+ * GeoJSON geometry (Polygon, MultiPolygon, or Circle)
+ * @export
+ * @interface Geometry1
+ */
+export interface Geometry1 {
+    /**
+     * 
+     * @type {string}
+     * @memberof Geometry1
+     */
+    'type': string;
+    /**
+     * 
+     * @type {Array<Array<Array<Array<number>>>>}
+     * @memberof Geometry1
+     */
+    'coordinates': Array<Array<Array<Array<number>>>>;
+    /**
+     * [longitude, latitude] of circle center
+     * @type {Array<number>}
+     * @memberof Geometry1
+     */
+    'center': Array<number>;
+    /**
+     * Circle radius in meters (max 100km)
+     * @type {number}
+     * @memberof Geometry1
+     */
+    'radius_meters': number;
+}
+/**
  * 
  * @export
  * @interface GoogleTokenExchangeRequest
@@ -2929,6 +4128,18 @@ export interface GoogleTokenExchangeRequest {
      * @memberof GoogleTokenExchangeRequest
      */
     'id_token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GoogleTokenExchangeRequest
+     */
+    'invite_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GoogleTokenExchangeRequest
+     */
+    'invite_token'?: string | null;
 }
 /**
  * 
@@ -2976,6 +4187,117 @@ export interface GoogleTokenExchangeResponse {
 /**
  * 
  * @export
+ * @interface GroupGeofenceItemOut
+ */
+export interface GroupGeofenceItemOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'group_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'group_name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'created_at': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofenceItemOut
+     */
+    'updated_at': string;
+}
+/**
+ * 
+ * @export
+ * @interface GroupGeofencesOut
+ */
+export interface GroupGeofencesOut {
+    /**
+     * 
+     * @type {Array<GroupGeofenceItemOut>}
+     * @memberof GroupGeofencesOut
+     */
+    'geofences': Array<GroupGeofenceItemOut>;
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupGeofencesOut
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupGeofencesOut
+     */
+    'group_id': string;
+}
+/**
+ * 
+ * @export
+ * @interface GroupTestPointOut
+ */
+export interface GroupTestPointOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof GroupTestPointOut
+     */
+    'group_id': string;
+    /**
+     * 
+     * @type {TestPointCoordinateOut}
+     * @memberof GroupTestPointOut
+     */
+    'test_point': TestPointCoordinateOut;
+    /**
+     * 
+     * @type {Array<TestPointResultOut>}
+     * @memberof GroupTestPointOut
+     */
+    'results': Array<TestPointResultOut>;
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupTestPointOut
+     */
+    'total_geofences': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GroupTestPointOut
+     */
+    'matching_geofences': number;
+}
+/**
+ * 
+ * @export
  * @interface HealthCheckResponse
  */
 export interface HealthCheckResponse {
@@ -2997,6 +4319,56 @@ export interface HealthCheckResponse {
      * @memberof HealthCheckResponse
      */
     'services': { [key: string]: string; };
+}
+/**
+ * 
+ * @export
+ * @interface HealthChecksOut
+ */
+export interface HealthChecksOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthChecksOut
+     */
+    'database': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthChecksOut
+     */
+    'email_service': string;
+}
+/**
+ * 
+ * @export
+ * @interface HealthOut
+ */
+export interface HealthOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthOut
+     */
+    'service': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof HealthOut
+     */
+    'timestamp': string;
+    /**
+     * 
+     * @type {HealthChecksOut}
+     * @memberof HealthOut
+     */
+    'checks': HealthChecksOut;
 }
 /**
  * Health check response.
@@ -3078,6 +4450,37 @@ export interface ImportResultSchema {
      * @memberof ImportResultSchema
      */
     'conflicts'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
+ * @interface IngestStatsOut
+ */
+export interface IngestStatsOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof IngestStatsOut
+     */
+    'total_ingested_today': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof IngestStatsOut
+     */
+    'total_ingested_week': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof IngestStatsOut
+     */
+    'devices_active': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof IngestStatsOut
+     */
+    'last_ingest'?: string | null;
 }
 /**
  * Detailed integration response with masked config
@@ -3175,6 +4578,25 @@ export interface IntegrationDetailSchema {
      * @memberof IntegrationDetailSchema
      */
     'config': { [key: string]: any; };
+}
+/**
+ * 
+ * @export
+ * @interface IntegrationErrorStatsOut
+ */
+export interface IntegrationErrorStatsOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof IntegrationErrorStatsOut
+     */
+    'error_count_24h': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof IntegrationErrorStatsOut
+     */
+    'last_error_at'?: string | null;
 }
 /**
  * 
@@ -3317,10 +4739,10 @@ export interface IntegrationStatsSchema {
     'last_health_check_at': string | null;
     /**
      * 
-     * @type {Array<{ [key: string]: any; } | null>}
+     * @type {Array<{ [key: string]: any; }>}
      * @memberof IntegrationStatsSchema
      */
-    'recent_errors': Array<{ [key: string]: any; } | null>;
+    'recent_errors': Array<{ [key: string]: any; }>;
 }
 /**
  * Response schema for paginated list of integration types
@@ -3727,6 +5149,25 @@ export interface InvoiceResponse {
     'line_items': Array<InvoiceLineItem>;
 }
 /**
+ * 
+ * @export
+ * @interface LatLonOut
+ */
+export interface LatLonOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof LatLonOut
+     */
+    'latitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof LatLonOut
+     */
+    'longitude': number;
+}
+/**
  * Batch of location points for bulk ingestion.  Maximum 5000 points per batch (PRD §3.4).
  * @export
  * @interface LocationBatchIn
@@ -3801,10 +5242,10 @@ export interface LocationImportResponse {
     'error_rate'?: number;
     /**
      * 
-     * @type {Array<{ [key: string]: any; } | null>}
+     * @type {Array<{ [key: string]: any; }>}
      * @memberof LocationImportResponse
      */
-    'errors'?: Array<{ [key: string]: any; } | null>;
+    'errors'?: Array<{ [key: string]: any; }>;
     /**
      * 
      * @type {string}
@@ -4390,6 +5831,196 @@ export type MethodEnum = typeof MethodEnum[keyof typeof MethodEnum];
 
 
 /**
+ * 
+ * @export
+ * @interface MobileWorkspaceBootstrapOut
+ */
+export interface MobileWorkspaceBootstrapOut {
+    /**
+     * 
+     * @type {Array<MobileWorkspaceRow>}
+     * @memberof MobileWorkspaceBootstrapOut
+     */
+    'eligible_workspaces': Array<MobileWorkspaceRow>;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileWorkspaceBootstrapOut
+     */
+    'eligible_count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceBootstrapOut
+     */
+    'selected_workspace_id'?: string | null;
+    /**
+     * 
+     * @type {MobileWorkspaceRow}
+     * @memberof MobileWorkspaceBootstrapOut
+     */
+    'selected_workspace'?: MobileWorkspaceRow | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileWorkspaceBootstrapOut
+     */
+    'skip_picker': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileWorkspaceBootstrapOut
+     */
+    'selection_required': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface MobileWorkspaceRow
+ */
+export interface MobileWorkspaceRow {
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'slug': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'role': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'logo_url'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'timezone': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceRow
+     */
+    'unit_system': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileWorkspaceRow
+     */
+    'is_selected': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileWorkspaceRow
+     */
+    'member_count'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface MobileWorkspaceSelectIn
+ */
+export interface MobileWorkspaceSelectIn {
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceSelectIn
+     */
+    'workspace_id': string;
+}
+/**
+ * 
+ * @export
+ * @interface MobileWorkspaceSelectionOut
+ */
+export interface MobileWorkspaceSelectionOut {
+    /**
+     * 
+     * @type {Array<MobileWorkspaceRow>}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'eligible_workspaces': Array<MobileWorkspaceRow>;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'eligible_count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'selected_workspace_id'?: string | null;
+    /**
+     * 
+     * @type {MobileWorkspaceRow}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'selected_workspace'?: MobileWorkspaceRow | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'skip_picker': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'selection_required': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'access_token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'refresh_token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'token_type': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'expires_in': number;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof MobileWorkspaceSelectionOut
+     */
+    'user': { [key: string]: any; };
+}
+/**
  * Request to update session notes.
  * @export
  * @interface NotesUpdateIn
@@ -4705,10 +6336,54 @@ export interface OAuthLinkResponse {
 export interface OAuthProvidersResponse {
     /**
      * 
-     * @type {Array<{ [key: string]: any; } | null>}
+     * @type {Array<{ [key: string]: any; }>}
      * @memberof OAuthProvidersResponse
      */
-    'providers': Array<{ [key: string]: any; } | null>;
+    'providers': Array<{ [key: string]: any; }>;
+}
+/**
+ * Request to transfer workspace ownership.
+ * @export
+ * @interface OwnershipTransferRequest
+ */
+export interface OwnershipTransferRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof OwnershipTransferRequest
+     */
+    'new_owner_id': string;
+}
+/**
+ * Response for ownership transfer.
+ * @export
+ * @interface OwnershipTransferResponse
+ */
+export interface OwnershipTransferResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof OwnershipTransferResponse
+     */
+    'message': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OwnershipTransferResponse
+     */
+    'workspace_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OwnershipTransferResponse
+     */
+    'previous_owner_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OwnershipTransferResponse
+     */
+    'new_owner_id': string;
 }
 /**
  * 
@@ -4777,6 +6452,122 @@ export interface PaymentMethodResponse {
      * @memberof PaymentMethodResponse
      */
     'created_at': number;
+}
+/**
+ * 
+ * @export
+ * @interface PerformanceSummaryOut
+ */
+export interface PerformanceSummaryOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof PerformanceSummaryOut
+     */
+    'total_executions_24h': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PerformanceSummaryOut
+     */
+    'average_latency': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PerformanceSummaryOut
+     */
+    'under_target_percentage': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PerformanceSummaryOut
+     */
+    'workflows_meeting_target': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PerformanceSummaryOut
+     */
+    'workflows_missing_target': number;
+}
+/**
+ * Response item for GET /devices/{uuid}/sessions/{session_id}/photos (Phase 120-04, D-16).  Lat/lon are derived per D-07: - Nearest DeviceLocation within ±60s of captured_at, OR - ST_LineInterpolatePoint on session.track_geometry (closed sessions only), OR - None when neither path produces a result (D-09 — entry still appears in the listing).  session_id added in Phase 122-01 (D-03) so the dashboard popup can deep-link to the session detail panel. Backward-compatible addition: SDK consumers that do not read session_id continue to work; consumers that need it (Phase 122 frontend popup) can read it directly from this listing.
+ * @export
+ * @interface PhotoOut
+ */
+export interface PhotoOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'file_key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'original_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'content_type': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PhotoOut
+     */
+    'size_bytes': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PhotoOut
+     */
+    'latitude'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PhotoOut
+     */
+    'longitude'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'download_url': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'device_uuid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'device_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'session_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PhotoOut
+     */
+    'captured_at': string;
 }
 /**
  * 
@@ -4950,6 +6741,12 @@ export interface PlanLimits {
      * @memberof PlanLimits
      */
     'rate_limit_per_hour': number;
+    /**
+     * Maximum devices per workspace (-1 for unlimited)
+     * @type {number}
+     * @memberof PlanLimits
+     */
+    'devices'?: number;
     /**
      * Log retention in days (-1 for unlimited)
      * @type {number}
@@ -5349,6 +7146,18 @@ export interface PresignedUrlRequest {
      * @memberof PresignedUrlRequest
      */
     'file_size': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PresignedUrlRequest
+     */
+    'related_object_type'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PresignedUrlRequest
+     */
+    'related_object_id'?: string | null;
 }
 /**
  * 
@@ -5540,6 +7349,80 @@ export interface RecentActivity {
      * @memberof RecentActivity
      */
     'metadata': { [key: string]: any; };
+}
+/**
+ * 
+ * @export
+ * @interface RecentEventsOut
+ */
+export interface RecentEventsOut {
+    /**
+     * 
+     * @type {Array<GeofenceEventOut>}
+     * @memberof RecentEventsOut
+     */
+    'results': Array<GeofenceEventOut>;
+    /**
+     * 
+     * @type {number}
+     * @memberof RecentEventsOut
+     */
+    'total_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RecentEventsOut
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RecentEventsOut
+     */
+    'offset': number;
+}
+/**
+ * 
+ * @export
+ * @interface RecentExecutionOut
+ */
+export interface RecentExecutionOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof RecentExecutionOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RecentExecutionOut
+     */
+    'execution_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RecentExecutionOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RecentExecutionOut
+     */
+    'trigger_source': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RecentExecutionOut
+     */
+    'started_at'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof RecentExecutionOut
+     */
+    'duration_seconds'?: number | null;
 }
 /**
  * Response for recent device locations (session-independent).
@@ -5789,263 +7672,80 @@ export interface RevokeAllSessionsOut {
     'workspace_id': string;
 }
 /**
- * Error response for route testing.
+ * 
  * @export
- * @interface RouteTestErrorOut
+ * @interface RuntimeConfigAnalyticsOut
  */
-export interface RouteTestErrorOut {
+export interface RuntimeConfigAnalyticsOut {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RuntimeConfigAnalyticsOut
+     */
+    'posthog_enabled': boolean;
     /**
      * 
      * @type {string}
-     * @memberof RouteTestErrorOut
+     * @memberof RuntimeConfigAnalyticsOut
      */
-    'detail': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteTestErrorOut
-     */
-    'error_code': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestErrorOut
-     */
-    'line_number'?: number | null;
+    'posthog_host'?: string | null;
 }
 /**
- * Progress for async tests.
+ * 
  * @export
- * @interface RouteTestProgress
+ * @interface RuntimeConfigFeaturesOut
  */
-export interface RouteTestProgress {
+export interface RuntimeConfigFeaturesOut {
     /**
      * 
-     * @type {number}
-     * @memberof RouteTestProgress
+     * @type {boolean}
+     * @memberof RuntimeConfigFeaturesOut
      */
-    'points_processed': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestProgress
-     */
-    'total_points': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestProgress
-     */
-    'percent': number;
+    'admin_approval_required': boolean;
 }
 /**
- * Full results from a route test.
+ * 
  * @export
- * @interface RouteTestResultsOut
+ * @interface RuntimeConfigMapsOut
  */
-export interface RouteTestResultsOut {
+export interface RuntimeConfigMapsOut {
     /**
      * 
      * @type {string}
-     * @memberof RouteTestResultsOut
+     * @memberof RuntimeConfigMapsOut
      */
-    'test_id': string;
+    'dark_basemap_tile_url'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof RouteTestResultsOut
+     * @memberof RuntimeConfigMapsOut
      */
-    'status': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteTestResultsOut
-     */
-    'file_name': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestResultsOut
-     */
-    'total_points': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestResultsOut
-     */
-    'total_distance_km': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestResultsOut
-     */
-    'duration_seconds': number;
-    /**
-     * 
-     * @type {Array<{ [key: string]: any; }>}
-     * @memberof RouteTestResultsOut
-     */
-    'track_points'?: Array<{ [key: string]: any; }> | null;
-    /**
-     * 
-     * @type {Array<{ [key: string]: any; } | null>}
-     * @memberof RouteTestResultsOut
-     */
-    'events': Array<{ [key: string]: any; } | null>;
-    /**
-     * 
-     * @type {RouteTestSummary}
-     * @memberof RouteTestResultsOut
-     */
-    'summary': RouteTestSummary;
+    'satellite_basemap_tile_url'?: string | null;
 }
 /**
- * Status response for a route test.
+ * 
  * @export
- * @interface RouteTestStatusOut
+ * @interface RuntimeConfigOut
  */
-export interface RouteTestStatusOut {
+export interface RuntimeConfigOut {
     /**
      * 
-     * @type {string}
-     * @memberof RouteTestStatusOut
+     * @type {RuntimeConfigFeaturesOut}
+     * @memberof RuntimeConfigOut
      */
-    'test_id': string;
+    'features': RuntimeConfigFeaturesOut;
     /**
      * 
-     * @type {string}
-     * @memberof RouteTestStatusOut
+     * @type {RuntimeConfigAnalyticsOut}
+     * @memberof RuntimeConfigOut
      */
-    'status': string;
+    'analytics': RuntimeConfigAnalyticsOut;
     /**
      * 
-     * @type {RouteTestProgress}
-     * @memberof RouteTestStatusOut
+     * @type {RuntimeConfigMapsOut}
+     * @memberof RuntimeConfigOut
      */
-    'progress'?: RouteTestProgress | null;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof RouteTestStatusOut
-     */
-    'results'?: { [key: string]: any; } | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteTestStatusOut
-     */
-    'error_message'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteTestStatusOut
-     */
-    'error_code'?: string | null;
-}
-/**
- * Summary statistics for a route test.
- * @export
- * @interface RouteTestSummary
- */
-export interface RouteTestSummary {
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestSummary
-     */
-    'total_events': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestSummary
-     */
-    'geofence_enters': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestSummary
-     */
-    'geofence_exits': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestSummary
-     */
-    'geofence_dwells': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteTestSummary
-     */
-    'workflows_triggered': number;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof RouteTestSummary
-     */
-    'geofences_crossed': Array<string>;
-}
-/**
- * Route with track points for map visualization.
- * @export
- * @interface RouteTrackPointsOut
- */
-export interface RouteTrackPointsOut {
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteTrackPointsOut
-     */
-    'route_id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteTrackPointsOut
-     */
-    'simulated_device_name': string;
-    /**
-     * 
-     * @type {Array<TrackPointOut>}
-     * @memberof RouteTrackPointsOut
-     */
-    'track_points': Array<TrackPointOut>;
-}
-/**
- * Response for route upload.
- * @export
- * @interface RouteUploadResponse
- */
-export interface RouteUploadResponse {
-    /**
-     * 
-     * @type {SimulationRouteOut}
-     * @memberof RouteUploadResponse
-     */
-    'route': SimulationRouteOut;
-    /**
-     * 
-     * @type {string}
-     * @memberof RouteUploadResponse
-     */
-    'gpx_route_id': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteUploadResponse
-     */
-    'total_points': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteUploadResponse
-     */
-    'total_distance_km': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RouteUploadResponse
-     */
-    'total_duration_seconds': number;
+    'maps': RuntimeConfigMapsOut;
 }
 /**
  * Input schema for creating/updating SAML SSO configuration.
@@ -6243,6 +7943,68 @@ export interface SessionLocationsOut {
      * @memberof SessionLocationsOut
      */
     'simplified'?: boolean;
+}
+/**
+ * Request body for the manager POST /devices/{uuid}/sessions/{session_id}/notes (D-04).
+ * @export
+ * @interface SessionNoteIn
+ */
+export interface SessionNoteIn {
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteIn
+     */
+    'body': string;
+}
+/**
+ * Response item for GET/POST /devices/{uuid}/sessions/{session_id}/notes (D-19).  ``author_id`` is None when the author user was deleted (FK on_delete=SET_NULL). ``author_name`` falls back to \"Unknown\" in that case. ``author_role`` is the live workspace role (\"field_worker\" | \"manager\" | \"owner\"); \"unknown\" when the author is None or no longer in the workspace.
+ * @export
+ * @interface SessionNoteOut
+ */
+export interface SessionNoteOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'session_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'author_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'author_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'author_role': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'body': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionNoteOut
+     */
+    'created_at': string;
 }
 /**
  * Stripe setup intent response.
@@ -6621,298 +8383,6 @@ export const SignupRequestSelectedPlanEnum = {
 export type SignupRequestSelectedPlanEnum = typeof SignupRequestSelectedPlanEnum[keyof typeof SignupRequestSelectedPlanEnum];
 
 /**
- * Detailed simulation output including routes and recent events.
- * @export
- * @interface SimulationDetailOut
- */
-export interface SimulationDetailOut {
-    /**
-     * 
-     * @type {SimulationOut}
-     * @memberof SimulationDetailOut
-     */
-    'simulation': SimulationOut;
-    /**
-     * 
-     * @type {Array<SimulationRouteOut>}
-     * @memberof SimulationDetailOut
-     */
-    'routes': Array<SimulationRouteOut>;
-    /**
-     * 
-     * @type {Array<SimulationEventOut>}
-     * @memberof SimulationDetailOut
-     */
-    'recent_events': Array<SimulationEventOut>;
-}
-/**
- * Output schema for SimulationEvent model.
- * @export
- * @interface SimulationEventOut
- */
-export interface SimulationEventOut {
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationEventOut
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationEventOut
-     */
-    'event_type': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationEventOut
-     */
-    'geofence_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationEventOut
-     */
-    'workflow_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationEventOut
-     */
-    'action_type': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationEventOut
-     */
-    'latitude': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationEventOut
-     */
-    'longitude': number;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof SimulationEventOut
-     */
-    'details': { [key: string]: any; };
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationEventOut
-     */
-    'dwell_duration_seconds'?: number | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationEventOut
-     */
-    'timestamp': string;
-}
-/**
- * Output schema for Simulation model.
- * @export
- * @interface SimulationOut
- */
-export interface SimulationOut {
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'description': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'status': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationOut
-     */
-    'speed_multiplier': number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SimulationOut
-     */
-    'loop_enabled': boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof SimulationOut
-     */
-    'mute_external_actions': boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationOut
-     */
-    'progress_percent': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationOut
-     */
-    'total_events_triggered': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationOut
-     */
-    'route_count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'created_at': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'started_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'paused_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'completed_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationOut
-     */
-    'error_message': string;
-}
-/**
- * Output schema for SimulationRoute model.
- * @export
- * @interface SimulationRouteOut
- */
-export interface SimulationRouteOut {
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'simulation_id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'gpx_route_id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'gpx_route_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'simulated_device_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'simulated_device_type': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'status': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationRouteOut
-     */
-    'current_point_index': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationRouteOut
-     */
-    'total_points': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationRouteOut
-     */
-    'progress_percent': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof SimulationRouteOut
-     */
-    'events_triggered': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'created_at': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'started_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'paused_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'completed_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SimulationRouteOut
-     */
-    'error_message': string;
-}
-/**
  * 
  * @export
  * @interface StartPlaybackRequest
@@ -6930,6 +8400,86 @@ export interface StartPlaybackRequest {
      * @memberof StartPlaybackRequest
      */
     'loop_enabled'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface StatusOut
+ */
+export interface StatusOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof StatusOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StatusOut
+     */
+    'service': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof StatusOut
+     */
+    'admin_approval_required'?: boolean | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof StatusOut
+     */
+    'approved_users'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface StoredFileAttachmentOut
+ */
+export interface StoredFileAttachmentOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof StoredFileAttachmentOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoredFileAttachmentOut
+     */
+    'file_key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoredFileAttachmentOut
+     */
+    'original_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoredFileAttachmentOut
+     */
+    'content_type': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof StoredFileAttachmentOut
+     */
+    'size_bytes': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoredFileAttachmentOut
+     */
+    'created_at': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StoredFileAttachmentOut
+     */
+    'related_object_id': string;
 }
 /**
  * Response for subscription actions (cancel/reactivate).
@@ -6955,6 +8505,49 @@ export interface SubscriptionActionResponse {
      * @memberof SubscriptionActionResponse
      */
     'subscription'?: SubscriptionResponse | null;
+}
+/**
+ * Subscription details for workspace detail view.
+ * @export
+ * @interface SubscriptionInfo
+ */
+export interface SubscriptionInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionInfo
+     */
+    'plan_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionInfo
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionInfo
+     */
+    'billing_period'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionInfo
+     */
+    'current_period_end'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof SubscriptionInfo
+     */
+    'last_payment_amount'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionInfo
+     */
+    'last_payment_date'?: string | null;
 }
 /**
  * User subscription details.
@@ -7033,6 +8626,80 @@ export interface SuccessResponse {
 /**
  * 
  * @export
+ * @interface SystemHealthComponent
+ */
+export interface SystemHealthComponent {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthComponent
+     */
+    'label': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthComponent
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthComponent
+     */
+    'detail': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthComponent
+     */
+    'value'?: string | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof SystemHealthComponent
+     */
+    'metadata'?: { [key: string]: any; } | null;
+}
+/**
+ * 
+ * @export
+ * @interface SystemHealthResponse
+ */
+export interface SystemHealthResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthResponse
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthResponse
+     */
+    'checked_at': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthResponse
+     */
+    'environment': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemHealthResponse
+     */
+    'version': string;
+    /**
+     * 
+     * @type {{ [key: string]: SystemHealthComponent; }}
+     * @memberof SystemHealthResponse
+     */
+    'components': { [key: string]: SystemHealthComponent; };
+}
+/**
+ * 
+ * @export
  * @interface TemplateOut
  */
 export interface TemplateOut {
@@ -7107,9 +8774,101 @@ export interface TemplateWarnings {
 /**
  * 
  * @export
+ * @interface TestEventHistoryOut
+ */
+export interface TestEventHistoryOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof TestEventHistoryOut
+     */
+    'geofence_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestEventHistoryOut
+     */
+    'geofence_name': string;
+    /**
+     * 
+     * @type {Array<TestEventItemOut>}
+     * @memberof TestEventHistoryOut
+     */
+    'test_events': Array<TestEventItemOut>;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestEventHistoryOut
+     */
+    'count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestEventHistoryOut
+     */
+    'total': number;
+}
+/**
+ * 
+ * @export
+ * @interface TestEventItemOut
+ */
+export interface TestEventItemOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof TestEventItemOut
+     */
+    'test_event_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestEventItemOut
+     */
+    'event_type': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TestEventItemOut
+     */
+    'webhook_triggered': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TestEventItemOut
+     */
+    'workflow_triggered': boolean;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof TestEventItemOut
+     */
+    'execution_results'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof TestEventItemOut
+     */
+    'test_metadata'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestEventItemOut
+     */
+    'created_at': string;
+}
+/**
+ * 
+ * @export
  * @interface TestEventRequest
  */
 export interface TestEventRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TestEventRequest
+     */
+    'event_type': string;
     /**
      * 
      * @type {{ [key: string]: any; }}
@@ -7141,6 +8900,25 @@ export interface TestIntegrationResponseSchema {
      * @memberof TestIntegrationResponseSchema
      */
     'verified': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface TestPointCoordinateOut
+ */
+export interface TestPointCoordinateOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof TestPointCoordinateOut
+     */
+    'latitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TestPointCoordinateOut
+     */
+    'longitude': number;
 }
 /**
  * Schema for testing a point against geofences
@@ -7193,10 +8971,10 @@ export interface TestPointRequest {
 export interface TestPointResponse {
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {GeoJSONPoint}
      * @memberof TestPointResponse
      */
-    'point': { [key: string]: any; };
+    'point': GeoJSONPoint;
     /**
      * 
      * @type {number}
@@ -7227,6 +9005,31 @@ export interface TestPointResponse {
      * @memberof TestPointResponse
      */
     'request_metadata'?: { [key: string]: any; } | null;
+}
+/**
+ * 
+ * @export
+ * @interface TestPointResultOut
+ */
+export interface TestPointResultOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof TestPointResultOut
+     */
+    'geofence_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TestPointResultOut
+     */
+    'geofence_name': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TestPointResultOut
+     */
+    'contains': boolean;
 }
 /**
  * Schema for testing a webhook
@@ -7310,41 +9113,104 @@ export interface TileMetadata {
     'center': Array<number>;
     /**
      * 
-     * @type {Array<{ [key: string]: any; } | null>}
+     * @type {Array<{ [key: string]: any; }>}
      * @memberof TileMetadata
      */
-    'layers': Array<{ [key: string]: any; } | null>;
+    'layers': Array<{ [key: string]: any; }>;
 }
 /**
- * Track point with coordinates.
+ * 
  * @export
- * @interface TrackPointOut
+ * @interface TimelineBucketOut
  */
-export interface TrackPointOut {
-    /**
-     * 
-     * @type {number}
-     * @memberof TrackPointOut
-     */
-    'lat': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof TrackPointOut
-     */
-    'lon': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof TrackPointOut
-     */
-    'ele'?: number | null;
+export interface TimelineBucketOut {
     /**
      * 
      * @type {string}
-     * @memberof TrackPointOut
+     * @memberof TimelineBucketOut
      */
-    'time'?: string | null;
+    'timestamp': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TimelineBucketOut
+     */
+    'live_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TimelineBucketOut
+     */
+    'offline_stale_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TimelineBucketOut
+     */
+    'in_geofence_count': number;
+}
+/**
+ * 
+ * @export
+ * @interface TimelinePreviousOut
+ */
+export interface TimelinePreviousOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof TimelinePreviousOut
+     */
+    'live_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TimelinePreviousOut
+     */
+    'offline_stale_count': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TimelinePreviousOut
+     */
+    'in_geofence_count': number;
+}
+/**
+ * Single data point in a trend series.
+ * @export
+ * @interface TrendDataPoint
+ */
+export interface TrendDataPoint {
+    /**
+     * 
+     * @type {string}
+     * @memberof TrendDataPoint
+     */
+    'date': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TrendDataPoint
+     */
+    'value': number;
+}
+/**
+ * Named trend series with data points.
+ * @export
+ * @interface TrendSeries
+ */
+export interface TrendSeries {
+    /**
+     * 
+     * @type {string}
+     * @memberof TrendSeries
+     */
+    'name': string;
+    /**
+     * 
+     * @type {Array<TrendDataPoint>}
+     * @memberof TrendSeries
+     */
+    'data': Array<TrendDataPoint>;
 }
 /**
  * 
@@ -7710,10 +9576,10 @@ export interface UpdateGeofenceRequest {
     'description'?: string | null;
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {Geometry1}
      * @memberof UpdateGeofenceRequest
      */
-    'geometry'?: { [key: string]: any; } | null;
+    'geometry'?: Geometry1 | null;
     /**
      * 
      * @type {string}
@@ -7906,47 +9772,22 @@ export interface UpdateProfileRequest {
     'show_tutorial_tooltips'?: boolean | null;
     /**
      * 
+     * @type {boolean}
+     * @memberof UpdateProfileRequest
+     */
+    'has_completed_tour'?: boolean | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateProfileRequest
+     */
+    'has_completed_workflow_tour'?: boolean | null;
+    /**
+     * 
      * @type {string}
      * @memberof UpdateProfileRequest
      */
     'default_api_version'?: string | null;
-}
-/**
- * Request schema for updating simulation settings.
- * @export
- * @interface UpdateSimulationRequest
- */
-export interface UpdateSimulationRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateSimulationRequest
-     */
-    'name'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateSimulationRequest
-     */
-    'description'?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof UpdateSimulationRequest
-     */
-    'speed_multiplier'?: number | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UpdateSimulationRequest
-     */
-    'loop_enabled'?: boolean | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UpdateSimulationRequest
-     */
-    'mute_external_actions'?: boolean | null;
 }
 /**
  * Request to update user\'s workspace.
@@ -8165,6 +10006,61 @@ export interface UploadJobStatus {
     'error_message'?: string | null;
 }
 /**
+ * Usage vs limits for workspace detail view.
+ * @export
+ * @interface UsageLimits
+ */
+export interface UsageLimits {
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'location_events'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'action_deliveries'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'event_units'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'max_geofences'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'max_devices'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'max_events_per_month'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'geofence_count'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageLimits
+     */
+    'device_count'?: number;
+}
+/**
  * Current usage metrics.
  * @export
  * @interface UsageMetrics
@@ -8194,6 +10090,12 @@ export interface UsageMetrics {
      * @memberof UsageMetrics
      */
     'test_points'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UsageMetrics
+     */
+    'devices'?: number;
 }
 /**
  * Response schema for workspace usage metrics.
@@ -8245,31 +10147,6 @@ export interface UsageResponse {
     'period_end': string;
 }
 /**
- * Usage statistics for a workspace.
- * @export
- * @interface UsageStats
- */
-export interface UsageStats {
-    /**
-     * 
-     * @type {number}
-     * @memberof UsageStats
-     */
-    'location_events': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UsageStats
-     */
-    'action_deliveries': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof UsageStats
-     */
-    'event_units': number;
-}
-/**
  * 
  * @export
  * @interface UserActionResponse
@@ -8317,6 +10194,92 @@ export interface UserActionResponse {
      * @memberof UserActionResponse
      */
     'password_set'?: boolean;
+}
+/**
+ * Single activity entry for a user.
+ * @export
+ * @interface UserActivityItem
+ */
+export interface UserActivityItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityItem
+     */
+    'activity_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityItem
+     */
+    'resource_type'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityItem
+     */
+    'resource_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityItem
+     */
+    'ip_address'?: string | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof UserActivityItem
+     */
+    'metadata'?: { [key: string]: any; };
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityItem
+     */
+    'created_at': string;
+}
+/**
+ * Response for user activity timeline.
+ * @export
+ * @interface UserActivityResponse
+ */
+export interface UserActivityResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityResponse
+     */
+    'user_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserActivityResponse
+     */
+    'email': string;
+    /**
+     * 
+     * @type {Array<UserActivityItem>}
+     * @memberof UserActivityResponse
+     */
+    'activities': Array<UserActivityItem>;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserActivityResponse
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserActivityResponse
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserActivityResponse
+     */
+    'offset': number;
 }
 /**
  * Per-user API call statistics.
@@ -8637,6 +10600,18 @@ export interface UserProfileResponse {
     'show_tutorial_tooltips'?: boolean;
     /**
      * 
+     * @type {boolean}
+     * @memberof UserProfileResponse
+     */
+    'has_completed_tour'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserProfileResponse
+     */
+    'has_completed_workflow_tour'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof UserProfileResponse
      */
@@ -8714,7 +10689,7 @@ export interface UserResponse {
      * @type {boolean}
      * @memberof UserResponse
      */
-    'emailVerified': boolean;
+    'email_verified': boolean;
     /**
      * 
      * @type {string}
@@ -8732,19 +10707,19 @@ export interface UserResponse {
      * @type {string}
      * @memberof UserResponse
      */
-    'languagePreference': string;
+    'language_preference': string;
     /**
      * 
      * @type {string}
      * @memberof UserResponse
      */
-    'createdAt': string;
+    'created_at': string;
     /**
      * 
      * @type {string}
      * @memberof UserResponse
      */
-    'updatedAt': string;
+    'updated_at': string;
     /**
      * 
      * @type {boolean}
@@ -8871,6 +10846,12 @@ export interface UserSummary {
      * @type {string}
      * @memberof UserSummary
      */
+    'last_seen_at'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserSummary
+     */
     'updated_at'?: string | null;
     /**
      * 
@@ -8957,6 +10938,12 @@ export interface UserUsageResponse {
      * @memberof UserUsageResponse
      */
     'last_login': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserUsageResponse
+     */
+    'last_seen_at'?: string | null;
 }
 /**
  * Response for user workspace management actions.
@@ -9007,6 +10994,43 @@ export interface VerifyEmailSchema {
      * @memberof VerifyEmailSchema
      */
     'token': string;
+}
+/**
+ * 
+ * @export
+ * @interface WebSocketRoutesOut
+ */
+export interface WebSocketRoutesOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof WebSocketRoutesOut
+     */
+    'websocket_base_url': string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WebSocketRoutesOut
+     */
+    'authentication': { [key: string]: any; };
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WebSocketRoutesOut
+     */
+    'endpoints': { [key: string]: any; };
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WebSocketRoutesOut
+     */
+    'message_formats': { [key: string]: any; };
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WebSocketRoutesOut
+     */
+    'response_formats': { [key: string]: any; };
 }
 /**
  * Schema for detailed webhook delivery response (includes payload and response details)
@@ -9241,9 +11265,10 @@ export interface WebhookDeliveryResponse {
      */
     'attempt_count': number;
     /**
-     * 
+     * Deprecated — use attempt_count
      * @type {number}
      * @memberof WebhookDeliveryResponse
+     * @deprecated
      */
     'retry_count'?: number;
     /**
@@ -9488,6 +11513,103 @@ export interface WebhookTestResponse {
     'error'?: string | null;
 }
 /**
+ * 
+ * @export
+ * @interface WorkflowExecutionDetailOut
+ */
+export interface WorkflowExecutionDetailOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'workflow_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'workflow_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'execution_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'trigger_source': string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'trigger_data'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'status': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'current_step'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'error_message'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'started_at'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'completed_at'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'duration_seconds'?: number | null;
+    /**
+     * 
+     * @type {Array<ExecutionStepDetailOut>}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'steps': Array<ExecutionStepDetailOut>;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'execution_data'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkflowExecutionDetailOut
+     */
+    'workflow_config'?: { [key: string]: any; } | null;
+}
+/**
  * Schema for the workflow data within an import payload.
  * @export
  * @interface WorkflowImportDataSchema
@@ -9722,16 +11844,16 @@ export interface WorkflowOut {
     'status': string;
     /**
      * 
-     * @type {Array<{ [key: string]: any; } | null>}
+     * @type {Array<{ [key: string]: any; }>}
      * @memberof WorkflowOut
      */
-    'nodes': Array<{ [key: string]: any; } | null>;
+    'nodes': Array<{ [key: string]: any; }>;
     /**
      * 
-     * @type {Array<{ [key: string]: any; } | null>}
+     * @type {Array<{ [key: string]: any; }>}
      * @memberof WorkflowOut
      */
-    'edges': Array<{ [key: string]: any; } | null>;
+    'edges': Array<{ [key: string]: any; }>;
     /**
      * 
      * @type {string}
@@ -9813,6 +11935,85 @@ export interface WorkflowRetryPolicyUpdateSchema {
     'step_overrides'?: Array<WorkflowStepRetrySchema> | null;
 }
 /**
+ * 
+ * @export
+ * @interface WorkflowStatisticsOut
+ */
+export interface WorkflowStatisticsOut {
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'total_executions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'successful_executions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'failed_executions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'running_executions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'cancelled_executions'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'success_rate'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowStatisticsOut
+     */
+    'average_duration_seconds'?: number | null;
+    /**
+     * 
+     * @type {Array<RecentExecutionOut>}
+     * @memberof WorkflowStatisticsOut
+     */
+    'recent_executions'?: Array<RecentExecutionOut> | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkflowStatisticsOut
+     */
+    'last_7_days'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkflowStatisticsOut
+     */
+    'last_30_days'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {Array<any>}
+     * @memberof WorkflowStatisticsOut
+     */
+    'executions_by_day'?: Array<any> | null;
+    /**
+     * 
+     * @type {Array<any>}
+     * @memberof WorkflowStatisticsOut
+     */
+    'common_errors'?: Array<any> | null;
+}
+/**
  * Retry configuration for a workflow step.
  * @export
  * @interface WorkflowStepRetrySchema
@@ -9842,6 +12043,73 @@ export interface WorkflowStepRetrySchema {
      * @memberof WorkflowStepRetrySchema
      */
     'retry_config': ActionRetryConfigSchema;
+}
+/**
+ * 
+ * @export
+ * @interface WorkflowTemplateDetailOut
+ */
+export interface WorkflowTemplateDetailOut {
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'lane': string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'trigger_config': { [key: string]: any; };
+    /**
+     * 
+     * @type {Array<any>}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'steps': Array<any>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'tags'?: Array<string> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'is_featured': boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkflowTemplateDetailOut
+     */
+    'usage_count': number;
 }
 /**
  * 
@@ -9879,6 +12147,104 @@ export interface WorkflowUpdate {
      * @memberof WorkflowUpdate
      */
     'edges'?: Array<{ [key: string]: any; }> | null;
+}
+/**
+ * Single workspace in analytics view.
+ * @export
+ * @interface WorkspaceAnalyticsItem
+ */
+export interface WorkspaceAnalyticsItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'slug': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'member_count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'subscription_tier'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'subscription_status'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'location_events'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'action_deliveries'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'event_units'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceAnalyticsItem
+     */
+    'last_activity'?: string | null;
+}
+/**
+ * Response for workspace analytics endpoint.
+ * @export
+ * @interface WorkspaceAnalyticsResponse
+ */
+export interface WorkspaceAnalyticsResponse {
+    /**
+     * 
+     * @type {Array<WorkspaceAnalyticsItem>}
+     * @memberof WorkspaceAnalyticsResponse
+     */
+    'workspaces': Array<WorkspaceAnalyticsItem>;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsResponse
+     */
+    'total': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsResponse
+     */
+    'limit': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof WorkspaceAnalyticsResponse
+     */
+    'offset': number;
 }
 /**
  * Response for workspace deletion.
@@ -9967,85 +12333,6 @@ export interface WorkspaceDetail {
     'created_at': string | null;
 }
 /**
- * Detailed workspace information.
- * @export
- * @interface WorkspaceDetailResponse
- */
-export interface WorkspaceDetailResponse {
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'slug': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'billing_email': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'website': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'logo_url': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'timezone': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'stripe_customer_id': string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof WorkspaceDetailResponse
-     */
-    'member_count': number;
-    /**
-     * 
-     * @type {UsageStats}
-     * @memberof WorkspaceDetailResponse
-     */
-    'usage_stats': UsageStats;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'created_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceDetailResponse
-     */
-    'updated_at': string | null;
-}
-/**
  * 
  * @export
  * @interface WorkspaceIn
@@ -10105,110 +12392,6 @@ export interface WorkspaceIn {
      * @memberof WorkspaceIn
      */
     'unit_system'?: string | null;
-}
-/**
- * Workspace item for list view.
- * @export
- * @interface WorkspaceListItem
- */
-export interface WorkspaceListItem {
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'slug': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'billing_email': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'website': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'logo_url': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'timezone': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof WorkspaceListItem
-     */
-    'member_count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'created_at': string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof WorkspaceListItem
-     */
-    'updated_at': string | null;
-}
-/**
- * Response for list of workspaces.
- * @export
- * @interface WorkspaceListResponse
- */
-export interface WorkspaceListResponse {
-    /**
-     * 
-     * @type {Array<WorkspaceListItem>}
-     * @memberof WorkspaceListResponse
-     */
-    'workspaces': Array<WorkspaceListItem>;
-    /**
-     * 
-     * @type {number}
-     * @memberof WorkspaceListResponse
-     */
-    'total': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof WorkspaceListResponse
-     */
-    'page': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof WorkspaceListResponse
-     */
-    'limit': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof WorkspaceListResponse
-     */
-    'pages': number;
 }
 /**
  * Response for workspace members list.
@@ -10337,6 +12520,25 @@ export interface WorkspaceOut {
      * @memberof WorkspaceOut
      */
     'updated_at': string;
+}
+/**
+ * Response wrapper for GET /api/v1/devices/photos (Phase 122-01, D-03).  The workspace-wide photo listing uses a soft cap of 500 newest photos per D-26: when the database has more matching rows than ``limit``, the response returns exactly ``limit`` rows ordered newest-first and ``has_more=True``. No full COUNT(*) is run; the caller can narrow the time range to see older rows. There is no offset/limit pagination for this endpoint.
+ * @export
+ * @interface WorkspacePhotosOut
+ */
+export interface WorkspacePhotosOut {
+    /**
+     * 
+     * @type {Array<PhotoOut>}
+     * @memberof WorkspacePhotosOut
+     */
+    'photos': Array<PhotoOut>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof WorkspacePhotosOut
+     */
+    'has_more': boolean;
 }
 /**
  * Workspace summary for displaying in lists.
@@ -11277,7 +13479,7 @@ export const AccountApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAccountsApiDeleteApiKey(apiKeyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsAccountsApiDeleteApiKey(apiKeyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAccountsApiDeleteApiKey(apiKeyId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AccountApi.appsAccountsApiDeleteApiKey']?.[localVarOperationServerIndex]?.url;
@@ -11289,7 +13491,7 @@ export const AccountApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAccountsApiDeleteOwnAccount(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsAccountsApiDeleteOwnAccount(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAccountsApiDeleteOwnAccount(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AccountApi.appsAccountsApiDeleteOwnAccount']?.[localVarOperationServerIndex]?.url;
@@ -11355,7 +13557,7 @@ export const AccountApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAccountsApiGetNotifications(unreadOnly?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsAccountsApiGetNotifications(unreadOnly?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAccountsApiGetNotifications(unreadOnly, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AccountApi.appsAccountsApiGetNotifications']?.[localVarOperationServerIndex]?.url;
@@ -11380,7 +13582,7 @@ export const AccountApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAccountsApiListExpiringApiKeys(days?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
+        async appsAccountsApiListExpiringApiKeys(days?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; } | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAccountsApiListExpiringApiKeys(days, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AccountApi.appsAccountsApiListExpiringApiKeys']?.[localVarOperationServerIndex]?.url;
@@ -11525,7 +13727,7 @@ export const AccountApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAccountsApiDeleteApiKey(apiKeyId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsAccountsApiDeleteApiKey(apiKeyId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsAccountsApiDeleteApiKey(apiKeyId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -11534,7 +13736,7 @@ export const AccountApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAccountsApiDeleteOwnAccount(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsAccountsApiDeleteOwnAccount(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsAccountsApiDeleteOwnAccount(options).then((request) => request(axios, basePath));
         },
         /**
@@ -11585,7 +13787,7 @@ export const AccountApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAccountsApiGetNotifications(unreadOnly?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsAccountsApiGetNotifications(unreadOnly?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsAccountsApiGetNotifications(unreadOnly, options).then((request) => request(axios, basePath));
         },
         /**
@@ -11604,7 +13806,7 @@ export const AccountApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAccountsApiListExpiringApiKeys(days?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
+        appsAccountsApiListExpiringApiKeys(days?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; } | null>> {
             return localVarFp.appsAccountsApiListExpiringApiKeys(days, options).then((request) => request(axios, basePath));
         },
         /**
@@ -12111,6 +14313,126 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Bulk approve multiple pending users.
+         * @summary Bulk Approve Users
+         * @param {BulkApproveRequest} bulkApproveRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiBulkApproveUsers: async (bulkApproveRequest: BulkApproveRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bulkApproveRequest' is not null or undefined
+            assertParamExists('appsAdminPortalApiBulkApproveUsers', 'bulkApproveRequest', bulkApproveRequest)
+            const localVarPath = `/api/v1/admin/users/bulk-approve`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(bulkApproveRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Bulk deactivate multiple users.
+         * @summary Bulk Deactivate Users
+         * @param {BulkDeactivateRequest} bulkDeactivateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiBulkDeactivateUsers: async (bulkDeactivateRequest: BulkDeactivateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bulkDeactivateRequest' is not null or undefined
+            assertParamExists('appsAdminPortalApiBulkDeactivateUsers', 'bulkDeactivateRequest', bulkDeactivateRequest)
+            const localVarPath = `/api/v1/admin/users/bulk-deactivate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(bulkDeactivateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Bulk invite multiple users.
+         * @summary Bulk Invite Users
+         * @param {BulkInviteRequest} bulkInviteRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiBulkInviteUsers: async (bulkInviteRequest: BulkInviteRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'bulkInviteRequest' is not null or undefined
+            assertParamExists('appsAdminPortalApiBulkInviteUsers', 'bulkInviteRequest', bulkInviteRequest)
+            const localVarPath = `/api/v1/admin/users/bulk-invite`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(bulkInviteRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Deactivate a user account (set email_verified=False).
          * @summary Deactivate User
          * @param {string} userId 
@@ -12269,6 +14591,79 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Export full user list.
+         * @summary Export Users
+         * @param {string} [format] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiExportUsers: async (format?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/admin/users/export`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (format !== undefined) {
+                localVarQueryParameter['format'] = format;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Read-only system health snapshot for the admin portal.
+         * @summary Get Admin System Health
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetAdminSystemHealth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/admin/system-health`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get single configuration with resolved value and metadata.  Write-only secrets return null value. Shows source (default/env/database).
          * @summary Get Configuration
          * @param {string} key 
@@ -12341,6 +14736,84 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Get time-series trend data for dashboard charts.
+         * @summary Get Dashboard Trends
+         * @param {number} [days] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetDashboardTrends: async (days?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/admin/dashboard-stats/trends`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (days !== undefined) {
+                localVarQueryParameter['days'] = days;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Find workspaces with no recent activity.
+         * @summary Get Dormant Workspaces
+         * @param {number} [inactiveDays] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetDormantWorkspaces: async (inactiveDays?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/admin/workspaces/dormant`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (inactiveDays !== undefined) {
+                localVarQueryParameter['inactive_days'] = inactiveDays;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get notification configuration.  Returns current settings for provider selection, all notification toggles and thresholds. Never exposes the actual webhook URL (only indicates if it\'s configured). Supports multiple providers: Slack, MS Teams, Generic Webhook.
          * @summary Get Notification Config
          * @param {*} [options] Override http request option.
@@ -12362,6 +14835,54 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             // authentication JWTBearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get activity timeline for a specific user.
+         * @summary Get User Activity
+         * @param {string} userId 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetUserActivity: async (userId: string, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('appsAdminPortalApiGetUserActivity', 'userId', userId)
+            const localVarPath = `/api/v1/admin/users/{user_id}/activity`
+                .replace(`{${"user_id"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
 
 
     
@@ -12451,7 +14972,7 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range. Health/admin/docs paths are already excluded by APIUsageTrackingMiddleware.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
+         * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
          * @summary Get Users With Stats
          * @param {number} [days] 
          * @param {number} [limit] 
@@ -12535,6 +15056,55 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             // authentication JWTBearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get workspace analytics with usage rankings.
+         * @summary Get Workspace Analytics
+         * @param {string} [sort] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetWorkspaceAnalytics: async (sort?: string, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/admin/workspaces/analytics`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
 
 
     
@@ -12721,10 +15291,13 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
          * @param {string | null} [search] 
          * @param {string | null} [role] 
          * @param {string | null} [status] 
+         * @param {string | null} [workspaceId] 
+         * @param {string} [sortBy] 
+         * @param {string} [sortOrder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAdminPortalApiListUsers: async (page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        appsAdminPortalApiListUsers: async (page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, workspaceId?: string | null, sortBy?: string, sortOrder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/admin/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12761,6 +15334,18 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['status'] = status;
             }
 
+            if (workspaceId !== undefined) {
+                localVarQueryParameter['workspace_id'] = workspaceId;
+            }
+
+            if (sortBy !== undefined) {
+                localVarQueryParameter['sort_by'] = sortBy;
+            }
+
+            if (sortOrder !== undefined) {
+                localVarQueryParameter['sort_order'] = sortOrder;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -12778,10 +15363,12 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
          * @param {number} [page] 
          * @param {number} [limit] 
          * @param {string | null} [search] 
+         * @param {string} [sortBy] 
+         * @param {string} [sortOrder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAdminPortalApiListWorkspaces: async (page?: number, limit?: number, search?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        appsAdminPortalApiListWorkspaces: async (page?: number, limit?: number, search?: string | null, sortBy?: string, sortOrder?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/admin/workspaces`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12808,6 +15395,14 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
 
             if (search !== undefined) {
                 localVarQueryParameter['search'] = search;
+            }
+
+            if (sortBy !== undefined) {
+                localVarQueryParameter['sort_by'] = sortBy;
+            }
+
+            if (sortOrder !== undefined) {
+                localVarQueryParameter['sort_order'] = sortOrder;
             }
 
 
@@ -13166,6 +15761,50 @@ export const AdminApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
+         * Transfer workspace ownership to a different member.
+         * @summary Transfer Workspace Ownership
+         * @param {string} workspaceId 
+         * @param {OwnershipTransferRequest} ownershipTransferRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiTransferWorkspaceOwnership: async (workspaceId: string, ownershipTransferRequest: OwnershipTransferRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'workspaceId' is not null or undefined
+            assertParamExists('appsAdminPortalApiTransferWorkspaceOwnership', 'workspaceId', workspaceId)
+            // verify required parameter 'ownershipTransferRequest' is not null or undefined
+            assertParamExists('appsAdminPortalApiTransferWorkspaceOwnership', 'ownershipTransferRequest', ownershipTransferRequest)
+            const localVarPath = `/api/v1/admin/workspaces/{workspace_id}/transfer-ownership`
+                .replace(`{${"workspace_id"}}`, encodeURIComponent(String(workspaceId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ownershipTransferRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Update configuration value.  Validates against ConfigSpec rules. Readonly configs cannot be updated. Invalidates cache and logs audit trail.  Returns:     200: Success with requires_restart flag     400: Validation error or readonly field     404: Configuration not found     500: Server error
          * @summary Update Configuration
          * @param {string} key 
@@ -13460,6 +16099,45 @@ export const AdminApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Bulk approve multiple pending users.
+         * @summary Bulk Approve Users
+         * @param {BulkApproveRequest} bulkApproveRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiBulkApproveUsers(bulkApproveRequest: BulkApproveRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BulkOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiBulkApproveUsers(bulkApproveRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiBulkApproveUsers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Bulk deactivate multiple users.
+         * @summary Bulk Deactivate Users
+         * @param {BulkDeactivateRequest} bulkDeactivateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiBulkDeactivateUsers(bulkDeactivateRequest: BulkDeactivateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BulkOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiBulkDeactivateUsers(bulkDeactivateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiBulkDeactivateUsers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Bulk invite multiple users.
+         * @summary Bulk Invite Users
+         * @param {BulkInviteRequest} bulkInviteRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiBulkInviteUsers(bulkInviteRequest: BulkInviteRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BulkOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiBulkInviteUsers(bulkInviteRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiBulkInviteUsers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Deactivate a user account (set email_verified=False).
          * @summary Deactivate User
          * @param {string} userId 
@@ -13513,6 +16191,31 @@ export const AdminApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Export full user list.
+         * @summary Export Users
+         * @param {string} [format] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiExportUsers(format?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<any>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiExportUsers(format, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiExportUsers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Read-only system health snapshot for the admin portal.
+         * @summary Get Admin System Health
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiGetAdminSystemHealth(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemHealthResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetAdminSystemHealth(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetAdminSystemHealth']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get single configuration with resolved value and metadata.  Write-only secrets return null value. Shows source (default/env/database).
          * @summary Get Configuration
          * @param {string} key 
@@ -13531,10 +16234,36 @@ export const AdminApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAdminPortalApiGetDashboardStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardStatsResponse>> {
+        async appsAdminPortalApiGetDashboardStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EnhancedDashboardStatsResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetDashboardStats(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetDashboardStats']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get time-series trend data for dashboard charts.
+         * @summary Get Dashboard Trends
+         * @param {number} [days] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiGetDashboardTrends(days?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardTrendsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetDashboardTrends(days, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetDashboardTrends']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Find workspaces with no recent activity.
+         * @summary Get Dormant Workspaces
+         * @param {number} [inactiveDays] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiGetDormantWorkspaces(inactiveDays?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DormantWorkspaceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetDormantWorkspaces(inactiveDays, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetDormantWorkspaces']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -13547,6 +16276,21 @@ export const AdminApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetNotificationConfig(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetNotificationConfig']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get activity timeline for a specific user.
+         * @summary Get User Activity
+         * @param {string} userId 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiGetUserActivity(userId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserActivityResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetUserActivity(userId, limit, offset, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetUserActivity']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -13576,7 +16320,7 @@ export const AdminApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range. Health/admin/docs paths are already excluded by APIUsageTrackingMiddleware.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
+         * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
          * @summary Get Users With Stats
          * @param {number} [days] 
          * @param {number} [limit] 
@@ -13599,10 +16343,25 @@ export const AdminApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAdminPortalApiGetWorkspace(workspaceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceDetailResponse>> {
+        async appsAdminPortalApiGetWorkspace(workspaceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EnhancedWorkspaceDetailResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetWorkspace(workspaceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetWorkspace']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get workspace analytics with usage rankings.
+         * @summary Get Workspace Analytics
+         * @param {string} [sort] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiGetWorkspaceAnalytics(sort?: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceAnalyticsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiGetWorkspaceAnalytics(sort, limit, offset, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiGetWorkspaceAnalytics']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -13667,11 +16426,14 @@ export const AdminApiFp = function(configuration?: Configuration) {
          * @param {string | null} [search] 
          * @param {string | null} [role] 
          * @param {string | null} [status] 
+         * @param {string | null} [workspaceId] 
+         * @param {string} [sortBy] 
+         * @param {string} [sortOrder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAdminPortalApiListUsers(page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiListUsers(page, limit, search, role, status, options);
+        async appsAdminPortalApiListUsers(page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, workspaceId?: string | null, sortBy?: string, sortOrder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiListUsers(page, limit, search, role, status, workspaceId, sortBy, sortOrder, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiListUsers']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -13682,11 +16444,13 @@ export const AdminApiFp = function(configuration?: Configuration) {
          * @param {number} [page] 
          * @param {number} [limit] 
          * @param {string | null} [search] 
+         * @param {string} [sortBy] 
+         * @param {string} [sortOrder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAdminPortalApiListWorkspaces(page?: number, limit?: number, search?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspaceListResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiListWorkspaces(page, limit, search, options);
+        async appsAdminPortalApiListWorkspaces(page?: number, limit?: number, search?: string | null, sortBy?: string, sortOrder?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EnhancedWorkspaceListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiListWorkspaces(page, limit, search, sortBy, sortOrder, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiListWorkspaces']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -13806,6 +16570,20 @@ export const AdminApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiTestNotification(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiTestNotification']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Transfer workspace ownership to a different member.
+         * @summary Transfer Workspace Ownership
+         * @param {string} workspaceId 
+         * @param {OwnershipTransferRequest} ownershipTransferRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAdminPortalApiTransferWorkspaceOwnership(workspaceId: string, ownershipTransferRequest: OwnershipTransferRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OwnershipTransferResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAdminPortalApiTransferWorkspaceOwnership(workspaceId, ownershipTransferRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.appsAdminPortalApiTransferWorkspaceOwnership']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -13938,6 +16716,36 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsAdminPortalApiApproveUser(userId, userApprovalRequest, options).then((request) => request(axios, basePath));
         },
         /**
+         * Bulk approve multiple pending users.
+         * @summary Bulk Approve Users
+         * @param {BulkApproveRequest} bulkApproveRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiBulkApproveUsers(bulkApproveRequest: BulkApproveRequest, options?: RawAxiosRequestConfig): AxiosPromise<BulkOperationResponse> {
+            return localVarFp.appsAdminPortalApiBulkApproveUsers(bulkApproveRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Bulk deactivate multiple users.
+         * @summary Bulk Deactivate Users
+         * @param {BulkDeactivateRequest} bulkDeactivateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiBulkDeactivateUsers(bulkDeactivateRequest: BulkDeactivateRequest, options?: RawAxiosRequestConfig): AxiosPromise<BulkOperationResponse> {
+            return localVarFp.appsAdminPortalApiBulkDeactivateUsers(bulkDeactivateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Bulk invite multiple users.
+         * @summary Bulk Invite Users
+         * @param {BulkInviteRequest} bulkInviteRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiBulkInviteUsers(bulkInviteRequest: BulkInviteRequest, options?: RawAxiosRequestConfig): AxiosPromise<BulkOperationResponse> {
+            return localVarFp.appsAdminPortalApiBulkInviteUsers(bulkInviteRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Deactivate a user account (set email_verified=False).
          * @summary Deactivate User
          * @param {string} userId 
@@ -13979,6 +16787,25 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsAdminPortalApiExportMarketingSubscribers(format, options).then((request) => request(axios, basePath));
         },
         /**
+         * Export full user list.
+         * @summary Export Users
+         * @param {string} [format] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiExportUsers(format?: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<any>> {
+            return localVarFp.appsAdminPortalApiExportUsers(format, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Read-only system health snapshot for the admin portal.
+         * @summary Get Admin System Health
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetAdminSystemHealth(options?: RawAxiosRequestConfig): AxiosPromise<SystemHealthResponse> {
+            return localVarFp.appsAdminPortalApiGetAdminSystemHealth(options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get single configuration with resolved value and metadata.  Write-only secrets return null value. Shows source (default/env/database).
          * @summary Get Configuration
          * @param {string} key 
@@ -13994,8 +16821,28 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAdminPortalApiGetDashboardStats(options?: RawAxiosRequestConfig): AxiosPromise<DashboardStatsResponse> {
+        appsAdminPortalApiGetDashboardStats(options?: RawAxiosRequestConfig): AxiosPromise<EnhancedDashboardStatsResponse> {
             return localVarFp.appsAdminPortalApiGetDashboardStats(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get time-series trend data for dashboard charts.
+         * @summary Get Dashboard Trends
+         * @param {number} [days] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetDashboardTrends(days?: number, options?: RawAxiosRequestConfig): AxiosPromise<DashboardTrendsResponse> {
+            return localVarFp.appsAdminPortalApiGetDashboardTrends(days, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Find workspaces with no recent activity.
+         * @summary Get Dormant Workspaces
+         * @param {number} [inactiveDays] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetDormantWorkspaces(inactiveDays?: number, options?: RawAxiosRequestConfig): AxiosPromise<DormantWorkspaceResponse> {
+            return localVarFp.appsAdminPortalApiGetDormantWorkspaces(inactiveDays, options).then((request) => request(axios, basePath));
         },
         /**
          * Get notification configuration.  Returns current settings for provider selection, all notification toggles and thresholds. Never exposes the actual webhook URL (only indicates if it\'s configured). Supports multiple providers: Slack, MS Teams, Generic Webhook.
@@ -14005,6 +16852,18 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          */
         appsAdminPortalApiGetNotificationConfig(options?: RawAxiosRequestConfig): AxiosPromise<NotificationConfigResponse> {
             return localVarFp.appsAdminPortalApiGetNotificationConfig(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get activity timeline for a specific user.
+         * @summary Get User Activity
+         * @param {string} userId 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetUserActivity(userId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<UserActivityResponse> {
+            return localVarFp.appsAdminPortalApiGetUserActivity(userId, limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a single user\'s details by ID.
@@ -14027,7 +16886,7 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsAdminPortalApiGetUserUsage(userId, options).then((request) => request(axios, basePath));
         },
         /**
-         * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range. Health/admin/docs paths are already excluded by APIUsageTrackingMiddleware.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
+         * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
          * @summary Get Users With Stats
          * @param {number} [days] 
          * @param {number} [limit] 
@@ -14047,8 +16906,20 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAdminPortalApiGetWorkspace(workspaceId: string, options?: RawAxiosRequestConfig): AxiosPromise<WorkspaceDetailResponse> {
+        appsAdminPortalApiGetWorkspace(workspaceId: string, options?: RawAxiosRequestConfig): AxiosPromise<EnhancedWorkspaceDetailResponse> {
             return localVarFp.appsAdminPortalApiGetWorkspace(workspaceId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get workspace analytics with usage rankings.
+         * @summary Get Workspace Analytics
+         * @param {string} [sort] 
+         * @param {number} [limit] 
+         * @param {number} [offset] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiGetWorkspaceAnalytics(sort?: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<WorkspaceAnalyticsResponse> {
+            return localVarFp.appsAdminPortalApiGetWorkspaceAnalytics(sort, limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
          * Get paginated list of members in a workspace.
@@ -14100,11 +16971,14 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          * @param {string | null} [search] 
          * @param {string | null} [role] 
          * @param {string | null} [status] 
+         * @param {string | null} [workspaceId] 
+         * @param {string} [sortBy] 
+         * @param {string} [sortOrder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAdminPortalApiListUsers(page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<UserListResponse> {
-            return localVarFp.appsAdminPortalApiListUsers(page, limit, search, role, status, options).then((request) => request(axios, basePath));
+        appsAdminPortalApiListUsers(page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, workspaceId?: string | null, sortBy?: string, sortOrder?: string, options?: RawAxiosRequestConfig): AxiosPromise<UserListResponse> {
+            return localVarFp.appsAdminPortalApiListUsers(page, limit, search, role, status, workspaceId, sortBy, sortOrder, options).then((request) => request(axios, basePath));
         },
         /**
          * Get paginated list of workspaces with filtering options.
@@ -14112,11 +16986,13 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          * @param {number} [page] 
          * @param {number} [limit] 
          * @param {string | null} [search] 
+         * @param {string} [sortBy] 
+         * @param {string} [sortOrder] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAdminPortalApiListWorkspaces(page?: number, limit?: number, search?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<WorkspaceListResponse> {
-            return localVarFp.appsAdminPortalApiListWorkspaces(page, limit, search, options).then((request) => request(axios, basePath));
+        appsAdminPortalApiListWorkspaces(page?: number, limit?: number, search?: string | null, sortBy?: string, sortOrder?: string, options?: RawAxiosRequestConfig): AxiosPromise<EnhancedWorkspaceListResponse> {
+            return localVarFp.appsAdminPortalApiListWorkspaces(page, limit, search, sortBy, sortOrder, options).then((request) => request(axios, basePath));
         },
         /**
          * Reject a pending user account.
@@ -14207,6 +17083,17 @@ export const AdminApiFactory = function (configuration?: Configuration, basePath
          */
         appsAdminPortalApiTestNotification(options?: RawAxiosRequestConfig): AxiosPromise<NotificationTestResponse> {
             return localVarFp.appsAdminPortalApiTestNotification(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Transfer workspace ownership to a different member.
+         * @summary Transfer Workspace Ownership
+         * @param {string} workspaceId 
+         * @param {OwnershipTransferRequest} ownershipTransferRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAdminPortalApiTransferWorkspaceOwnership(workspaceId: string, ownershipTransferRequest: OwnershipTransferRequest, options?: RawAxiosRequestConfig): AxiosPromise<OwnershipTransferResponse> {
+            return localVarFp.appsAdminPortalApiTransferWorkspaceOwnership(workspaceId, ownershipTransferRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Update configuration value.  Validates against ConfigSpec rules. Readonly configs cannot be updated. Invalidates cache and logs audit trail.  Returns:     200: Success with requires_restart flag     400: Validation error or readonly field     404: Configuration not found     500: Server error
@@ -14333,6 +17220,42 @@ export class AdminApi extends BaseAPI {
     }
 
     /**
+     * Bulk approve multiple pending users.
+     * @summary Bulk Approve Users
+     * @param {BulkApproveRequest} bulkApproveRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiBulkApproveUsers(bulkApproveRequest: BulkApproveRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiBulkApproveUsers(bulkApproveRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Bulk deactivate multiple users.
+     * @summary Bulk Deactivate Users
+     * @param {BulkDeactivateRequest} bulkDeactivateRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiBulkDeactivateUsers(bulkDeactivateRequest: BulkDeactivateRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiBulkDeactivateUsers(bulkDeactivateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Bulk invite multiple users.
+     * @summary Bulk Invite Users
+     * @param {BulkInviteRequest} bulkInviteRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiBulkInviteUsers(bulkInviteRequest: BulkInviteRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiBulkInviteUsers(bulkInviteRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Deactivate a user account (set email_verified=False).
      * @summary Deactivate User
      * @param {string} userId 
@@ -14382,6 +17305,29 @@ export class AdminApi extends BaseAPI {
     }
 
     /**
+     * Export full user list.
+     * @summary Export Users
+     * @param {string} [format] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiExportUsers(format?: string, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiExportUsers(format, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Read-only system health snapshot for the admin portal.
+     * @summary Get Admin System Health
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiGetAdminSystemHealth(options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiGetAdminSystemHealth(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get single configuration with resolved value and metadata.  Write-only secrets return null value. Shows source (default/env/database).
      * @summary Get Configuration
      * @param {string} key 
@@ -14405,6 +17351,30 @@ export class AdminApi extends BaseAPI {
     }
 
     /**
+     * Get time-series trend data for dashboard charts.
+     * @summary Get Dashboard Trends
+     * @param {number} [days] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiGetDashboardTrends(days?: number, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiGetDashboardTrends(days, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Find workspaces with no recent activity.
+     * @summary Get Dormant Workspaces
+     * @param {number} [inactiveDays] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiGetDormantWorkspaces(inactiveDays?: number, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiGetDormantWorkspaces(inactiveDays, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get notification configuration.  Returns current settings for provider selection, all notification toggles and thresholds. Never exposes the actual webhook URL (only indicates if it\'s configured). Supports multiple providers: Slack, MS Teams, Generic Webhook.
      * @summary Get Notification Config
      * @param {*} [options] Override http request option.
@@ -14413,6 +17383,20 @@ export class AdminApi extends BaseAPI {
      */
     public appsAdminPortalApiGetNotificationConfig(options?: RawAxiosRequestConfig) {
         return AdminApiFp(this.configuration).appsAdminPortalApiGetNotificationConfig(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get activity timeline for a specific user.
+     * @summary Get User Activity
+     * @param {string} userId 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiGetUserActivity(userId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiGetUserActivity(userId, limit, offset, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -14440,7 +17424,7 @@ export class AdminApi extends BaseAPI {
     }
 
     /**
-     * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range. Health/admin/docs paths are already excluded by APIUsageTrackingMiddleware.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
+     * Get users with API call counts for admin dashboard.  Returns aggregated API call counts per user within the specified date range.  Args:     days: Number of days to look back (default 30, max 90)     limit: Maximum results per page (default 50, max 100)     offset: Number of results to skip for pagination     sort: Sort by \"api_calls\" (descending) or \"email\" (ascending)     user_ids: Optional comma-separated UUIDs to scope to specific users  Returns:     200: List of users with their API call counts     403: User is not an admin     500: Internal server error
      * @summary Get Users With Stats
      * @param {number} [days] 
      * @param {number} [limit] 
@@ -14465,6 +17449,20 @@ export class AdminApi extends BaseAPI {
      */
     public appsAdminPortalApiGetWorkspace(workspaceId: string, options?: RawAxiosRequestConfig) {
         return AdminApiFp(this.configuration).appsAdminPortalApiGetWorkspace(workspaceId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get workspace analytics with usage rankings.
+     * @summary Get Workspace Analytics
+     * @param {string} [sort] 
+     * @param {number} [limit] 
+     * @param {number} [offset] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiGetWorkspaceAnalytics(sort?: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiGetWorkspaceAnalytics(sort, limit, offset, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -14525,12 +17523,15 @@ export class AdminApi extends BaseAPI {
      * @param {string | null} [search] 
      * @param {string | null} [role] 
      * @param {string | null} [status] 
+     * @param {string | null} [workspaceId] 
+     * @param {string} [sortBy] 
+     * @param {string} [sortOrder] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminApi
      */
-    public appsAdminPortalApiListUsers(page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, options?: RawAxiosRequestConfig) {
-        return AdminApiFp(this.configuration).appsAdminPortalApiListUsers(page, limit, search, role, status, options).then((request) => request(this.axios, this.basePath));
+    public appsAdminPortalApiListUsers(page?: number, limit?: number, search?: string | null, role?: string | null, status?: string | null, workspaceId?: string | null, sortBy?: string, sortOrder?: string, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiListUsers(page, limit, search, role, status, workspaceId, sortBy, sortOrder, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -14539,12 +17540,14 @@ export class AdminApi extends BaseAPI {
      * @param {number} [page] 
      * @param {number} [limit] 
      * @param {string | null} [search] 
+     * @param {string} [sortBy] 
+     * @param {string} [sortOrder] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AdminApi
      */
-    public appsAdminPortalApiListWorkspaces(page?: number, limit?: number, search?: string | null, options?: RawAxiosRequestConfig) {
-        return AdminApiFp(this.configuration).appsAdminPortalApiListWorkspaces(page, limit, search, options).then((request) => request(this.axios, this.basePath));
+    public appsAdminPortalApiListWorkspaces(page?: number, limit?: number, search?: string | null, sortBy?: string, sortOrder?: string, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiListWorkspaces(page, limit, search, sortBy, sortOrder, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -14653,6 +17656,19 @@ export class AdminApi extends BaseAPI {
      */
     public appsAdminPortalApiTestNotification(options?: RawAxiosRequestConfig) {
         return AdminApiFp(this.configuration).appsAdminPortalApiTestNotification(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Transfer workspace ownership to a different member.
+     * @summary Transfer Workspace Ownership
+     * @param {string} workspaceId 
+     * @param {OwnershipTransferRequest} ownershipTransferRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public appsAdminPortalApiTransferWorkspaceOwnership(workspaceId: string, ownershipTransferRequest: OwnershipTransferRequest, options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).appsAdminPortalApiTransferWorkspaceOwnership(workspaceId, ownershipTransferRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -15029,7 +18045,7 @@ export type AppsWorkspacesApiAuditExportAuditLogsExportFormatEnum = typeof AppsW
 export const AuthenticationApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination
+         * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Phase 77 WR-03 — strict email-match guard against authenticated session. If the request carries a valid JWT and the authenticated user\'s email does NOT match the invitation\'s email, reject with 409 + error_code INVITE_EMAIL_MISMATCH. Mirrors the guard in google_mobile_api.py and invite_sso_service.resolve_for_callback so the threat-model claim \"Email-mismatch: must NOT add user to workspace\" is enforced on the password path as well as the Google path. The mobile client now force-logs-out before reaching this endpoint (CR-01), so this is a defense-in-depth check for any other caller (web, raw API consumers).  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination     409: Authenticated session email does not match invitation email
          * @summary Accept Invitation
          * @param {AcceptInviteSchema} acceptInviteSchema 
          * @param {*} [options] Override http request option.
@@ -15275,7 +18291,7 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 5/min per email (Issue #67 security hardening).
+         * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 15/min per email. Per-email limit raised from 5/m (Issue #67) to 15/m (Issue #242) to reduce false lockouts from mobile retries on flaky networks, typos, and app restarts. IP limit remains the primary abuse deterrent.
          * @summary Login
          * @param {LoginSchema} loginSchema 
          * @param {*} [options] Override http request option.
@@ -15595,6 +18611,50 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
+         * Initiate SAML SSO from mobile app.  Validates the `return` deeplink URL against an allowlist (spatialflow://, spatialflowdev://) to prevent open-redirect abuse (D-06), then delegates to the existing SP-initiated SAML flow for the given workspace slug. On success, the SAML ACS handler will redirect back to `return` with ?token=<jwt>&refresh=<refresh> appended (D-04).  Returns:     302: Redirect to IdP login page.     400: Invalid return URL or SAML configuration error.
+         * @summary Sso Start
+         * @param {string} _return 
+         * @param {string} workspaceSlug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationApiSsoStart: async (_return: string, workspaceSlug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter '_return' is not null or undefined
+            assertParamExists('appsAuthenticationApiSsoStart', '_return', _return)
+            // verify required parameter 'workspaceSlug' is not null or undefined
+            assertParamExists('appsAuthenticationApiSsoStart', 'workspaceSlug', workspaceSlug)
+            const localVarPath = `/api/v1/auth/sso/start`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (_return !== undefined) {
+                localVarQueryParameter['return'] = _return;
+            }
+
+            if (workspaceSlug !== undefined) {
+                localVarQueryParameter['workspace_slug'] = workspaceSlug;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Verify email address (GET method, backwards compatible).  Note: This endpoint accepts plaintext tokens for backwards compatibility with existing verification links. New tokens are stored hashed, so it tries both plaintext lookup (for old tokens) and hash lookup (for new tokens).
          * @summary Verify Email
          * @param {string} token 
@@ -15701,6 +18761,493 @@ export const AuthenticationApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
+         * @summary Apple Nonce
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationAppleMobileApiAppleNonce: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/auth/apple/nonce`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
+         * @summary Apple Token Exchange
+         * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationAppleMobileApiAppleTokenExchange: async (appleTokenExchangeRequest: AppleTokenExchangeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'appleTokenExchangeRequest' is not null or undefined
+            assertParamExists('appsAuthenticationAppleMobileApiAppleTokenExchange', 'appleTokenExchangeRequest', appleTokenExchangeRequest)
+            const localVarPath = `/api/v1/auth/apple/token-exchange`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(appleTokenExchangeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.  Phase 74: when both `invite_id` and `invite_token` are provided, the request is routed through invite_sso_service for strict email-match reconciliation against the targeted Invitation (INVT-IDENT-01). On mismatch, no User/SocialAccount/Membership/Invitation mutation occurs. When invite params are absent, the call falls through to today\'s implicit email-match auto-join via provision_workspace_for_new_user (D-22).
+         * @summary Google Token Exchange
+         * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationGoogleMobileApiGoogleTokenExchange: async (googleTokenExchangeRequest: GoogleTokenExchangeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'googleTokenExchangeRequest' is not null or undefined
+            assertParamExists('appsAuthenticationGoogleMobileApiGoogleTokenExchange', 'googleTokenExchangeRequest', googleTokenExchangeRequest)
+            const localVarPath = `/api/v1/auth/google/token-exchange`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(googleTokenExchangeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Disconnect an OAuth provider from user account.
+         * @summary Disconnect Oauth Account
+         * @param {string} provider 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiDisconnectOauthAccount: async (provider: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'provider' is not null or undefined
+            assertParamExists('appsAuthenticationOauthApiDisconnectOauthAccount', 'provider', provider)
+            const localVarPath = `/api/v1/auth/oauth/{provider}/disconnect`
+                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get list of OAuth providers linked to user account.
+         * @summary Get Linked Accounts
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiGetLinkedAccounts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/auth/oauth/user/linked-accounts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
+         * @summary Get Oauth Providers
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiGetOauthProviders: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/auth/oauth/providers`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Link an OAuth provider to an existing authenticated user account.
+         * @summary Link Oauth Account
+         * @param {string} provider 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiLinkOauthAccount: async (provider: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'provider' is not null or undefined
+            assertParamExists('appsAuthenticationOauthApiLinkOauthAccount', 'provider', provider)
+            const localVarPath = `/api/v1/auth/oauth/{provider}/link`
+                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Initialize OAuth flow for a provider.  When `invite_id` and `invite_token` are both provided (Phase 74 / D-02), the invitation is validated server-side and bound to the AuthOAuthState for recovery on the callback. Either-missing falls through to the standard sign-in flow (D-22 backward compat).
+         * @summary Oauth Authorize
+         * @param {string} provider 
+         * @param {string | null} [next] 
+         * @param {string | null} [inviteId] 
+         * @param {string | null} [inviteToken] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiOauthAuthorize: async (provider: string, next?: string | null, inviteId?: string | null, inviteToken?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'provider' is not null or undefined
+            assertParamExists('appsAuthenticationOauthApiOauthAuthorize', 'provider', provider)
+            const localVarPath = `/api/v1/auth/oauth/{provider}/authorize`
+                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (next !== undefined) {
+                localVarQueryParameter['next'] = next;
+            }
+
+            if (inviteId !== undefined) {
+                localVarQueryParameter['invite_id'] = inviteId;
+            }
+
+            if (inviteToken !== undefined) {
+                localVarQueryParameter['invite_token'] = inviteToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.  Phase 74: When the OAuth state has a bound Invitation (invite-driven SSO flow), recovers the FK and routes through invite_sso_service.resolve_for_callback. On email match: creates WorkspaceMembership, marks invite used, delivers JWT. On mismatch: redirects to accept-invite page with error_code (D-12).
+         * @summary Oauth Callback
+         * @param {string} provider 
+         * @param {string} code 
+         * @param {string} state 
+         * @param {string | null} [error] 
+         * @param {string | null} [errorDescription] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiOauthCallback: async (provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'provider' is not null or undefined
+            assertParamExists('appsAuthenticationOauthApiOauthCallback', 'provider', provider)
+            // verify required parameter 'code' is not null or undefined
+            assertParamExists('appsAuthenticationOauthApiOauthCallback', 'code', code)
+            // verify required parameter 'state' is not null or undefined
+            assertParamExists('appsAuthenticationOauthApiOauthCallback', 'state', state)
+            const localVarPath = `/api/v1/auth/oauth/{provider}/callback`
+                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (code !== undefined) {
+                localVarQueryParameter['code'] = code;
+            }
+
+            if (state !== undefined) {
+                localVarQueryParameter['state'] = state;
+            }
+
+            if (error !== undefined) {
+                localVarQueryParameter['error'] = error;
+            }
+
+            if (errorDescription !== undefined) {
+                localVarQueryParameter['error_description'] = errorDescription;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
+         * @summary Detect Method
+         * @param {DetectMethodRequest} detectMethodRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiDetectMethod: async (detectMethodRequest: DetectMethodRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'detectMethodRequest' is not null or undefined
+            assertParamExists('appsAuthenticationSamlApiDetectMethod', 'detectMethodRequest', detectMethodRequest)
+            const localVarPath = `/api/v1/auth/saml/detect-method`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(detectMethodRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
+         * @summary Initiate
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiInitiate: async (slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'slug' is not null or undefined
+            assertParamExists('appsAuthenticationSamlApiInitiate', 'slug', slug)
+            const localVarPath = `/api/v1/auth/saml/{slug}/initiate`
+                .replace(`{${"slug"}}`, encodeURIComponent(String(slug)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
+         * @summary Metadata
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiMetadata: async (slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'slug' is not null or undefined
+            assertParamExists('appsAuthenticationSamlApiMetadata', 'slug', slug)
+            const localVarPath = `/api/v1/auth/saml/{slug}/metadata`
+                .replace(`{${"slug"}}`, encodeURIComponent(String(slug)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
+         * @summary Saml Acs
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiSamlAcs: async (slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'slug' is not null or undefined
+            assertParamExists('appsAuthenticationSamlApiSamlAcs', 'slug', slug)
+            const localVarPath = `/api/v1/auth/saml/{slug}/acs`
+                .replace(`{${"slug"}}`, encodeURIComponent(String(slug)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -15712,7 +19259,7 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthenticationApiAxiosParamCreator(configuration)
     return {
         /**
-         * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination
+         * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Phase 77 WR-03 — strict email-match guard against authenticated session. If the request carries a valid JWT and the authenticated user\'s email does NOT match the invitation\'s email, reject with 409 + error_code INVITE_EMAIL_MISMATCH. Mirrors the guard in google_mobile_api.py and invite_sso_service.resolve_for_callback so the threat-model claim \"Email-mismatch: must NOT add user to workspace\" is enforced on the password path as well as the Google path. The mobile client now force-logs-out before reaching this endpoint (CR-01), so this is a defense-in-depth check for any other caller (web, raw API consumers).  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination     409: Authenticated session email does not match invitation email
          * @summary Accept Invitation
          * @param {AcceptInviteSchema} acceptInviteSchema 
          * @param {*} [options] Override http request option.
@@ -15800,7 +19347,7 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 5/min per email (Issue #67 security hardening).
+         * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 15/min per email. Per-email limit raised from 5/m (Issue #67) to 15/m (Issue #242) to reduce false lockouts from mobile retries on flaky networks, typos, and app restarts. IP limit remains the primary abuse deterrent.
          * @summary Login
          * @param {LoginSchema} loginSchema 
          * @param {*} [options] Override http request option.
@@ -15818,7 +19365,7 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsAuthenticationApiLogout(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsAuthenticationApiLogout(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationApiLogout(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationApiLogout']?.[localVarOperationServerIndex]?.url;
@@ -15917,6 +19464,20 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Initiate SAML SSO from mobile app.  Validates the `return` deeplink URL against an allowlist (spatialflow://, spatialflowdev://) to prevent open-redirect abuse (D-06), then delegates to the existing SP-initiated SAML flow for the given workspace slug. On success, the SAML ACS handler will redirect back to `return` with ?token=<jwt>&refresh=<refresh> appended (D-04).  Returns:     302: Redirect to IdP login page.     400: Invalid return URL or SAML configuration error.
+         * @summary Sso Start
+         * @param {string} _return 
+         * @param {string} workspaceSlug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationApiSsoStart(_return: string, workspaceSlug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationApiSsoStart(_return, workspaceSlug, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationApiSsoStart']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Verify email address (GET method, backwards compatible).  Note: This endpoint accepts plaintext tokens for backwards compatibility with existing verification links. New tokens are stored hashed, so it tries both plaintext lookup (for old tokens) and hash lookup (for new tokens).
          * @summary Verify Email
          * @param {string} token 
@@ -15955,6 +19516,179 @@ export const AuthenticationApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationApiVerifyEmailPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
+         * @summary Apple Nonce
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationAppleMobileApiAppleNonce(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppleNonceResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationAppleMobileApiAppleNonce(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationAppleMobileApiAppleNonce']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
+         * @summary Apple Token Exchange
+         * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest: AppleTokenExchangeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppleTokenExchangeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationAppleMobileApiAppleTokenExchange']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.  Phase 74: when both `invite_id` and `invite_token` are provided, the request is routed through invite_sso_service for strict email-match reconciliation against the targeted Invitation (INVT-IDENT-01). On mismatch, no User/SocialAccount/Membership/Invitation mutation occurs. When invite params are absent, the call falls through to today\'s implicit email-match auto-join via provision_workspace_for_new_user (D-22).
+         * @summary Google Token Exchange
+         * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest: GoogleTokenExchangeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GoogleTokenExchangeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationGoogleMobileApiGoogleTokenExchange']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Disconnect an OAuth provider from user account.
+         * @summary Disconnect Oauth Account
+         * @param {string} provider 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationOauthApiDisconnectOauthAccount(provider: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiDisconnectOauthAccount(provider, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationOauthApiDisconnectOauthAccount']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get list of OAuth providers linked to user account.
+         * @summary Get Linked Accounts
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationOauthApiGetLinkedAccounts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiGetLinkedAccounts(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationOauthApiGetLinkedAccounts']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
+         * @summary Get Oauth Providers
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationOauthApiGetOauthProviders(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OAuthProvidersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiGetOauthProviders(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationOauthApiGetOauthProviders']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Link an OAuth provider to an existing authenticated user account.
+         * @summary Link Oauth Account
+         * @param {string} provider 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationOauthApiLinkOauthAccount(provider: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OAuthLinkResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiLinkOauthAccount(provider, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationOauthApiLinkOauthAccount']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Initialize OAuth flow for a provider.  When `invite_id` and `invite_token` are both provided (Phase 74 / D-02), the invitation is validated server-side and bound to the AuthOAuthState for recovery on the callback. Either-missing falls through to the standard sign-in flow (D-22 backward compat).
+         * @summary Oauth Authorize
+         * @param {string} provider 
+         * @param {string | null} [next] 
+         * @param {string | null} [inviteId] 
+         * @param {string | null} [inviteToken] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationOauthApiOauthAuthorize(provider: string, next?: string | null, inviteId?: string | null, inviteToken?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OAuthAuthorizeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiOauthAuthorize(provider, next, inviteId, inviteToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationOauthApiOauthAuthorize']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.  Phase 74: When the OAuth state has a bound Invitation (invite-driven SSO flow), recovers the FK and routes through invite_sso_service.resolve_for_callback. On email match: creates WorkspaceMembership, marks invite used, delivers JWT. On mismatch: redirects to accept-invite page with error_code (D-12).
+         * @summary Oauth Callback
+         * @param {string} provider 
+         * @param {string} code 
+         * @param {string} state 
+         * @param {string | null} [error] 
+         * @param {string | null} [errorDescription] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationOauthApiOauthCallback(provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiOauthCallback(provider, code, state, error, errorDescription, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationOauthApiOauthCallback']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
+         * @summary Detect Method
+         * @param {DetectMethodRequest} detectMethodRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationSamlApiDetectMethod(detectMethodRequest: DetectMethodRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DetectMethodResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiDetectMethod(detectMethodRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationSamlApiDetectMethod']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
+         * @summary Initiate
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationSamlApiInitiate(slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiInitiate(slug, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationSamlApiInitiate']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
+         * @summary Metadata
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationSamlApiMetadata(slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiMetadata(slug, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationSamlApiMetadata']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
+         * @summary Saml Acs
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsAuthenticationSamlApiSamlAcs(slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiSamlAcs(slug, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthenticationApi.appsAuthenticationSamlApiSamlAcs']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -15966,7 +19700,7 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
     const localVarFp = AuthenticationApiFp(configuration)
     return {
         /**
-         * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination
+         * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Phase 77 WR-03 — strict email-match guard against authenticated session. If the request carries a valid JWT and the authenticated user\'s email does NOT match the invitation\'s email, reject with 409 + error_code INVITE_EMAIL_MISMATCH. Mirrors the guard in google_mobile_api.py and invite_sso_service.resolve_for_callback so the threat-model claim \"Email-mismatch: must NOT add user to workspace\" is enforced on the password path as well as the Google path. The mobile client now force-logs-out before reaching this endpoint (CR-01), so this is a defense-in-depth check for any other caller (web, raw API consumers).  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination     409: Authenticated session email does not match invitation email
          * @summary Accept Invitation
          * @param {AcceptInviteSchema} acceptInviteSchema 
          * @param {*} [options] Override http request option.
@@ -16033,7 +19767,7 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
             return localVarFp.appsAuthenticationApiHealthCheck(options).then((request) => request(axios, basePath));
         },
         /**
-         * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 5/min per email (Issue #67 security hardening).
+         * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 15/min per email. Per-email limit raised from 5/m (Issue #67) to 15/m (Issue #242) to reduce false lockouts from mobile retries on flaky networks, typos, and app restarts. IP limit remains the primary abuse deterrent.
          * @summary Login
          * @param {LoginSchema} loginSchema 
          * @param {*} [options] Override http request option.
@@ -16048,7 +19782,7 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsAuthenticationApiLogout(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsAuthenticationApiLogout(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsAuthenticationApiLogout(options).then((request) => request(axios, basePath));
         },
         /**
@@ -16123,6 +19857,17 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
             return localVarFp.appsAuthenticationApiResetPassword(resetPasswordSchema, options).then((request) => request(axios, basePath));
         },
         /**
+         * Initiate SAML SSO from mobile app.  Validates the `return` deeplink URL against an allowlist (spatialflow://, spatialflowdev://) to prevent open-redirect abuse (D-06), then delegates to the existing SP-initiated SAML flow for the given workspace slug. On success, the SAML ACS handler will redirect back to `return` with ?token=<jwt>&refresh=<refresh> appended (D-04).  Returns:     302: Redirect to IdP login page.     400: Invalid return URL or SAML configuration error.
+         * @summary Sso Start
+         * @param {string} _return 
+         * @param {string} workspaceSlug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationApiSsoStart(_return: string, workspaceSlug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsAuthenticationApiSsoStart(_return, workspaceSlug, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Verify email address (GET method, backwards compatible).  Note: This endpoint accepts plaintext tokens for backwards compatibility with existing verification links. New tokens are stored hashed, so it tries both plaintext lookup (for old tokens) and hash lookup (for new tokens).
          * @summary Verify Email
          * @param {string} token 
@@ -16152,6 +19897,140 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
         appsAuthenticationApiVerifyEmailPost(verifyEmailSchema: VerifyEmailSchema, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
             return localVarFp.appsAuthenticationApiVerifyEmailPost(verifyEmailSchema, options).then((request) => request(axios, basePath));
         },
+        /**
+         * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
+         * @summary Apple Nonce
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationAppleMobileApiAppleNonce(options?: RawAxiosRequestConfig): AxiosPromise<AppleNonceResponse> {
+            return localVarFp.appsAuthenticationAppleMobileApiAppleNonce(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
+         * @summary Apple Token Exchange
+         * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest: AppleTokenExchangeRequest, options?: RawAxiosRequestConfig): AxiosPromise<AppleTokenExchangeResponse> {
+            return localVarFp.appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.  Phase 74: when both `invite_id` and `invite_token` are provided, the request is routed through invite_sso_service for strict email-match reconciliation against the targeted Invitation (INVT-IDENT-01). On mismatch, no User/SocialAccount/Membership/Invitation mutation occurs. When invite params are absent, the call falls through to today\'s implicit email-match auto-join via provision_workspace_for_new_user (D-22).
+         * @summary Google Token Exchange
+         * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest: GoogleTokenExchangeRequest, options?: RawAxiosRequestConfig): AxiosPromise<GoogleTokenExchangeResponse> {
+            return localVarFp.appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Disconnect an OAuth provider from user account.
+         * @summary Disconnect Oauth Account
+         * @param {string} provider 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiDisconnectOauthAccount(provider: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+            return localVarFp.appsAuthenticationOauthApiDisconnectOauthAccount(provider, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get list of OAuth providers linked to user account.
+         * @summary Get Linked Accounts
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiGetLinkedAccounts(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsAuthenticationOauthApiGetLinkedAccounts(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
+         * @summary Get Oauth Providers
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiGetOauthProviders(options?: RawAxiosRequestConfig): AxiosPromise<OAuthProvidersResponse> {
+            return localVarFp.appsAuthenticationOauthApiGetOauthProviders(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Link an OAuth provider to an existing authenticated user account.
+         * @summary Link Oauth Account
+         * @param {string} provider 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiLinkOauthAccount(provider: string, options?: RawAxiosRequestConfig): AxiosPromise<OAuthLinkResponse> {
+            return localVarFp.appsAuthenticationOauthApiLinkOauthAccount(provider, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Initialize OAuth flow for a provider.  When `invite_id` and `invite_token` are both provided (Phase 74 / D-02), the invitation is validated server-side and bound to the AuthOAuthState for recovery on the callback. Either-missing falls through to the standard sign-in flow (D-22 backward compat).
+         * @summary Oauth Authorize
+         * @param {string} provider 
+         * @param {string | null} [next] 
+         * @param {string | null} [inviteId] 
+         * @param {string | null} [inviteToken] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiOauthAuthorize(provider: string, next?: string | null, inviteId?: string | null, inviteToken?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<OAuthAuthorizeResponse> {
+            return localVarFp.appsAuthenticationOauthApiOauthAuthorize(provider, next, inviteId, inviteToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.  Phase 74: When the OAuth state has a bound Invitation (invite-driven SSO flow), recovers the FK and routes through invite_sso_service.resolve_for_callback. On email match: creates WorkspaceMembership, marks invite used, delivers JWT. On mismatch: redirects to accept-invite page with error_code (D-12).
+         * @summary Oauth Callback
+         * @param {string} provider 
+         * @param {string} code 
+         * @param {string} state 
+         * @param {string | null} [error] 
+         * @param {string | null} [errorDescription] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationOauthApiOauthCallback(provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsAuthenticationOauthApiOauthCallback(provider, code, state, error, errorDescription, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
+         * @summary Detect Method
+         * @param {DetectMethodRequest} detectMethodRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiDetectMethod(detectMethodRequest: DetectMethodRequest, options?: RawAxiosRequestConfig): AxiosPromise<DetectMethodResponse> {
+            return localVarFp.appsAuthenticationSamlApiDetectMethod(detectMethodRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
+         * @summary Initiate
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiInitiate(slug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsAuthenticationSamlApiInitiate(slug, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
+         * @summary Metadata
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiMetadata(slug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsAuthenticationSamlApiMetadata(slug, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
+         * @summary Saml Acs
+         * @param {string} slug 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsAuthenticationSamlApiSamlAcs(slug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsAuthenticationSamlApiSamlAcs(slug, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -16163,7 +20042,7 @@ export const AuthenticationApiFactory = function (configuration?: Configuration,
  */
 export class AuthenticationApi extends BaseAPI {
     /**
-     * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination
+     * Accept a workspace invitation and optionally set password.  Security features (Issue #67): - Uses Invitation model with hashed token storage - Atomic transaction prevents race conditions on double-accept - Token validated via SHA256 hash comparison - Single-use enforcement (used_at timestamp) - Sibling invites auto-revoked on acceptance - Clears stale verification tokens on acceptance  Phase 77 WR-03 — strict email-match guard against authenticated session. If the request carries a valid JWT and the authenticated user\'s email does NOT match the invitation\'s email, reject with 409 + error_code INVITE_EMAIL_MISMATCH. Mirrors the guard in google_mobile_api.py and invite_sso_service.resolve_for_callback so the threat-model claim \"Email-mismatch: must NOT add user to workspace\" is enforced on the password path as well as the Google path. The mobile client now force-logs-out before reaching this endpoint (CR-01), so this is a defense-in-depth check for any other caller (web, raw API consumers).  Args:     data.token: Invitation token (plaintext, will be hashed for lookup)     data.invite_id: Invitation ID (UUID)     data.password: New password (optional for existing users with password)  Returns:     200: Success with access/refresh tokens     400: Invalid state (already used, revoked, expired, invalid password)     404: Invalid token/invite_id combination     409: Authenticated session email does not match invitation email
      * @summary Accept Invitation
      * @param {AcceptInviteSchema} acceptInviteSchema 
      * @param {*} [options] Override http request option.
@@ -16244,7 +20123,7 @@ export class AuthenticationApi extends BaseAPI {
     }
 
     /**
-     * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 5/min per email (Issue #67 security hardening).
+     * User login endpoint. Returns JWT access and refresh tokens, and sets HttpOnly cookies.  Rate limited: 60/min per IP, 15/min per email. Per-email limit raised from 5/m (Issue #67) to 15/m (Issue #242) to reduce false lockouts from mobile retries on flaky networks, typos, and app restarts. IP limit remains the primary abuse deterrent.
      * @summary Login
      * @param {LoginSchema} loginSchema 
      * @param {*} [options] Override http request option.
@@ -16352,6 +20231,19 @@ export class AuthenticationApi extends BaseAPI {
     }
 
     /**
+     * Initiate SAML SSO from mobile app.  Validates the `return` deeplink URL against an allowlist (spatialflow://, spatialflowdev://) to prevent open-redirect abuse (D-06), then delegates to the existing SP-initiated SAML flow for the given workspace slug. On success, the SAML ACS handler will redirect back to `return` with ?token=<jwt>&refresh=<refresh> appended (D-04).  Returns:     302: Redirect to IdP login page.     400: Invalid return URL or SAML configuration error.
+     * @summary Sso Start
+     * @param {string} _return 
+     * @param {string} workspaceSlug 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationApiSsoStart(_return: string, workspaceSlug: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationApiSsoStart(_return, workspaceSlug, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Verify email address (GET method, backwards compatible).  Note: This endpoint accepts plaintext tokens for backwards compatibility with existing verification links. New tokens are stored hashed, so it tries both plaintext lookup (for old tokens) and hash lookup (for new tokens).
      * @summary Verify Email
      * @param {string} token 
@@ -16385,6 +20277,166 @@ export class AuthenticationApi extends BaseAPI {
      */
     public appsAuthenticationApiVerifyEmailPost(verifyEmailSchema: VerifyEmailSchema, options?: RawAxiosRequestConfig) {
         return AuthenticationApiFp(this.configuration).appsAuthenticationApiVerifyEmailPost(verifyEmailSchema, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
+     * @summary Apple Nonce
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationAppleMobileApiAppleNonce(options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationAppleMobileApiAppleNonce(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
+     * @summary Apple Token Exchange
+     * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest: AppleTokenExchangeRequest, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.  Phase 74: when both `invite_id` and `invite_token` are provided, the request is routed through invite_sso_service for strict email-match reconciliation against the targeted Invitation (INVT-IDENT-01). On mismatch, no User/SocialAccount/Membership/Invitation mutation occurs. When invite params are absent, the call falls through to today\'s implicit email-match auto-join via provision_workspace_for_new_user (D-22).
+     * @summary Google Token Exchange
+     * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest: GoogleTokenExchangeRequest, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Disconnect an OAuth provider from user account.
+     * @summary Disconnect Oauth Account
+     * @param {string} provider 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationOauthApiDisconnectOauthAccount(provider: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationOauthApiDisconnectOauthAccount(provider, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get list of OAuth providers linked to user account.
+     * @summary Get Linked Accounts
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationOauthApiGetLinkedAccounts(options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationOauthApiGetLinkedAccounts(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
+     * @summary Get Oauth Providers
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationOauthApiGetOauthProviders(options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationOauthApiGetOauthProviders(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Link an OAuth provider to an existing authenticated user account.
+     * @summary Link Oauth Account
+     * @param {string} provider 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationOauthApiLinkOauthAccount(provider: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationOauthApiLinkOauthAccount(provider, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Initialize OAuth flow for a provider.  When `invite_id` and `invite_token` are both provided (Phase 74 / D-02), the invitation is validated server-side and bound to the AuthOAuthState for recovery on the callback. Either-missing falls through to the standard sign-in flow (D-22 backward compat).
+     * @summary Oauth Authorize
+     * @param {string} provider 
+     * @param {string | null} [next] 
+     * @param {string | null} [inviteId] 
+     * @param {string | null} [inviteToken] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationOauthApiOauthAuthorize(provider: string, next?: string | null, inviteId?: string | null, inviteToken?: string | null, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationOauthApiOauthAuthorize(provider, next, inviteId, inviteToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.  Phase 74: When the OAuth state has a bound Invitation (invite-driven SSO flow), recovers the FK and routes through invite_sso_service.resolve_for_callback. On email match: creates WorkspaceMembership, marks invite used, delivers JWT. On mismatch: redirects to accept-invite page with error_code (D-12).
+     * @summary Oauth Callback
+     * @param {string} provider 
+     * @param {string} code 
+     * @param {string} state 
+     * @param {string | null} [error] 
+     * @param {string | null} [errorDescription] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationOauthApiOauthCallback(provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationOauthApiOauthCallback(provider, code, state, error, errorDescription, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
+     * @summary Detect Method
+     * @param {DetectMethodRequest} detectMethodRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationSamlApiDetectMethod(detectMethodRequest: DetectMethodRequest, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationSamlApiDetectMethod(detectMethodRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
+     * @summary Initiate
+     * @param {string} slug 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationSamlApiInitiate(slug: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationSamlApiInitiate(slug, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
+     * @summary Metadata
+     * @param {string} slug 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationSamlApiMetadata(slug: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationSamlApiMetadata(slug, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
+     * @summary Saml Acs
+     * @param {string} slug 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthenticationApi
+     */
+    public appsAuthenticationSamlApiSamlAcs(slug: string, options?: RawAxiosRequestConfig) {
+        return AuthenticationApiFp(this.configuration).appsAuthenticationSamlApiSamlAcs(slug, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -17161,1126 +21213,6 @@ export class BillingApi extends BaseAPI {
 
 
 /**
- * DefaultApi - axios parameter creator
- * @export
- */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
-         * @summary Apple Nonce
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationAppleMobileApiAppleNonce: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v1/auth/apple/nonce`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
-         * @summary Apple Token Exchange
-         * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationAppleMobileApiAppleTokenExchange: async (appleTokenExchangeRequest: AppleTokenExchangeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'appleTokenExchangeRequest' is not null or undefined
-            assertParamExists('appsAuthenticationAppleMobileApiAppleTokenExchange', 'appleTokenExchangeRequest', appleTokenExchangeRequest)
-            const localVarPath = `/api/v1/auth/apple/token-exchange`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(appleTokenExchangeRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.
-         * @summary Google Token Exchange
-         * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationGoogleMobileApiGoogleTokenExchange: async (googleTokenExchangeRequest: GoogleTokenExchangeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'googleTokenExchangeRequest' is not null or undefined
-            assertParamExists('appsAuthenticationGoogleMobileApiGoogleTokenExchange', 'googleTokenExchangeRequest', googleTokenExchangeRequest)
-            const localVarPath = `/api/v1/auth/google/token-exchange`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(googleTokenExchangeRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Disconnect an OAuth provider from user account.
-         * @summary Disconnect Oauth Account
-         * @param {string} provider 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiDisconnectOauthAccount: async (provider: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'provider' is not null or undefined
-            assertParamExists('appsAuthenticationOauthApiDisconnectOauthAccount', 'provider', provider)
-            const localVarPath = `/api/v1/auth/oauth/{provider}/disconnect`
-                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get list of OAuth providers linked to user account.
-         * @summary Get Linked Accounts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiGetLinkedAccounts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v1/auth/oauth/user/linked-accounts`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
-         * @summary Get Oauth Providers
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiGetOauthProviders: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v1/auth/oauth/providers`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Link an OAuth provider to an existing authenticated user account.
-         * @summary Link Oauth Account
-         * @param {string} provider 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiLinkOauthAccount: async (provider: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'provider' is not null or undefined
-            assertParamExists('appsAuthenticationOauthApiLinkOauthAccount', 'provider', provider)
-            const localVarPath = `/api/v1/auth/oauth/{provider}/link`
-                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Initialize OAuth flow for a provider. Returns authorization URL to redirect user to.
-         * @summary Oauth Authorize
-         * @param {string} provider 
-         * @param {string | null} [next] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiOauthAuthorize: async (provider: string, next?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'provider' is not null or undefined
-            assertParamExists('appsAuthenticationOauthApiOauthAuthorize', 'provider', provider)
-            const localVarPath = `/api/v1/auth/oauth/{provider}/authorize`
-                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (next !== undefined) {
-                localVarQueryParameter['next'] = next;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.
-         * @summary Oauth Callback
-         * @param {string} provider 
-         * @param {string} code 
-         * @param {string} state 
-         * @param {string | null} [error] 
-         * @param {string | null} [errorDescription] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiOauthCallback: async (provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'provider' is not null or undefined
-            assertParamExists('appsAuthenticationOauthApiOauthCallback', 'provider', provider)
-            // verify required parameter 'code' is not null or undefined
-            assertParamExists('appsAuthenticationOauthApiOauthCallback', 'code', code)
-            // verify required parameter 'state' is not null or undefined
-            assertParamExists('appsAuthenticationOauthApiOauthCallback', 'state', state)
-            const localVarPath = `/api/v1/auth/oauth/{provider}/callback`
-                .replace(`{${"provider"}}`, encodeURIComponent(String(provider)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (code !== undefined) {
-                localVarQueryParameter['code'] = code;
-            }
-
-            if (state !== undefined) {
-                localVarQueryParameter['state'] = state;
-            }
-
-            if (error !== undefined) {
-                localVarQueryParameter['error'] = error;
-            }
-
-            if (errorDescription !== undefined) {
-                localVarQueryParameter['error_description'] = errorDescription;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
-         * @summary Detect Method
-         * @param {DetectMethodRequest} detectMethodRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiDetectMethod: async (detectMethodRequest: DetectMethodRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'detectMethodRequest' is not null or undefined
-            assertParamExists('appsAuthenticationSamlApiDetectMethod', 'detectMethodRequest', detectMethodRequest)
-            const localVarPath = `/api/v1/auth/saml/detect-method`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(detectMethodRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
-         * @summary Initiate
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiInitiate: async (slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'slug' is not null or undefined
-            assertParamExists('appsAuthenticationSamlApiInitiate', 'slug', slug)
-            const localVarPath = `/api/v1/auth/saml/{slug}/initiate`
-                .replace(`{${"slug"}}`, encodeURIComponent(String(slug)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
-         * @summary Metadata
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiMetadata: async (slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'slug' is not null or undefined
-            assertParamExists('appsAuthenticationSamlApiMetadata', 'slug', slug)
-            const localVarPath = `/api/v1/auth/saml/{slug}/metadata`
-                .replace(`{${"slug"}}`, encodeURIComponent(String(slug)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
-         * @summary Saml Acs
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiSamlAcs: async (slug: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'slug' is not null or undefined
-            assertParamExists('appsAuthenticationSamlApiSamlAcs', 'slug', slug)
-            const localVarPath = `/api/v1/auth/saml/{slug}/acs`
-                .replace(`{${"slug"}}`, encodeURIComponent(String(slug)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
-         * @summary Unsubscribe
-         * @param {UnsubscribeRequest} unsubscribeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsEmailUnsubscribeUnsubscribe: async (unsubscribeRequest: UnsubscribeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'unsubscribeRequest' is not null or undefined
-            assertParamExists('appsEmailUnsubscribeUnsubscribe', 'unsubscribeRequest', unsubscribeRequest)
-            const localVarPath = `/api/v1/email/unsubscribe`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(unsubscribeRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
-         * @summary Verify Unsubscribe Token
-         * @param {string} token 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsEmailUnsubscribeVerifyUnsubscribeToken: async (token: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'token' is not null or undefined
-            assertParamExists('appsEmailUnsubscribeVerifyUnsubscribeToken', 'token', token)
-            const localVarPath = `/api/v1/email/unsubscribe/verify`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (token !== undefined) {
-                localVarQueryParameter['token'] = token;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * DefaultApi - functional programming interface
- * @export
- */
-export const DefaultApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
-         * @summary Apple Nonce
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationAppleMobileApiAppleNonce(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppleNonceResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationAppleMobileApiAppleNonce(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationAppleMobileApiAppleNonce']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
-         * @summary Apple Token Exchange
-         * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest: AppleTokenExchangeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppleTokenExchangeResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationAppleMobileApiAppleTokenExchange']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.
-         * @summary Google Token Exchange
-         * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest: GoogleTokenExchangeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GoogleTokenExchangeResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationGoogleMobileApiGoogleTokenExchange']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Disconnect an OAuth provider from user account.
-         * @summary Disconnect Oauth Account
-         * @param {string} provider 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationOauthApiDisconnectOauthAccount(provider: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiDisconnectOauthAccount(provider, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationOauthApiDisconnectOauthAccount']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Get list of OAuth providers linked to user account.
-         * @summary Get Linked Accounts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationOauthApiGetLinkedAccounts(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiGetLinkedAccounts(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationOauthApiGetLinkedAccounts']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
-         * @summary Get Oauth Providers
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationOauthApiGetOauthProviders(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OAuthProvidersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiGetOauthProviders(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationOauthApiGetOauthProviders']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Link an OAuth provider to an existing authenticated user account.
-         * @summary Link Oauth Account
-         * @param {string} provider 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationOauthApiLinkOauthAccount(provider: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OAuthLinkResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiLinkOauthAccount(provider, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationOauthApiLinkOauthAccount']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Initialize OAuth flow for a provider. Returns authorization URL to redirect user to.
-         * @summary Oauth Authorize
-         * @param {string} provider 
-         * @param {string | null} [next] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationOauthApiOauthAuthorize(provider: string, next?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OAuthAuthorizeResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiOauthAuthorize(provider, next, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationOauthApiOauthAuthorize']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.
-         * @summary Oauth Callback
-         * @param {string} provider 
-         * @param {string} code 
-         * @param {string} state 
-         * @param {string | null} [error] 
-         * @param {string | null} [errorDescription] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationOauthApiOauthCallback(provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationOauthApiOauthCallback(provider, code, state, error, errorDescription, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationOauthApiOauthCallback']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
-         * @summary Detect Method
-         * @param {DetectMethodRequest} detectMethodRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationSamlApiDetectMethod(detectMethodRequest: DetectMethodRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DetectMethodResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiDetectMethod(detectMethodRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationSamlApiDetectMethod']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
-         * @summary Initiate
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationSamlApiInitiate(slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiInitiate(slug, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationSamlApiInitiate']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
-         * @summary Metadata
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationSamlApiMetadata(slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiMetadata(slug, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationSamlApiMetadata']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
-         * @summary Saml Acs
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsAuthenticationSamlApiSamlAcs(slug: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsAuthenticationSamlApiSamlAcs(slug, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsAuthenticationSamlApiSamlAcs']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
-         * @summary Unsubscribe
-         * @param {UnsubscribeRequest} unsubscribeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsEmailUnsubscribeUnsubscribe(unsubscribeRequest: UnsubscribeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnsubscribeResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsEmailUnsubscribeUnsubscribe(unsubscribeRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsEmailUnsubscribeUnsubscribe']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
-         * @summary Verify Unsubscribe Token
-         * @param {string} token 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsEmailUnsubscribeVerifyUnsubscribeToken(token: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsEmailUnsubscribeVerifyUnsubscribeToken(token, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.appsEmailUnsubscribeVerifyUnsubscribeToken']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * DefaultApi - factory interface
- * @export
- */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DefaultApiFp(configuration)
-    return {
-        /**
-         * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
-         * @summary Apple Nonce
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationAppleMobileApiAppleNonce(options?: RawAxiosRequestConfig): AxiosPromise<AppleNonceResponse> {
-            return localVarFp.appsAuthenticationAppleMobileApiAppleNonce(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
-         * @summary Apple Token Exchange
-         * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest: AppleTokenExchangeRequest, options?: RawAxiosRequestConfig): AxiosPromise<AppleTokenExchangeResponse> {
-            return localVarFp.appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.
-         * @summary Google Token Exchange
-         * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest: GoogleTokenExchangeRequest, options?: RawAxiosRequestConfig): AxiosPromise<GoogleTokenExchangeResponse> {
-            return localVarFp.appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Disconnect an OAuth provider from user account.
-         * @summary Disconnect Oauth Account
-         * @param {string} provider 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiDisconnectOauthAccount(provider: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsAuthenticationOauthApiDisconnectOauthAccount(provider, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get list of OAuth providers linked to user account.
-         * @summary Get Linked Accounts
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiGetLinkedAccounts(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsAuthenticationOauthApiGetLinkedAccounts(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
-         * @summary Get Oauth Providers
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiGetOauthProviders(options?: RawAxiosRequestConfig): AxiosPromise<OAuthProvidersResponse> {
-            return localVarFp.appsAuthenticationOauthApiGetOauthProviders(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Link an OAuth provider to an existing authenticated user account.
-         * @summary Link Oauth Account
-         * @param {string} provider 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiLinkOauthAccount(provider: string, options?: RawAxiosRequestConfig): AxiosPromise<OAuthLinkResponse> {
-            return localVarFp.appsAuthenticationOauthApiLinkOauthAccount(provider, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Initialize OAuth flow for a provider. Returns authorization URL to redirect user to.
-         * @summary Oauth Authorize
-         * @param {string} provider 
-         * @param {string | null} [next] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiOauthAuthorize(provider: string, next?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<OAuthAuthorizeResponse> {
-            return localVarFp.appsAuthenticationOauthApiOauthAuthorize(provider, next, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.
-         * @summary Oauth Callback
-         * @param {string} provider 
-         * @param {string} code 
-         * @param {string} state 
-         * @param {string | null} [error] 
-         * @param {string | null} [errorDescription] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationOauthApiOauthCallback(provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsAuthenticationOauthApiOauthCallback(provider, code, state, error, errorDescription, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
-         * @summary Detect Method
-         * @param {DetectMethodRequest} detectMethodRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiDetectMethod(detectMethodRequest: DetectMethodRequest, options?: RawAxiosRequestConfig): AxiosPromise<DetectMethodResponse> {
-            return localVarFp.appsAuthenticationSamlApiDetectMethod(detectMethodRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
-         * @summary Initiate
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiInitiate(slug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.appsAuthenticationSamlApiInitiate(slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
-         * @summary Metadata
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiMetadata(slug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.appsAuthenticationSamlApiMetadata(slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
-         * @summary Saml Acs
-         * @param {string} slug 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsAuthenticationSamlApiSamlAcs(slug: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.appsAuthenticationSamlApiSamlAcs(slug, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
-         * @summary Unsubscribe
-         * @param {UnsubscribeRequest} unsubscribeRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsEmailUnsubscribeUnsubscribe(unsubscribeRequest: UnsubscribeRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnsubscribeResponse> {
-            return localVarFp.appsEmailUnsubscribeUnsubscribe(unsubscribeRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
-         * @summary Verify Unsubscribe Token
-         * @param {string} token 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsEmailUnsubscribeVerifyUnsubscribeToken(token: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsEmailUnsubscribeVerifyUnsubscribeToken(token, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * DefaultApi - object-oriented interface
- * @export
- * @class DefaultApi
- * @extends {BaseAPI}
- */
-export class DefaultApi extends BaseAPI {
-    /**
-     * Generate a server-side nonce for Apple Sign-In replay protection.  Clients should call this before initiating Apple Sign-In, then pass the returned nonce to the Apple SDK. The nonce claim in the resulting identity token will be validated server-side during token exchange.  Rate limited: 10/min per IP.
-     * @summary Apple Nonce
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationAppleMobileApiAppleNonce(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationAppleMobileApiAppleNonce(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Exchange an Apple identity token (from mobile SDK) for a SpatialFlow JWT.
-     * @summary Apple Token Exchange
-     * @param {AppleTokenExchangeRequest} appleTokenExchangeRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest: AppleTokenExchangeRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationAppleMobileApiAppleTokenExchange(appleTokenExchangeRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Exchange a Google ID token (from mobile SDK) for a SpatialFlow JWT.
-     * @summary Google Token Exchange
-     * @param {GoogleTokenExchangeRequest} googleTokenExchangeRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest: GoogleTokenExchangeRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationGoogleMobileApiGoogleTokenExchange(googleTokenExchangeRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Disconnect an OAuth provider from user account.
-     * @summary Disconnect Oauth Account
-     * @param {string} provider 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationOauthApiDisconnectOauthAccount(provider: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationOauthApiDisconnectOauthAccount(provider, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get list of OAuth providers linked to user account.
-     * @summary Get Linked Accounts
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationOauthApiGetLinkedAccounts(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationOauthApiGetLinkedAccounts(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get list of available OAuth providers.  Providers are shown only if: 1. SSO toggle is enabled in Admin UI (Issue #119) 2. Valid credentials are configured (non-placeholder)
-     * @summary Get Oauth Providers
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationOauthApiGetOauthProviders(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationOauthApiGetOauthProviders(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Link an OAuth provider to an existing authenticated user account.
-     * @summary Link Oauth Account
-     * @param {string} provider 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationOauthApiLinkOauthAccount(provider: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationOauthApiLinkOauthAccount(provider, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Initialize OAuth flow for a provider. Returns authorization URL to redirect user to.
-     * @summary Oauth Authorize
-     * @param {string} provider 
-     * @param {string | null} [next] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationOauthApiOauthAuthorize(provider: string, next?: string | null, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationOauthApiOauthAuthorize(provider, next, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Handle OAuth callback from provider. Exchanges code for tokens and creates/links user account.  OAuth state is always invalidated on callback (success, error, or exception) to prevent replay attacks. State tokens are one-time use for CSRF protection.
-     * @summary Oauth Callback
-     * @param {string} provider 
-     * @param {string} code 
-     * @param {string} state 
-     * @param {string | null} [error] 
-     * @param {string | null} [errorDescription] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationOauthApiOauthCallback(provider: string, code: string, state: string, error?: string | null, errorDescription?: string | null, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationOauthApiOauthCallback(provider, code, state, error, errorDescription, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Detect authentication method for an email address.  Returns \'saml\' with workspace slug if the email domain has a SAML configuration, otherwise returns \'password\'.
-     * @summary Detect Method
-     * @param {DetectMethodRequest} detectMethodRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationSamlApiDetectMethod(detectMethodRequest: DetectMethodRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationSamlApiDetectMethod(detectMethodRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Initiate SP-initiated SAML login.  Looks up the SAMLConfiguration for the given workspace slug, creates an AuthnRequest via SAMLService, and redirects the browser to the IdP.
-     * @summary Initiate
-     * @param {string} slug 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationSamlApiInitiate(slug: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationSamlApiInitiate(slug, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Serve SP metadata XML for IdP configuration.  Returns the SP metadata as application/xml for the given workspace.
-     * @summary Metadata
-     * @param {string} slug 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationSamlApiMetadata(slug: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationSamlApiMetadata(slug, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Assertion Consumer Service endpoint.  Receives the SAML response (form POST from IdP), validates the assertion, provisions or links the user, issues JWT tokens via HttpOnly cookies, and redirects to the frontend callback URL.
-     * @summary Saml Acs
-     * @param {string} slug 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsAuthenticationSamlApiSamlAcs(slug: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsAuthenticationSamlApiSamlAcs(slug, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
-     * @summary Unsubscribe
-     * @param {UnsubscribeRequest} unsubscribeRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsEmailUnsubscribeUnsubscribe(unsubscribeRequest: UnsubscribeRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsEmailUnsubscribeUnsubscribe(unsubscribeRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
-     * @summary Verify Unsubscribe Token
-     * @param {string} token 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public appsEmailUnsubscribeVerifyUnsubscribeToken(token: string, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).appsEmailUnsubscribeVerifyUnsubscribeToken(token, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
  * DevicesApi - axios parameter creator
  * @export
  */
@@ -18289,15 +21221,15 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Activate a device - admin/manager action (PRD §4.2).  This is an administrative action that enables the device. - Managers/owners: Can activate any workspace device - Field workers: Can only activate their own device
          * @summary Activate Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiActivateDevice: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiActivateDevice', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/activate`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiActivateDevice: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiActivateDevice', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/activate`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18414,17 +21346,68 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
-         * @summary Deactivate Device
-         * @param {string} uuid 
+         * Append a manager-authored SessionNote (manager + owner only per D-04, append-only per D-03).  Body is truncated to 2000 chars to match the field-worker constraint. Allowed on active OR closed sessions (D-03 supports retroactive annotation). Each POST inserts a NEW SessionNote row — no upsert.  WR-05: returns 201 Created (RFC 7231 §6.3.2) since this is genuine resource creation. The mobile NotesUpdateOut endpoint still returns 200 because it is an upsert, not a create.  WR-06: rejects an empty / whitespace-only body with 400 + error_code=\"EMPTY_BODY\" rather than inserting a noise row.
+         * @summary Create Manager Session Note
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {SessionNoteIn} sessionNoteIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiDeactivateDevice: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiDeactivateDevice', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/deactivate`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiCreateManagerSessionNote: async (deviceUuid: string, sessionId: string, sessionNoteIn: SessionNoteIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceUuid' is not null or undefined
+            assertParamExists('appsDevicesApiCreateManagerSessionNote', 'deviceUuid', deviceUuid)
+            // verify required parameter 'sessionId' is not null or undefined
+            assertParamExists('appsDevicesApiCreateManagerSessionNote', 'sessionId', sessionId)
+            // verify required parameter 'sessionNoteIn' is not null or undefined
+            assertParamExists('appsDevicesApiCreateManagerSessionNote', 'sessionNoteIn', sessionNoteIn)
+            const localVarPath = `/api/v1/devices/{device_uuid}/sessions/{session_id}/notes`
+                .replace(`{${"device_uuid"}}`, encodeURIComponent(String(deviceUuid)))
+                .replace(`{${"session_id"}}`, encodeURIComponent(String(sessionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyBearer required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(sessionNoteIn, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
+         * @summary Deactivate Device
+         * @param {string} deviceId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiDeactivateDevice: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiDeactivateDevice', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/deactivate`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18457,15 +21440,15 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Delete a device (PRD §4.2).  - Managers/owners: Can delete any workspace device - Field workers: Can only delete their own device
          * @summary Delete Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiDeleteDevice: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiDeleteDevice', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiDeleteDevice: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiDeleteDevice', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18498,15 +21481,15 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * End a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can end their shift. Location uploads stop. Offline-buffered locations with timestamps within the shift window will still be accepted.  State transition: ACTIVE → OFF (or PAUSED → OFF)
          * @summary End Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiEndShift: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiEndShift', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/end-shift`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiEndShift: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiEndShift', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/end-shift`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18590,6 +21573,47 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
             if (eventType !== undefined) {
                 localVarQueryParameter['event_type'] = eventType;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get the open DeviceSession for the device\'s current shift.  Returns 200 + DeviceSessionOut when the device has an open session (ended_at IS NULL). Returns 404 when the device is not currently on shift (shift_status=\'off\').  Lazy-creates a session row for legacy in-flight v1.19 shifts (device.shift_status=\'active\' but no open DeviceSession row), using device.shift_started_at as the started_at value. This reconciliation is idempotent: a second call returns the same session row.  Role scoping (via get_device_with_permission): - field_worker: only own device (other device → 404) - manager/owner: any workspace device
+         * @summary Get Active Session
+         * @param {string} deviceUuid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiGetActiveSession: async (deviceUuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceUuid' is not null or undefined
+            assertParamExists('appsDevicesApiGetActiveSession', 'deviceUuid', deviceUuid)
+            const localVarPath = `/api/v1/devices/{device_uuid}/active-session`
+                .replace(`{${"device_uuid"}}`, encodeURIComponent(String(deviceUuid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyBearer required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -18694,15 +21718,15 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Get device details by UUID (PRD §4).  - Managers/owners: Can view any workspace device - Field workers: Can only view their own device
          * @summary Get Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDevice: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiGetDevice', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiGetDevice: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiGetDevice', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18735,17 +21759,17 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Get geofence events for a device (PRD §4).  - Managers/owners: Can view events for any workspace device - Field workers: Can only view events for their own device
          * @summary Get Device Events
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDeviceEvents: async (uuid: string, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiGetDeviceEvents', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/events`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiGetDeviceEvents: async (deviceId: string, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiGetDeviceEvents', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/events`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18786,17 +21810,17 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Get completed session history for a device.  Returns a list of all completed tracking sessions (shifts) with computed stats like duration, location count, and distance traveled.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
          * @summary Get Device Sessions
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDeviceSessions: async (uuid: string, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiGetDeviceSessions', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/sessions`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiGetDeviceSessions: async (deviceId: string, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiGetDeviceSessions', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/sessions`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19033,18 +22057,18 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. simulation devices or devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
+         * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
          * @summary Get Recent Locations
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetRecentLocations: async (uuid: string, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiGetRecentLocations', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/locations/recent`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiGetRecentLocations: async (deviceId: string, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiGetRecentLocations', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/locations/recent`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19081,18 +22105,18 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Get single session details.  Returns detailed information about a specific completed session, including time bounds needed for location queries.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
          * @summary Get Session Detail
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetSessionDetail: async (uuid: string, sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiGetSessionDetail', 'uuid', uuid)
+        appsDevicesApiGetSessionDetail: async (deviceId: string, sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiGetSessionDetail', 'deviceId', deviceId)
             // verify required parameter 'sessionId' is not null or undefined
             assertParamExists('appsDevicesApiGetSessionDetail', 'sessionId', sessionId)
-            const localVarPath = `/api/v1/devices/{uuid}/sessions/{session_id}`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)))
+            const localVarPath = `/api/v1/devices/{device_id}/sessions/{session_id}`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)))
                 .replace(`{${"session_id"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -19126,7 +22150,7 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Get locations for a specific session with pagination or simplification.  Returns GPS track points recorded during the session.  **Pagination mode** (default): Use `limit` and `offset` to paginate through all points.  **Simplification mode**: Set `max_points` to return a simplified track using Douglas-Peucker algorithm (PostGIS ST_Simplify). Useful for rendering long tracks without loading all points. When `max_points` is set, pagination is ignored.  Important notes for simplification mode: - `max_points` is a **target**, not a hard cap. Actual count may vary based on track shape. - When `simplified=true`, timestamps are **linearly interpolated** between session   start/end and should not be used for speed or pause analysis. - Accuracy, speed, and heading are lost during simplification (returned as null).  Note: Track history only includes location updates that pass quality filters (accuracy <= 100m, minimum movement distance). This ensures clean GPS tracks without jitter or poor-quality readings.  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
          * @summary Get Session Locations
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {string} sessionId 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -19134,13 +22158,13 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetSessionLocations: async (uuid: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiGetSessionLocations', 'uuid', uuid)
+        appsDevicesApiGetSessionLocations: async (deviceId: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiGetSessionLocations', 'deviceId', deviceId)
             // verify required parameter 'sessionId' is not null or undefined
             assertParamExists('appsDevicesApiGetSessionLocations', 'sessionId', sessionId)
-            const localVarPath = `/api/v1/devices/{uuid}/sessions/{session_id}/locations`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)))
+            const localVarPath = `/api/v1/devices/{device_id}/sessions/{session_id}/locations`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)))
                 .replace(`{${"session_id"}}`, encodeURIComponent(String(sessionId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -19231,17 +22255,213 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
-         * @summary Pause Shift
-         * @param {string} uuid 
+         * List attachments (StoredFile records) linked to a device session.  Role scoping (D-09): - field_worker: sees only attachments from their own sessions. - manager/owner: sees all workspace-wide attachments for the session.
+         * @summary List Session Attachments
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiPauseShift: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiPauseShift', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/pause-shift`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiListSessionAttachments: async (deviceUuid: string, sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceUuid' is not null or undefined
+            assertParamExists('appsDevicesApiListSessionAttachments', 'deviceUuid', deviceUuid)
+            // verify required parameter 'sessionId' is not null or undefined
+            assertParamExists('appsDevicesApiListSessionAttachments', 'sessionId', sessionId)
+            const localVarPath = `/api/v1/devices/{device_uuid}/sessions/{session_id}/attachments`
+                .replace(`{${"device_uuid"}}`, encodeURIComponent(String(deviceUuid)))
+                .replace(`{${"session_id"}}`, encodeURIComponent(String(sessionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyBearer required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List SessionNote rows for a session (oldest first per D-20).  Role scoping (D-09 / D-14): - field_worker: only own device\'s session notes - manager/owner: any workspace device\'s session notes  Returns a uniform 403 for non-existent / cross-device / cross-workspace / unauthorized-field-worker cases (prevents session-ID enumeration via differential 403 vs 404).
+         * @summary List Session Notes
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiListSessionNotes: async (deviceUuid: string, sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceUuid' is not null or undefined
+            assertParamExists('appsDevicesApiListSessionNotes', 'deviceUuid', deviceUuid)
+            // verify required parameter 'sessionId' is not null or undefined
+            assertParamExists('appsDevicesApiListSessionNotes', 'sessionId', sessionId)
+            const localVarPath = `/api/v1/devices/{device_uuid}/sessions/{session_id}/notes`
+                .replace(`{${"device_uuid"}}`, encodeURIComponent(String(deviceUuid)))
+                .replace(`{${"session_id"}}`, encodeURIComponent(String(sessionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyBearer required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List image-typed StoredFile attachments for a session with derived GPS coords.  Phase 120-04 (D-11). Each row is a PhotoOut whose lat/lon are resolved per D-07 (nearest DeviceLocation within ±60s of captured_at, falling back to PostGIS ST_LineInterpolatePoint on the session\'s track_geometry for closed sessions, falling back to null). Newest-first ordering (D-17). Presigned download URL with TTL=3600 (D-18).  Coexists with GET .../sessions/{session_id}/attachments which returns ALL attachment types — that endpoint is preserved unchanged for the v1.20 mobile consumer (Plan 105) per CONTEXT D-11.  Role scoping (D-12 = v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: any workspace device\'s photos
+         * @summary List Session Photos
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiListSessionPhotos: async (deviceUuid: string, sessionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceUuid' is not null or undefined
+            assertParamExists('appsDevicesApiListSessionPhotos', 'deviceUuid', deviceUuid)
+            // verify required parameter 'sessionId' is not null or undefined
+            assertParamExists('appsDevicesApiListSessionPhotos', 'sessionId', sessionId)
+            const localVarPath = `/api/v1/devices/{device_uuid}/sessions/{session_id}/photos`
+                .replace(`{${"device_uuid"}}`, encodeURIComponent(String(deviceUuid)))
+                .replace(`{${"session_id"}}`, encodeURIComponent(String(sessionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyBearer required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List workspace-wide photos with renderable GPS coords (Phase 122-01).  Returns the newest ``limit`` photos (max 500) whose captured_at is in [from, to] across all workspace devices the requester can see. Photos whose coordinate resolution returns null are excluded (D-05) — only renderable photos cross the wire for the dashboard map layer.  Role scoping (D-04 / v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: all workspace devices  Cross-workspace ``device_ids`` are silently filtered out (no information leak via differential 403). Over 50 ``device_ids`` returns 400 TOO_MANY_DEVICE_IDS to bound query parameter abuse.  Coexists with GET /devices/{uuid}/sessions/{sid}/photos which is preserved unchanged (Phase 120-04). The two endpoints have intentionally different null-coord semantics: per-session keeps null-coord rows (still listed in the session detail panel), workspace-wide drops them (can\'t render).
+         * @summary List Workspace Photos
+         * @param {string | null} [from] Earliest captured_at (default: now - 24h)
+         * @param {string | null} [to] Latest captured_at (default: now)
+         * @param {Array<string> | null} [deviceIds] Restrict to these device IDs (max 50)
+         * @param {number} [limit] Soft cap; max 500 newest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiListWorkspacePhotos: async (from?: string | null, to?: string | null, deviceIds?: Array<string> | null, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/devices/photos`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyBearer required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (from !== undefined) {
+                localVarQueryParameter['from'] = (from as any instanceof Date) ?
+                    (from as any).toISOString() :
+                    from;
+            }
+
+            if (to !== undefined) {
+                localVarQueryParameter['to'] = (to as any instanceof Date) ?
+                    (to as any).toISOString() :
+                    to;
+            }
+
+            if (deviceIds) {
+                localVarQueryParameter['device_ids'] = deviceIds;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
+         * @summary Pause Shift
+         * @param {string} deviceId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiPauseShift: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiPauseShift', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/pause-shift`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19274,15 +22494,15 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Resume a paused tracking shift (PRD §5.3).  BYOD Security: Only the device owner can resume their shift. Location uploads resume.  State transition: PAUSED → ACTIVE
          * @summary Resume Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiResumeShift: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiResumeShift', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/resume-shift`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiResumeShift: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiResumeShift', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/resume-shift`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19315,15 +22535,15 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Start a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can start their shift. This enables location uploads for this device.  State transition: OFF → ACTIVE Note: If paused, use resume-shift instead.
          * @summary Start Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiStartShift: async (uuid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiStartShift', 'uuid', uuid)
-            const localVarPath = `/api/v1/devices/{uuid}/start-shift`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+        appsDevicesApiStartShift: async (deviceId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiStartShift', 'deviceId', deviceId)
+            const localVarPath = `/api/v1/devices/{device_id}/start-shift`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19356,18 +22576,18 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Update device name, type, or metadata.  - Managers/owners: Can edit any workspace device - Field workers: Can only edit their own device  Note: device_id (external identifier) is NOT editable for BYOD security.
          * @summary Update Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {UpdateDeviceIn} updateDeviceIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiUpdateDevice: async (uuid: string, updateDeviceIn: UpdateDeviceIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiUpdateDevice', 'uuid', uuid)
+        appsDevicesApiUpdateDevice: async (deviceId: string, updateDeviceIn: UpdateDeviceIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiUpdateDevice', 'deviceId', deviceId)
             // verify required parameter 'updateDeviceIn' is not null or undefined
             assertParamExists('appsDevicesApiUpdateDevice', 'updateDeviceIn', updateDeviceIn)
-            const localVarPath = `/api/v1/devices/{uuid}`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+            const localVarPath = `/api/v1/devices/{device_id}`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19403,18 +22623,18 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * Update device location and trigger geofence events.  PRD §4.2 & §5.3: BYOD Security + Shift Enforcement - Only device owner can upload locations - Device must be enabled (is_active) - Shift must be active, OR timestamp falls within past shift window
          * @summary Update Device Location
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {LocationUpdateIn} locationUpdateIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiUpdateDeviceLocation: async (uuid: string, locationUpdateIn: LocationUpdateIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiUpdateDeviceLocation', 'uuid', uuid)
+        appsDevicesApiUpdateDeviceLocation: async (deviceId: string, locationUpdateIn: LocationUpdateIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiUpdateDeviceLocation', 'deviceId', deviceId)
             // verify required parameter 'locationUpdateIn' is not null or undefined
             assertParamExists('appsDevicesApiUpdateDeviceLocation', 'locationUpdateIn', locationUpdateIn)
-            const localVarPath = `/api/v1/devices/{uuid}/location`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+            const localVarPath = `/api/v1/devices/{device_id}/location`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19448,20 +22668,20 @@ export const DevicesApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * Update notes for the current active session.  Notes are stored on the device during the active session and persisted to the DeviceSession record when the shift ends.  BYOD Security: Only the device owner can update notes. Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
+         * Update notes for the current active session.  Mobile-facing endpoint (preserved contract from v1.20). Each call:   1. Truncates the payload to 2000 chars.   2. Writes the truncated body to device.current_session_notes (mobile pre-fill cache).   3. Upserts a SessionNote row keyed on (active_session, author=request.auth)      so the manager-side GET in v1.23 sees an authored note row.  The upsert is idempotent across repeated POSTs during the same shift — calls 2..N update the same row\'s body and refresh created_at. A new shift gets a new SessionNote because the (session, author) key differs.  Concurrency (CR-01): the (session, author) upsert is serialized via select_for_update() on the Device row inside transaction.atomic(). Two concurrent POSTs from the same authenticated user (offline-buffered flush, mobile retry storm, multi-tab race) block at the lock so the second caller sees the first caller\'s row via update_or_create.get() and falls into the UPDATE branch — preventing duplicate (session, author) rows. The Device row lock serializes per-device POSTs without holding a workspace-wide lock.  BYOD Security: Only the device owner can update notes (enforced by get_device_with_permission(require_write=True)). Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
          * @summary Update Session Notes
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {NotesUpdateIn} notesUpdateIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiUpdateSessionNotes: async (uuid: string, notesUpdateIn: NotesUpdateIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'uuid' is not null or undefined
-            assertParamExists('appsDevicesApiUpdateSessionNotes', 'uuid', uuid)
+        appsDevicesApiUpdateSessionNotes: async (deviceId: string, notesUpdateIn: NotesUpdateIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deviceId' is not null or undefined
+            assertParamExists('appsDevicesApiUpdateSessionNotes', 'deviceId', deviceId)
             // verify required parameter 'notesUpdateIn' is not null or undefined
             assertParamExists('appsDevicesApiUpdateSessionNotes', 'notesUpdateIn', notesUpdateIn)
-            const localVarPath = `/api/v1/devices/{uuid}/notes`
-                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+            const localVarPath = `/api/v1/devices/{device_id}/notes`
+                .replace(`{${"device_id"}}`, encodeURIComponent(String(deviceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -19552,12 +22772,12 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Activate a device - admin/manager action (PRD §4.2).  This is an administrative action that enables the device. - Managers/owners: Can activate any workspace device - Field workers: Can only activate their own device
          * @summary Activate Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiActivateDevice(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiActivateDevice(uuid, options);
+        async appsDevicesApiActivateDevice(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiActivateDevice(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiActivateDevice']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19589,14 +22809,29 @@ export const DevicesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
-         * @summary Deactivate Device
-         * @param {string} uuid 
+         * Append a manager-authored SessionNote (manager + owner only per D-04, append-only per D-03).  Body is truncated to 2000 chars to match the field-worker constraint. Allowed on active OR closed sessions (D-03 supports retroactive annotation). Each POST inserts a NEW SessionNote row — no upsert.  WR-05: returns 201 Created (RFC 7231 §6.3.2) since this is genuine resource creation. The mobile NotesUpdateOut endpoint still returns 200 because it is an upsert, not a create.  WR-06: rejects an empty / whitespace-only body with 400 + error_code=\"EMPTY_BODY\" rather than inserting a noise row.
+         * @summary Create Manager Session Note
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {SessionNoteIn} sessionNoteIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiDeactivateDevice(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiDeactivateDevice(uuid, options);
+        async appsDevicesApiCreateManagerSessionNote(deviceUuid: string, sessionId: string, sessionNoteIn: SessionNoteIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SessionNoteOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiCreateManagerSessionNote(deviceUuid, sessionId, sessionNoteIn, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiCreateManagerSessionNote']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
+         * @summary Deactivate Device
+         * @param {string} deviceId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsDevicesApiDeactivateDevice(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiDeactivateDevice(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiDeactivateDevice']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19604,12 +22839,12 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Delete a device (PRD §4.2).  - Managers/owners: Can delete any workspace device - Field workers: Can only delete their own device
          * @summary Delete Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiDeleteDevice(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiDeleteDevice(uuid, options);
+        async appsDevicesApiDeleteDevice(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiDeleteDevice(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiDeleteDevice']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19617,12 +22852,12 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * End a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can end their shift. Location uploads stop. Offline-buffered locations with timestamps within the shift window will still be accepted.  State transition: ACTIVE → OFF (or PAUSED → OFF)
          * @summary End Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiEndShift(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiEndShift(uuid, options);
+        async appsDevicesApiEndShift(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiEndShift(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiEndShift']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19646,12 +22881,25 @@ export const DevicesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Get the open DeviceSession for the device\'s current shift.  Returns 200 + DeviceSessionOut when the device has an open session (ended_at IS NULL). Returns 404 when the device is not currently on shift (shift_status=\'off\').  Lazy-creates a session row for legacy in-flight v1.19 shifts (device.shift_status=\'active\' but no open DeviceSession row), using device.shift_started_at as the started_at value. This reconciliation is idempotent: a second call returns the same session row.  Role scoping (via get_device_with_permission): - field_worker: only own device (other device → 404) - manager/owner: any workspace device
+         * @summary Get Active Session
+         * @param {string} deviceUuid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsDevicesApiGetActiveSession(deviceUuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceSessionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetActiveSession(deviceUuid, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetActiveSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get KPI statistics for the dashboard ops view.  Returns counts for: - live_count: Devices with location update in the last 10 minutes - offline_stale_count: Active devices without recent location - in_geofence_count: Devices currently inside a geofence - alerts_open: Open alert notifications (dashboard alerts) - workflow_failures_1h: Failed workflow executions in the last hour - webhook_retries_1h: Webhook deliveries pending retry in the last hour  - Managers/owners: See stats for all workspace devices - Field workers: See stats for only their own device
          * @summary Get Dashboard Stats
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetDashboardStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsDevicesApiGetDashboardStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardStatsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDashboardStats(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetDashboardStats']?.[localVarOperationServerIndex]?.url;
@@ -19666,7 +22914,7 @@ export const DevicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetDashboardStatsTimeline(timeRange?: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsDevicesApiGetDashboardStatsTimeline(timeRange?: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DashboardStatsTimelineOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDashboardStatsTimeline(timeRange, startDate, endDate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetDashboardStatsTimeline']?.[localVarOperationServerIndex]?.url;
@@ -19675,12 +22923,12 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Get device details by UUID (PRD §4).  - Managers/owners: Can view any workspace device - Field workers: Can only view their own device
          * @summary Get Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetDevice(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDevice(uuid, options);
+        async appsDevicesApiGetDevice(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDevice(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetDevice']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19688,14 +22936,14 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Get geofence events for a device (PRD §4).  - Managers/owners: Can view events for any workspace device - Field workers: Can only view events for their own device
          * @summary Get Device Events
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetDeviceEvents(uuid: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDeviceEvents(uuid, limit, offset, options);
+        async appsDevicesApiGetDeviceEvents(deviceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GeofenceEventOut>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDeviceEvents(deviceId, limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetDeviceEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19703,14 +22951,14 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Get completed session history for a device.  Returns a list of all completed tracking sessions (shifts) with computed stats like duration, location count, and distance traveled.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
          * @summary Get Device Sessions
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetDeviceSessions(uuid: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceSessionsOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDeviceSessions(uuid, limit, offset, options);
+        async appsDevicesApiGetDeviceSessions(deviceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceSessionsOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetDeviceSessions(deviceId, limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetDeviceSessions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19747,7 +22995,7 @@ export const DevicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetLocationStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsDevicesApiGetLocationStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceStatsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetLocationStats(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetLocationStats']?.[localVarOperationServerIndex]?.url;
@@ -19768,22 +23016,22 @@ export const DevicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetRecentEvents(limit?: number, offset?: number, deviceId?: string | null, geofenceId?: string | null, eventType?: string | null, timeRange?: string | null, startDate?: string | null, endDate?: string | null, sort?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsDevicesApiGetRecentEvents(limit?: number, offset?: number, deviceId?: string | null, geofenceId?: string | null, eventType?: string | null, timeRange?: string | null, startDate?: string | null, endDate?: string | null, sort?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecentEventsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetRecentEvents(limit, offset, deviceId, geofenceId, eventType, timeRange, startDate, endDate, sort, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetRecentEvents']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. simulation devices or devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
+         * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
          * @summary Get Recent Locations
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetRecentLocations(uuid: string, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecentLocationsOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetRecentLocations(uuid, limit, options);
+        async appsDevicesApiGetRecentLocations(deviceId: string, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecentLocationsOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetRecentLocations(deviceId, limit, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetRecentLocations']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19791,13 +23039,13 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Get single session details.  Returns detailed information about a specific completed session, including time bounds needed for location queries.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
          * @summary Get Session Detail
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetSessionDetail(uuid: string, sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceSessionOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetSessionDetail(uuid, sessionId, options);
+        async appsDevicesApiGetSessionDetail(deviceId: string, sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceSessionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetSessionDetail(deviceId, sessionId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetSessionDetail']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19805,7 +23053,7 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Get locations for a specific session with pagination or simplification.  Returns GPS track points recorded during the session.  **Pagination mode** (default): Use `limit` and `offset` to paginate through all points.  **Simplification mode**: Set `max_points` to return a simplified track using Douglas-Peucker algorithm (PostGIS ST_Simplify). Useful for rendering long tracks without loading all points. When `max_points` is set, pagination is ignored.  Important notes for simplification mode: - `max_points` is a **target**, not a hard cap. Actual count may vary based on track shape. - When `simplified=true`, timestamps are **linearly interpolated** between session   start/end and should not be used for speed or pause analysis. - Accuracy, speed, and heading are lost during simplification (returned as null).  Note: Track history only includes location updates that pass quality filters (accuracy <= 100m, minimum movement distance). This ensures clean GPS tracks without jitter or poor-quality readings.  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
          * @summary Get Session Locations
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {string} sessionId 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -19813,8 +23061,8 @@ export const DevicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGetSessionLocations(uuid: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SessionLocationsOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetSessionLocations(uuid, sessionId, limit, offset, maxPoints, options);
+        async appsDevicesApiGetSessionLocations(deviceId: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SessionLocationsOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGetSessionLocations(deviceId, sessionId, limit, offset, maxPoints, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiGetSessionLocations']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19834,14 +23082,72 @@ export const DevicesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
-         * @summary Pause Shift
-         * @param {string} uuid 
+         * List attachments (StoredFile records) linked to a device session.  Role scoping (D-09): - field_worker: sees only attachments from their own sessions. - manager/owner: sees all workspace-wide attachments for the session.
+         * @summary List Session Attachments
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiPauseShift(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiPauseShift(uuid, options);
+        async appsDevicesApiListSessionAttachments(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StoredFileAttachmentOut>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiListSessionAttachments(deviceUuid, sessionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiListSessionAttachments']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * List SessionNote rows for a session (oldest first per D-20).  Role scoping (D-09 / D-14): - field_worker: only own device\'s session notes - manager/owner: any workspace device\'s session notes  Returns a uniform 403 for non-existent / cross-device / cross-workspace / unauthorized-field-worker cases (prevents session-ID enumeration via differential 403 vs 404).
+         * @summary List Session Notes
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsDevicesApiListSessionNotes(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SessionNoteOut>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiListSessionNotes(deviceUuid, sessionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiListSessionNotes']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * List image-typed StoredFile attachments for a session with derived GPS coords.  Phase 120-04 (D-11). Each row is a PhotoOut whose lat/lon are resolved per D-07 (nearest DeviceLocation within ±60s of captured_at, falling back to PostGIS ST_LineInterpolatePoint on the session\'s track_geometry for closed sessions, falling back to null). Newest-first ordering (D-17). Presigned download URL with TTL=3600 (D-18).  Coexists with GET .../sessions/{session_id}/attachments which returns ALL attachment types — that endpoint is preserved unchanged for the v1.20 mobile consumer (Plan 105) per CONTEXT D-11.  Role scoping (D-12 = v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: any workspace device\'s photos
+         * @summary List Session Photos
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsDevicesApiListSessionPhotos(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PhotoOut>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiListSessionPhotos(deviceUuid, sessionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiListSessionPhotos']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * List workspace-wide photos with renderable GPS coords (Phase 122-01).  Returns the newest ``limit`` photos (max 500) whose captured_at is in [from, to] across all workspace devices the requester can see. Photos whose coordinate resolution returns null are excluded (D-05) — only renderable photos cross the wire for the dashboard map layer.  Role scoping (D-04 / v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: all workspace devices  Cross-workspace ``device_ids`` are silently filtered out (no information leak via differential 403). Over 50 ``device_ids`` returns 400 TOO_MANY_DEVICE_IDS to bound query parameter abuse.  Coexists with GET /devices/{uuid}/sessions/{sid}/photos which is preserved unchanged (Phase 120-04). The two endpoints have intentionally different null-coord semantics: per-session keeps null-coord rows (still listed in the session detail panel), workspace-wide drops them (can\'t render).
+         * @summary List Workspace Photos
+         * @param {string | null} [from] Earliest captured_at (default: now - 24h)
+         * @param {string | null} [to] Latest captured_at (default: now)
+         * @param {Array<string> | null} [deviceIds] Restrict to these device IDs (max 50)
+         * @param {number} [limit] Soft cap; max 500 newest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsDevicesApiListWorkspacePhotos(from?: string | null, to?: string | null, deviceIds?: Array<string> | null, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkspacePhotosOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiListWorkspacePhotos(from, to, deviceIds, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiListWorkspacePhotos']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
+         * @summary Pause Shift
+         * @param {string} deviceId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsDevicesApiPauseShift(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiPauseShift(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiPauseShift']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19849,12 +23155,12 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Resume a paused tracking shift (PRD §5.3).  BYOD Security: Only the device owner can resume their shift. Location uploads resume.  State transition: PAUSED → ACTIVE
          * @summary Resume Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiResumeShift(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiResumeShift(uuid, options);
+        async appsDevicesApiResumeShift(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiResumeShift(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiResumeShift']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19862,12 +23168,12 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Start a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can start their shift. This enables location uploads for this device.  State transition: OFF → ACTIVE Note: If paused, use resume-shift instead.
          * @summary Start Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiStartShift(uuid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiStartShift(uuid, options);
+        async appsDevicesApiStartShift(deviceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ShiftActionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiStartShift(deviceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiStartShift']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19875,13 +23181,13 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Update device name, type, or metadata.  - Managers/owners: Can edit any workspace device - Field workers: Can only edit their own device  Note: device_id (external identifier) is NOT editable for BYOD security.
          * @summary Update Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {UpdateDeviceIn} updateDeviceIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiUpdateDevice(uuid: string, updateDeviceIn: UpdateDeviceIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiUpdateDevice(uuid, updateDeviceIn, options);
+        async appsDevicesApiUpdateDevice(deviceId: string, updateDeviceIn: UpdateDeviceIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeviceOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiUpdateDevice(deviceId, updateDeviceIn, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiUpdateDevice']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19889,27 +23195,27 @@ export const DevicesApiFp = function(configuration?: Configuration) {
         /**
          * Update device location and trigger geofence events.  PRD §4.2 & §5.3: BYOD Security + Shift Enforcement - Only device owner can upload locations - Device must be enabled (is_active) - Shift must be active, OR timestamp falls within past shift window
          * @summary Update Device Location
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {LocationUpdateIn} locationUpdateIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiUpdateDeviceLocation(uuid: string, locationUpdateIn: LocationUpdateIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LocationUpdateOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiUpdateDeviceLocation(uuid, locationUpdateIn, options);
+        async appsDevicesApiUpdateDeviceLocation(deviceId: string, locationUpdateIn: LocationUpdateIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LocationUpdateOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiUpdateDeviceLocation(deviceId, locationUpdateIn, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiUpdateDeviceLocation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * Update notes for the current active session.  Notes are stored on the device during the active session and persisted to the DeviceSession record when the shift ends.  BYOD Security: Only the device owner can update notes. Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
+         * Update notes for the current active session.  Mobile-facing endpoint (preserved contract from v1.20). Each call:   1. Truncates the payload to 2000 chars.   2. Writes the truncated body to device.current_session_notes (mobile pre-fill cache).   3. Upserts a SessionNote row keyed on (active_session, author=request.auth)      so the manager-side GET in v1.23 sees an authored note row.  The upsert is idempotent across repeated POSTs during the same shift — calls 2..N update the same row\'s body and refresh created_at. A new shift gets a new SessionNote because the (session, author) key differs.  Concurrency (CR-01): the (session, author) upsert is serialized via select_for_update() on the Device row inside transaction.atomic(). Two concurrent POSTs from the same authenticated user (offline-buffered flush, mobile retry storm, multi-tab race) block at the lock so the second caller sees the first caller\'s row via update_or_create.get() and falls into the UPDATE branch — preventing duplicate (session, author) rows. The Device row lock serializes per-device POSTs without holding a workspace-wide lock.  BYOD Security: Only the device owner can update notes (enforced by get_device_with_permission(require_write=True)). Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
          * @summary Update Session Notes
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {NotesUpdateIn} notesUpdateIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiUpdateSessionNotes(uuid: string, notesUpdateIn: NotesUpdateIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NotesUpdateOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiUpdateSessionNotes(uuid, notesUpdateIn, options);
+        async appsDevicesApiUpdateSessionNotes(deviceId: string, notesUpdateIn: NotesUpdateIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NotesUpdateOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiUpdateSessionNotes(deviceId, notesUpdateIn, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DevicesApi.appsDevicesApiUpdateSessionNotes']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -19940,12 +23246,12 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
         /**
          * Activate a device - admin/manager action (PRD §4.2).  This is an administrative action that enables the device. - Managers/owners: Can activate any workspace device - Field workers: Can only activate their own device
          * @summary Activate Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiActivateDevice(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
-            return localVarFp.appsDevicesApiActivateDevice(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiActivateDevice(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
+            return localVarFp.appsDevicesApiActivateDevice(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Update locations for multiple devices in batch.  PRD §5.3: Server-side shift enforcement - Device must be enabled (is_active) - Shift must be active, OR timestamp falls within past shift window - Only device owner can upload locations (BYOD security)
@@ -19968,34 +23274,46 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.appsDevicesApiCreateDevice(deviceIn, options).then((request) => request(axios, basePath));
         },
         /**
-         * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
-         * @summary Deactivate Device
-         * @param {string} uuid 
+         * Append a manager-authored SessionNote (manager + owner only per D-04, append-only per D-03).  Body is truncated to 2000 chars to match the field-worker constraint. Allowed on active OR closed sessions (D-03 supports retroactive annotation). Each POST inserts a NEW SessionNote row — no upsert.  WR-05: returns 201 Created (RFC 7231 §6.3.2) since this is genuine resource creation. The mobile NotesUpdateOut endpoint still returns 200 because it is an upsert, not a create.  WR-06: rejects an empty / whitespace-only body with 400 + error_code=\"EMPTY_BODY\" rather than inserting a noise row.
+         * @summary Create Manager Session Note
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {SessionNoteIn} sessionNoteIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiDeactivateDevice(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
-            return localVarFp.appsDevicesApiDeactivateDevice(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiCreateManagerSessionNote(deviceUuid: string, sessionId: string, sessionNoteIn: SessionNoteIn, options?: RawAxiosRequestConfig): AxiosPromise<SessionNoteOut> {
+            return localVarFp.appsDevicesApiCreateManagerSessionNote(deviceUuid, sessionId, sessionNoteIn, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
+         * @summary Deactivate Device
+         * @param {string} deviceId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiDeactivateDevice(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
+            return localVarFp.appsDevicesApiDeactivateDevice(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Delete a device (PRD §4.2).  - Managers/owners: Can delete any workspace device - Field workers: Can only delete their own device
          * @summary Delete Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiDeleteDevice(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.appsDevicesApiDeleteDevice(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiDeleteDevice(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.appsDevicesApiDeleteDevice(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * End a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can end their shift. Location uploads stop. Offline-buffered locations with timestamps within the shift window will still be accepted.  State transition: ACTIVE → OFF (or PAUSED → OFF)
          * @summary End Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiEndShift(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
-            return localVarFp.appsDevicesApiEndShift(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiEndShift(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
+            return localVarFp.appsDevicesApiEndShift(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Export events endpoint - delegates to api_export module
@@ -20013,12 +23331,22 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.appsDevicesApiExportEventsEndpoint(format, fromDate, toDate, deviceIds, geofenceIds, eventType, options).then((request) => request(axios, basePath));
         },
         /**
+         * Get the open DeviceSession for the device\'s current shift.  Returns 200 + DeviceSessionOut when the device has an open session (ended_at IS NULL). Returns 404 when the device is not currently on shift (shift_status=\'off\').  Lazy-creates a session row for legacy in-flight v1.19 shifts (device.shift_status=\'active\' but no open DeviceSession row), using device.shift_started_at as the started_at value. This reconciliation is idempotent: a second call returns the same session row.  Role scoping (via get_device_with_permission): - field_worker: only own device (other device → 404) - manager/owner: any workspace device
+         * @summary Get Active Session
+         * @param {string} deviceUuid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiGetActiveSession(deviceUuid: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceSessionOut> {
+            return localVarFp.appsDevicesApiGetActiveSession(deviceUuid, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get KPI statistics for the dashboard ops view.  Returns counts for: - live_count: Devices with location update in the last 10 minutes - offline_stale_count: Active devices without recent location - in_geofence_count: Devices currently inside a geofence - alerts_open: Open alert notifications (dashboard alerts) - workflow_failures_1h: Failed workflow executions in the last hour - webhook_retries_1h: Webhook deliveries pending retry in the last hour  - Managers/owners: See stats for all workspace devices - Field workers: See stats for only their own device
          * @summary Get Dashboard Stats
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDashboardStats(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsDevicesApiGetDashboardStats(options?: RawAxiosRequestConfig): AxiosPromise<DashboardStatsOut> {
             return localVarFp.appsDevicesApiGetDashboardStats(options).then((request) => request(axios, basePath));
         },
         /**
@@ -20030,42 +23358,42 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDashboardStatsTimeline(timeRange?: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsDevicesApiGetDashboardStatsTimeline(timeRange?: string, startDate?: string | null, endDate?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<DashboardStatsTimelineOut> {
             return localVarFp.appsDevicesApiGetDashboardStatsTimeline(timeRange, startDate, endDate, options).then((request) => request(axios, basePath));
         },
         /**
          * Get device details by UUID (PRD §4).  - Managers/owners: Can view any workspace device - Field workers: Can only view their own device
          * @summary Get Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDevice(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
-            return localVarFp.appsDevicesApiGetDevice(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiGetDevice(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
+            return localVarFp.appsDevicesApiGetDevice(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get geofence events for a device (PRD §4).  - Managers/owners: Can view events for any workspace device - Field workers: Can only view events for their own device
          * @summary Get Device Events
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDeviceEvents(uuid: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
-            return localVarFp.appsDevicesApiGetDeviceEvents(uuid, limit, offset, options).then((request) => request(axios, basePath));
+        appsDevicesApiGetDeviceEvents(deviceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<GeofenceEventOut>> {
+            return localVarFp.appsDevicesApiGetDeviceEvents(deviceId, limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
          * Get completed session history for a device.  Returns a list of all completed tracking sessions (shifts) with computed stats like duration, location count, and distance traveled.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
          * @summary Get Device Sessions
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {number} [offset] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetDeviceSessions(uuid: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<DeviceSessionsOut> {
-            return localVarFp.appsDevicesApiGetDeviceSessions(uuid, limit, offset, options).then((request) => request(axios, basePath));
+        appsDevicesApiGetDeviceSessions(deviceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<DeviceSessionsOut> {
+            return localVarFp.appsDevicesApiGetDeviceSessions(deviceId, limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
          * Get a single geofence event by ID (PRD §4).  Uses workspace-scoped RBAC — same rules as get_recent_events.
@@ -20093,7 +23421,7 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetLocationStats(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsDevicesApiGetLocationStats(options?: RawAxiosRequestConfig): AxiosPromise<DeviceStatsOut> {
             return localVarFp.appsDevicesApiGetLocationStats(options).then((request) => request(axios, basePath));
         },
         /**
@@ -20111,35 +23439,35 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetRecentEvents(limit?: number, offset?: number, deviceId?: string | null, geofenceId?: string | null, eventType?: string | null, timeRange?: string | null, startDate?: string | null, endDate?: string | null, sort?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsDevicesApiGetRecentEvents(limit?: number, offset?: number, deviceId?: string | null, geofenceId?: string | null, eventType?: string | null, timeRange?: string | null, startDate?: string | null, endDate?: string | null, sort?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<RecentEventsOut> {
             return localVarFp.appsDevicesApiGetRecentEvents(limit, offset, deviceId, geofenceId, eventType, timeRange, startDate, endDate, sort, options).then((request) => request(axios, basePath));
         },
         /**
-         * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. simulation devices or devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
+         * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
          * @summary Get Recent Locations
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetRecentLocations(uuid: string, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<RecentLocationsOut> {
-            return localVarFp.appsDevicesApiGetRecentLocations(uuid, limit, options).then((request) => request(axios, basePath));
+        appsDevicesApiGetRecentLocations(deviceId: string, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<RecentLocationsOut> {
+            return localVarFp.appsDevicesApiGetRecentLocations(deviceId, limit, options).then((request) => request(axios, basePath));
         },
         /**
          * Get single session details.  Returns detailed information about a specific completed session, including time bounds needed for location queries.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
          * @summary Get Session Detail
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetSessionDetail(uuid: string, sessionId: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceSessionOut> {
-            return localVarFp.appsDevicesApiGetSessionDetail(uuid, sessionId, options).then((request) => request(axios, basePath));
+        appsDevicesApiGetSessionDetail(deviceId: string, sessionId: string, options?: RawAxiosRequestConfig): AxiosPromise<DeviceSessionOut> {
+            return localVarFp.appsDevicesApiGetSessionDetail(deviceId, sessionId, options).then((request) => request(axios, basePath));
         },
         /**
          * Get locations for a specific session with pagination or simplification.  Returns GPS track points recorded during the session.  **Pagination mode** (default): Use `limit` and `offset` to paginate through all points.  **Simplification mode**: Set `max_points` to return a simplified track using Douglas-Peucker algorithm (PostGIS ST_Simplify). Useful for rendering long tracks without loading all points. When `max_points` is set, pagination is ignored.  Important notes for simplification mode: - `max_points` is a **target**, not a hard cap. Actual count may vary based on track shape. - When `simplified=true`, timestamps are **linearly interpolated** between session   start/end and should not be used for speed or pause analysis. - Accuracy, speed, and heading are lost during simplification (returned as null).  Note: Track history only includes location updates that pass quality filters (accuracy <= 100m, minimum movement distance). This ensures clean GPS tracks without jitter or poor-quality readings.  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
          * @summary Get Session Locations
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {string} sessionId 
          * @param {number} [limit] 
          * @param {number} [offset] 
@@ -20147,8 +23475,8 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGetSessionLocations(uuid: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options?: RawAxiosRequestConfig): AxiosPromise<SessionLocationsOut> {
-            return localVarFp.appsDevicesApiGetSessionLocations(uuid, sessionId, limit, offset, maxPoints, options).then((request) => request(axios, basePath));
+        appsDevicesApiGetSessionLocations(deviceId: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options?: RawAxiosRequestConfig): AxiosPromise<SessionLocationsOut> {
+            return localVarFp.appsDevicesApiGetSessionLocations(deviceId, sessionId, limit, offset, maxPoints, options).then((request) => request(axios, basePath));
         },
         /**
          * List devices based on user\'s workspace role (PRD §4).  - Managers/owners: See all workspace devices - Field workers: See only their own device  Args:     is_active: Filter by device active status     include_geofences: Include in_geofence_ids for each device (default False, opt-in for dashboard)
@@ -20162,67 +23490,113 @@ export const DevicesApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.appsDevicesApiListDevices(isActive, includeGeofences, options).then((request) => request(axios, basePath));
         },
         /**
-         * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
-         * @summary Pause Shift
-         * @param {string} uuid 
+         * List attachments (StoredFile records) linked to a device session.  Role scoping (D-09): - field_worker: sees only attachments from their own sessions. - manager/owner: sees all workspace-wide attachments for the session.
+         * @summary List Session Attachments
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiPauseShift(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
-            return localVarFp.appsDevicesApiPauseShift(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiListSessionAttachments(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<StoredFileAttachmentOut>> {
+            return localVarFp.appsDevicesApiListSessionAttachments(deviceUuid, sessionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List SessionNote rows for a session (oldest first per D-20).  Role scoping (D-09 / D-14): - field_worker: only own device\'s session notes - manager/owner: any workspace device\'s session notes  Returns a uniform 403 for non-existent / cross-device / cross-workspace / unauthorized-field-worker cases (prevents session-ID enumeration via differential 403 vs 404).
+         * @summary List Session Notes
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiListSessionNotes(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<SessionNoteOut>> {
+            return localVarFp.appsDevicesApiListSessionNotes(deviceUuid, sessionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List image-typed StoredFile attachments for a session with derived GPS coords.  Phase 120-04 (D-11). Each row is a PhotoOut whose lat/lon are resolved per D-07 (nearest DeviceLocation within ±60s of captured_at, falling back to PostGIS ST_LineInterpolatePoint on the session\'s track_geometry for closed sessions, falling back to null). Newest-first ordering (D-17). Presigned download URL with TTL=3600 (D-18).  Coexists with GET .../sessions/{session_id}/attachments which returns ALL attachment types — that endpoint is preserved unchanged for the v1.20 mobile consumer (Plan 105) per CONTEXT D-11.  Role scoping (D-12 = v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: any workspace device\'s photos
+         * @summary List Session Photos
+         * @param {string} deviceUuid 
+         * @param {string} sessionId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiListSessionPhotos(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<PhotoOut>> {
+            return localVarFp.appsDevicesApiListSessionPhotos(deviceUuid, sessionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List workspace-wide photos with renderable GPS coords (Phase 122-01).  Returns the newest ``limit`` photos (max 500) whose captured_at is in [from, to] across all workspace devices the requester can see. Photos whose coordinate resolution returns null are excluded (D-05) — only renderable photos cross the wire for the dashboard map layer.  Role scoping (D-04 / v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: all workspace devices  Cross-workspace ``device_ids`` are silently filtered out (no information leak via differential 403). Over 50 ``device_ids`` returns 400 TOO_MANY_DEVICE_IDS to bound query parameter abuse.  Coexists with GET /devices/{uuid}/sessions/{sid}/photos which is preserved unchanged (Phase 120-04). The two endpoints have intentionally different null-coord semantics: per-session keeps null-coord rows (still listed in the session detail panel), workspace-wide drops them (can\'t render).
+         * @summary List Workspace Photos
+         * @param {string | null} [from] Earliest captured_at (default: now - 24h)
+         * @param {string | null} [to] Latest captured_at (default: now)
+         * @param {Array<string> | null} [deviceIds] Restrict to these device IDs (max 50)
+         * @param {number} [limit] Soft cap; max 500 newest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiListWorkspacePhotos(from?: string | null, to?: string | null, deviceIds?: Array<string> | null, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<WorkspacePhotosOut> {
+            return localVarFp.appsDevicesApiListWorkspacePhotos(from, to, deviceIds, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
+         * @summary Pause Shift
+         * @param {string} deviceId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsDevicesApiPauseShift(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
+            return localVarFp.appsDevicesApiPauseShift(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Resume a paused tracking shift (PRD §5.3).  BYOD Security: Only the device owner can resume their shift. Location uploads resume.  State transition: PAUSED → ACTIVE
          * @summary Resume Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiResumeShift(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
-            return localVarFp.appsDevicesApiResumeShift(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiResumeShift(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
+            return localVarFp.appsDevicesApiResumeShift(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Start a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can start their shift. This enables location uploads for this device.  State transition: OFF → ACTIVE Note: If paused, use resume-shift instead.
          * @summary Start Shift
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiStartShift(uuid: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
-            return localVarFp.appsDevicesApiStartShift(uuid, options).then((request) => request(axios, basePath));
+        appsDevicesApiStartShift(deviceId: string, options?: RawAxiosRequestConfig): AxiosPromise<ShiftActionOut> {
+            return localVarFp.appsDevicesApiStartShift(deviceId, options).then((request) => request(axios, basePath));
         },
         /**
          * Update device name, type, or metadata.  - Managers/owners: Can edit any workspace device - Field workers: Can only edit their own device  Note: device_id (external identifier) is NOT editable for BYOD security.
          * @summary Update Device
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {UpdateDeviceIn} updateDeviceIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiUpdateDevice(uuid: string, updateDeviceIn: UpdateDeviceIn, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
-            return localVarFp.appsDevicesApiUpdateDevice(uuid, updateDeviceIn, options).then((request) => request(axios, basePath));
+        appsDevicesApiUpdateDevice(deviceId: string, updateDeviceIn: UpdateDeviceIn, options?: RawAxiosRequestConfig): AxiosPromise<DeviceOut> {
+            return localVarFp.appsDevicesApiUpdateDevice(deviceId, updateDeviceIn, options).then((request) => request(axios, basePath));
         },
         /**
          * Update device location and trigger geofence events.  PRD §4.2 & §5.3: BYOD Security + Shift Enforcement - Only device owner can upload locations - Device must be enabled (is_active) - Shift must be active, OR timestamp falls within past shift window
          * @summary Update Device Location
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {LocationUpdateIn} locationUpdateIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiUpdateDeviceLocation(uuid: string, locationUpdateIn: LocationUpdateIn, options?: RawAxiosRequestConfig): AxiosPromise<LocationUpdateOut> {
-            return localVarFp.appsDevicesApiUpdateDeviceLocation(uuid, locationUpdateIn, options).then((request) => request(axios, basePath));
+        appsDevicesApiUpdateDeviceLocation(deviceId: string, locationUpdateIn: LocationUpdateIn, options?: RawAxiosRequestConfig): AxiosPromise<LocationUpdateOut> {
+            return localVarFp.appsDevicesApiUpdateDeviceLocation(deviceId, locationUpdateIn, options).then((request) => request(axios, basePath));
         },
         /**
-         * Update notes for the current active session.  Notes are stored on the device during the active session and persisted to the DeviceSession record when the shift ends.  BYOD Security: Only the device owner can update notes. Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
+         * Update notes for the current active session.  Mobile-facing endpoint (preserved contract from v1.20). Each call:   1. Truncates the payload to 2000 chars.   2. Writes the truncated body to device.current_session_notes (mobile pre-fill cache).   3. Upserts a SessionNote row keyed on (active_session, author=request.auth)      so the manager-side GET in v1.23 sees an authored note row.  The upsert is idempotent across repeated POSTs during the same shift — calls 2..N update the same row\'s body and refresh created_at. A new shift gets a new SessionNote because the (session, author) key differs.  Concurrency (CR-01): the (session, author) upsert is serialized via select_for_update() on the Device row inside transaction.atomic(). Two concurrent POSTs from the same authenticated user (offline-buffered flush, mobile retry storm, multi-tab race) block at the lock so the second caller sees the first caller\'s row via update_or_create.get() and falls into the UPDATE branch — preventing duplicate (session, author) rows. The Device row lock serializes per-device POSTs without holding a workspace-wide lock.  BYOD Security: Only the device owner can update notes (enforced by get_device_with_permission(require_write=True)). Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
          * @summary Update Session Notes
-         * @param {string} uuid 
+         * @param {string} deviceId 
          * @param {NotesUpdateIn} notesUpdateIn 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiUpdateSessionNotes(uuid: string, notesUpdateIn: NotesUpdateIn, options?: RawAxiosRequestConfig): AxiosPromise<NotesUpdateOut> {
-            return localVarFp.appsDevicesApiUpdateSessionNotes(uuid, notesUpdateIn, options).then((request) => request(axios, basePath));
+        appsDevicesApiUpdateSessionNotes(deviceId: string, notesUpdateIn: NotesUpdateIn, options?: RawAxiosRequestConfig): AxiosPromise<NotesUpdateOut> {
+            return localVarFp.appsDevicesApiUpdateSessionNotes(deviceId, notesUpdateIn, options).then((request) => request(axios, basePath));
         },
         /**
          * Upload CSV file for bulk location import.  This endpoint accepts a CSV file with location data and queues it for async processing. Useful for customer migrations or bulk historical data imports.  **Authentication:** JWT token required **Max File Size:** 50 MB **Max Rows:** 500,000  **CSV Format:** ```csv device_id,ts,lat,lon,accuracy_m,speed_mps,heading_deg,meta_driver truck-005,2025-10-01T14:12:03Z,42.651,-73.756,9.2,12.4,180,alice truck-006,2025-10-01T14:13:00Z,42.652,-73.757,8.5,15.0,175,bob ```  **Required Columns:** - `device_id`: Unique device identifier - `ts`: ISO-8601 timestamp - `lat`: Latitude (-90 to 90) - `lon`: Longitude (-180 to 180)  **Optional Columns:** - `accuracy_m`: GPS accuracy in meters - `speed_mps`: Speed in meters per second - `heading_deg`: Heading in degrees (0-359) - `meta_*`: Metadata columns (e.g., meta_driver, meta_cargo)  **Validation Rules:** - Rejects entire import if >1% rows are invalid - Rejects timestamps > 5 minutes in the future - Warns for timestamps > 30 days old  **PRD Reference:** §3.1.2 CSV Import Schema **Roadmap:** Phase 2, Task 2.2
@@ -20247,13 +23621,13 @@ export class DevicesApi extends BaseAPI {
     /**
      * Activate a device - admin/manager action (PRD §4.2).  This is an administrative action that enables the device. - Managers/owners: Can activate any workspace device - Field workers: Can only activate their own device
      * @summary Activate Device
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiActivateDevice(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiActivateDevice(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiActivateDevice(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiActivateDevice(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -20281,39 +23655,53 @@ export class DevicesApi extends BaseAPI {
     }
 
     /**
-     * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
-     * @summary Deactivate Device
-     * @param {string} uuid 
+     * Append a manager-authored SessionNote (manager + owner only per D-04, append-only per D-03).  Body is truncated to 2000 chars to match the field-worker constraint. Allowed on active OR closed sessions (D-03 supports retroactive annotation). Each POST inserts a NEW SessionNote row — no upsert.  WR-05: returns 201 Created (RFC 7231 §6.3.2) since this is genuine resource creation. The mobile NotesUpdateOut endpoint still returns 200 because it is an upsert, not a create.  WR-06: rejects an empty / whitespace-only body with 400 + error_code=\"EMPTY_BODY\" rather than inserting a noise row.
+     * @summary Create Manager Session Note
+     * @param {string} deviceUuid 
+     * @param {string} sessionId 
+     * @param {SessionNoteIn} sessionNoteIn 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiDeactivateDevice(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiDeactivateDevice(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiCreateManagerSessionNote(deviceUuid: string, sessionId: string, sessionNoteIn: SessionNoteIn, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiCreateManagerSessionNote(deviceUuid, sessionId, sessionNoteIn, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Deactivate a device - admin/manager action (PRD §4.2).  This is an administrative action that disables the device entirely. - Managers/owners: Can deactivate any workspace device - Field workers: Can only deactivate their own device
+     * @summary Deactivate Device
+     * @param {string} deviceId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DevicesApi
+     */
+    public appsDevicesApiDeactivateDevice(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiDeactivateDevice(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Delete a device (PRD §4.2).  - Managers/owners: Can delete any workspace device - Field workers: Can only delete their own device
      * @summary Delete Device
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiDeleteDevice(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiDeleteDevice(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiDeleteDevice(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiDeleteDevice(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * End a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can end their shift. Location uploads stop. Offline-buffered locations with timestamps within the shift window will still be accepted.  State transition: ACTIVE → OFF (or PAUSED → OFF)
      * @summary End Shift
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiEndShift(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiEndShift(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiEndShift(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiEndShift(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -20331,6 +23719,18 @@ export class DevicesApi extends BaseAPI {
      */
     public appsDevicesApiExportEventsEndpoint(format: string, fromDate?: string, toDate?: string, deviceIds?: string, geofenceIds?: string, eventType?: string, options?: RawAxiosRequestConfig) {
         return DevicesApiFp(this.configuration).appsDevicesApiExportEventsEndpoint(format, fromDate, toDate, deviceIds, geofenceIds, eventType, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get the open DeviceSession for the device\'s current shift.  Returns 200 + DeviceSessionOut when the device has an open session (ended_at IS NULL). Returns 404 when the device is not currently on shift (shift_status=\'off\').  Lazy-creates a session row for legacy in-flight v1.19 shifts (device.shift_status=\'active\' but no open DeviceSession row), using device.shift_started_at as the started_at value. This reconciliation is idempotent: a second call returns the same session row.  Role scoping (via get_device_with_permission): - field_worker: only own device (other device → 404) - manager/owner: any workspace device
+     * @summary Get Active Session
+     * @param {string} deviceUuid 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DevicesApi
+     */
+    public appsDevicesApiGetActiveSession(deviceUuid: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetActiveSession(deviceUuid, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -20361,41 +23761,41 @@ export class DevicesApi extends BaseAPI {
     /**
      * Get device details by UUID (PRD §4).  - Managers/owners: Can view any workspace device - Field workers: Can only view their own device
      * @summary Get Device
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiGetDevice(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiGetDevice(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiGetDevice(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetDevice(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get geofence events for a device (PRD §4).  - Managers/owners: Can view events for any workspace device - Field workers: Can only view events for their own device
      * @summary Get Device Events
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {number} [limit] 
      * @param {number} [offset] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiGetDeviceEvents(uuid: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiGetDeviceEvents(uuid, limit, offset, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiGetDeviceEvents(deviceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetDeviceEvents(deviceId, limit, offset, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get completed session history for a device.  Returns a list of all completed tracking sessions (shifts) with computed stats like duration, location count, and distance traveled.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
      * @summary Get Device Sessions
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {number} [limit] 
      * @param {number} [offset] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiGetDeviceSessions(uuid: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiGetDeviceSessions(uuid, limit, offset, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiGetDeviceSessions(deviceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetDeviceSessions(deviceId, limit, offset, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -20454,35 +23854,35 @@ export class DevicesApi extends BaseAPI {
     }
 
     /**
-     * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. simulation devices or devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
+     * Get recent locations for a device, independent of sessions.  Returns the most recent GPS points for the device, ordered newest-first. Useful for rendering device trails when no session history exists (e.g. devices that haven\'t started shifts).  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
      * @summary Get Recent Locations
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiGetRecentLocations(uuid: string, limit?: number, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiGetRecentLocations(uuid, limit, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiGetRecentLocations(deviceId: string, limit?: number, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetRecentLocations(deviceId, limit, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get single session details.  Returns detailed information about a specific completed session, including time bounds needed for location queries.  - Managers/owners: Can view sessions for any workspace device - Field workers: Can only view sessions for their own device
      * @summary Get Session Detail
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {string} sessionId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiGetSessionDetail(uuid: string, sessionId: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiGetSessionDetail(uuid, sessionId, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiGetSessionDetail(deviceId: string, sessionId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetSessionDetail(deviceId, sessionId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get locations for a specific session with pagination or simplification.  Returns GPS track points recorded during the session.  **Pagination mode** (default): Use `limit` and `offset` to paginate through all points.  **Simplification mode**: Set `max_points` to return a simplified track using Douglas-Peucker algorithm (PostGIS ST_Simplify). Useful for rendering long tracks without loading all points. When `max_points` is set, pagination is ignored.  Important notes for simplification mode: - `max_points` is a **target**, not a hard cap. Actual count may vary based on track shape. - When `simplified=true`, timestamps are **linearly interpolated** between session   start/end and should not be used for speed or pause analysis. - Accuracy, speed, and heading are lost during simplification (returned as null).  Note: Track history only includes location updates that pass quality filters (accuracy <= 100m, minimum movement distance). This ensures clean GPS tracks without jitter or poor-quality readings.  - Managers/owners: Can view locations for any workspace device - Field workers: Can only view locations for their own device
      * @summary Get Session Locations
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {string} sessionId 
      * @param {number} [limit] 
      * @param {number} [offset] 
@@ -20491,8 +23891,8 @@ export class DevicesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiGetSessionLocations(uuid: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiGetSessionLocations(uuid, sessionId, limit, offset, maxPoints, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiGetSessionLocations(deviceId: string, sessionId: string, limit?: number, offset?: number, maxPoints?: number | null, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiGetSessionLocations(deviceId, sessionId, limit, offset, maxPoints, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -20509,78 +23909,132 @@ export class DevicesApi extends BaseAPI {
     }
 
     /**
-     * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
-     * @summary Pause Shift
-     * @param {string} uuid 
+     * List attachments (StoredFile records) linked to a device session.  Role scoping (D-09): - field_worker: sees only attachments from their own sessions. - manager/owner: sees all workspace-wide attachments for the session.
+     * @summary List Session Attachments
+     * @param {string} deviceUuid 
+     * @param {string} sessionId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiPauseShift(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiPauseShift(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiListSessionAttachments(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiListSessionAttachments(deviceUuid, sessionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List SessionNote rows for a session (oldest first per D-20).  Role scoping (D-09 / D-14): - field_worker: only own device\'s session notes - manager/owner: any workspace device\'s session notes  Returns a uniform 403 for non-existent / cross-device / cross-workspace / unauthorized-field-worker cases (prevents session-ID enumeration via differential 403 vs 404).
+     * @summary List Session Notes
+     * @param {string} deviceUuid 
+     * @param {string} sessionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DevicesApi
+     */
+    public appsDevicesApiListSessionNotes(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiListSessionNotes(deviceUuid, sessionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List image-typed StoredFile attachments for a session with derived GPS coords.  Phase 120-04 (D-11). Each row is a PhotoOut whose lat/lon are resolved per D-07 (nearest DeviceLocation within ±60s of captured_at, falling back to PostGIS ST_LineInterpolatePoint on the session\'s track_geometry for closed sessions, falling back to null). Newest-first ordering (D-17). Presigned download URL with TTL=3600 (D-18).  Coexists with GET .../sessions/{session_id}/attachments which returns ALL attachment types — that endpoint is preserved unchanged for the v1.20 mobile consumer (Plan 105) per CONTEXT D-11.  Role scoping (D-12 = v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: any workspace device\'s photos
+     * @summary List Session Photos
+     * @param {string} deviceUuid 
+     * @param {string} sessionId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DevicesApi
+     */
+    public appsDevicesApiListSessionPhotos(deviceUuid: string, sessionId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiListSessionPhotos(deviceUuid, sessionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List workspace-wide photos with renderable GPS coords (Phase 122-01).  Returns the newest ``limit`` photos (max 500) whose captured_at is in [from, to] across all workspace devices the requester can see. Photos whose coordinate resolution returns null are excluded (D-05) — only renderable photos cross the wire for the dashboard map layer.  Role scoping (D-04 / v1.20 D-09): - field_worker: only own device\'s photos - manager/owner: all workspace devices  Cross-workspace ``device_ids`` are silently filtered out (no information leak via differential 403). Over 50 ``device_ids`` returns 400 TOO_MANY_DEVICE_IDS to bound query parameter abuse.  Coexists with GET /devices/{uuid}/sessions/{sid}/photos which is preserved unchanged (Phase 120-04). The two endpoints have intentionally different null-coord semantics: per-session keeps null-coord rows (still listed in the session detail panel), workspace-wide drops them (can\'t render).
+     * @summary List Workspace Photos
+     * @param {string | null} [from] Earliest captured_at (default: now - 24h)
+     * @param {string | null} [to] Latest captured_at (default: now)
+     * @param {Array<string> | null} [deviceIds] Restrict to these device IDs (max 50)
+     * @param {number} [limit] Soft cap; max 500 newest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DevicesApi
+     */
+    public appsDevicesApiListWorkspacePhotos(from?: string | null, to?: string | null, deviceIds?: Array<string> | null, limit?: number, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiListWorkspacePhotos(from, to, deviceIds, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Pause a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can pause their shift. Location uploads are paused until resumed.  State transition: ACTIVE → PAUSED
+     * @summary Pause Shift
+     * @param {string} deviceId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DevicesApi
+     */
+    public appsDevicesApiPauseShift(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiPauseShift(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Resume a paused tracking shift (PRD §5.3).  BYOD Security: Only the device owner can resume their shift. Location uploads resume.  State transition: PAUSED → ACTIVE
      * @summary Resume Shift
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiResumeShift(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiResumeShift(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiResumeShift(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiResumeShift(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Start a tracking shift (PRD §5.3).  BYOD Security: Only the device owner can start their shift. This enables location uploads for this device.  State transition: OFF → ACTIVE Note: If paused, use resume-shift instead.
      * @summary Start Shift
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiStartShift(uuid: string, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiStartShift(uuid, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiStartShift(deviceId: string, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiStartShift(deviceId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Update device name, type, or metadata.  - Managers/owners: Can edit any workspace device - Field workers: Can only edit their own device  Note: device_id (external identifier) is NOT editable for BYOD security.
      * @summary Update Device
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {UpdateDeviceIn} updateDeviceIn 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiUpdateDevice(uuid: string, updateDeviceIn: UpdateDeviceIn, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiUpdateDevice(uuid, updateDeviceIn, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiUpdateDevice(deviceId: string, updateDeviceIn: UpdateDeviceIn, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiUpdateDevice(deviceId, updateDeviceIn, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Update device location and trigger geofence events.  PRD §4.2 & §5.3: BYOD Security + Shift Enforcement - Only device owner can upload locations - Device must be enabled (is_active) - Shift must be active, OR timestamp falls within past shift window
      * @summary Update Device Location
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {LocationUpdateIn} locationUpdateIn 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiUpdateDeviceLocation(uuid: string, locationUpdateIn: LocationUpdateIn, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiUpdateDeviceLocation(uuid, locationUpdateIn, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiUpdateDeviceLocation(deviceId: string, locationUpdateIn: LocationUpdateIn, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiUpdateDeviceLocation(deviceId, locationUpdateIn, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Update notes for the current active session.  Notes are stored on the device during the active session and persisted to the DeviceSession record when the shift ends.  BYOD Security: Only the device owner can update notes. Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
+     * Update notes for the current active session.  Mobile-facing endpoint (preserved contract from v1.20). Each call:   1. Truncates the payload to 2000 chars.   2. Writes the truncated body to device.current_session_notes (mobile pre-fill cache).   3. Upserts a SessionNote row keyed on (active_session, author=request.auth)      so the manager-side GET in v1.23 sees an authored note row.  The upsert is idempotent across repeated POSTs during the same shift — calls 2..N update the same row\'s body and refresh created_at. A new shift gets a new SessionNote because the (session, author) key differs.  Concurrency (CR-01): the (session, author) upsert is serialized via select_for_update() on the Device row inside transaction.atomic(). Two concurrent POSTs from the same authenticated user (offline-buffered flush, mobile retry storm, multi-tab race) block at the lock so the second caller sees the first caller\'s row via update_or_create.get() and falls into the UPDATE branch — preventing duplicate (session, author) rows. The Device row lock serializes per-device POSTs without holding a workspace-wide lock.  BYOD Security: Only the device owner can update notes (enforced by get_device_with_permission(require_write=True)). Must have an active or paused shift to update notes.  Notes are limited to 2000 characters.
      * @summary Update Session Notes
-     * @param {string} uuid 
+     * @param {string} deviceId 
      * @param {NotesUpdateIn} notesUpdateIn 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DevicesApi
      */
-    public appsDevicesApiUpdateSessionNotes(uuid: string, notesUpdateIn: NotesUpdateIn, options?: RawAxiosRequestConfig) {
-        return DevicesApiFp(this.configuration).appsDevicesApiUpdateSessionNotes(uuid, notesUpdateIn, options).then((request) => request(this.axios, this.basePath));
+    public appsDevicesApiUpdateSessionNotes(deviceId: string, notesUpdateIn: NotesUpdateIn, options?: RawAxiosRequestConfig) {
+        return DevicesApiFp(this.configuration).appsDevicesApiUpdateSessionNotes(deviceId, notesUpdateIn, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -21163,6 +24617,79 @@ export const EmailApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
+         * @summary Unsubscribe
+         * @param {UnsubscribeRequest} unsubscribeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsEmailUnsubscribeUnsubscribe: async (unsubscribeRequest: UnsubscribeRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'unsubscribeRequest' is not null or undefined
+            assertParamExists('appsEmailUnsubscribeUnsubscribe', 'unsubscribeRequest', unsubscribeRequest)
+            const localVarPath = `/api/v1/email/unsubscribe`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(unsubscribeRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
+         * @summary Verify Unsubscribe Token
+         * @param {string} token 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsEmailUnsubscribeVerifyUnsubscribeToken: async (token: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'token' is not null or undefined
+            assertParamExists('appsEmailUnsubscribeVerifyUnsubscribeToken', 'token', token)
+            const localVarPath = `/api/v1/email/unsubscribe/verify`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (token !== undefined) {
+                localVarQueryParameter['token'] = token;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -21181,7 +24708,7 @@ export const EmailApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsEmailApiGetEmailHistory(limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsEmailApiGetEmailHistory(limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EmailHistoryOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsEmailApiGetEmailHistory(limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EmailApi.appsEmailApiGetEmailHistory']?.[localVarOperationServerIndex]?.url;
@@ -21263,6 +24790,32 @@ export const EmailApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['EmailApi.appsEmailApiSendTestEmail']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
+         * @summary Unsubscribe
+         * @param {UnsubscribeRequest} unsubscribeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsEmailUnsubscribeUnsubscribe(unsubscribeRequest: UnsubscribeRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UnsubscribeResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsEmailUnsubscribeUnsubscribe(unsubscribeRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EmailApi.appsEmailUnsubscribeUnsubscribe']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
+         * @summary Verify Unsubscribe Token
+         * @param {string} token 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsEmailUnsubscribeVerifyUnsubscribeToken(token: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsEmailUnsubscribeVerifyUnsubscribeToken(token, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EmailApi.appsEmailUnsubscribeVerifyUnsubscribeToken']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -21281,7 +24834,7 @@ export const EmailApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsEmailApiGetEmailHistory(limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsEmailApiGetEmailHistory(limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<EmailHistoryOut> {
             return localVarFp.appsEmailApiGetEmailHistory(limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
@@ -21341,6 +24894,26 @@ export const EmailApiFactory = function (configuration?: Configuration, basePath
          */
         appsEmailApiSendTestEmail(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
             return localVarFp.appsEmailApiSendTestEmail(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
+         * @summary Unsubscribe
+         * @param {UnsubscribeRequest} unsubscribeRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsEmailUnsubscribeUnsubscribe(unsubscribeRequest: UnsubscribeRequest, options?: RawAxiosRequestConfig): AxiosPromise<UnsubscribeResponse> {
+            return localVarFp.appsEmailUnsubscribeUnsubscribe(unsubscribeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
+         * @summary Verify Unsubscribe Token
+         * @param {string} token 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsEmailUnsubscribeVerifyUnsubscribeToken(token: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+            return localVarFp.appsEmailUnsubscribeVerifyUnsubscribeToken(token, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -21433,6 +25006,30 @@ export class EmailApi extends BaseAPI {
      */
     public appsEmailApiSendTestEmail(options?: RawAxiosRequestConfig) {
         return EmailApiFp(this.configuration).appsEmailApiSendTestEmail(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Handle email unsubscribe requests.  Verifies the signed timestamped token (max 90 days old) and adds the email to the blacklist. This endpoint is public (no authentication required) to allow one-click unsubscribe from emails.  Rate limited to 10 requests per minute per IP to prevent abuse.
+     * @summary Unsubscribe
+     * @param {UnsubscribeRequest} unsubscribeRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EmailApi
+     */
+    public appsEmailUnsubscribeUnsubscribe(unsubscribeRequest: UnsubscribeRequest, options?: RawAxiosRequestConfig) {
+        return EmailApiFp(this.configuration).appsEmailUnsubscribeUnsubscribe(unsubscribeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Verify an unsubscribe token without actually unsubscribing.  This can be used by the frontend to show a confirmation page before the user confirms they want to unsubscribe.
+     * @summary Verify Unsubscribe Token
+     * @param {string} token 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EmailApi
+     */
+    public appsEmailUnsubscribeVerifyUnsubscribeToken(token: string, options?: RawAxiosRequestConfig) {
+        return EmailApiFp(this.configuration).appsEmailUnsubscribeVerifyUnsubscribeToken(token, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -21938,7 +25535,7 @@ export const GPXSimulatorApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsDevicesApiGpxDeleteGpxRoute(routeId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsDevicesApiGpxDeleteGpxRoute(routeId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiGpxDeleteGpxRoute(routeId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GPXSimulatorApi.appsDevicesApiGpxDeleteGpxRoute']?.[localVarOperationServerIndex]?.url;
@@ -22083,7 +25680,7 @@ export const GPXSimulatorApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsDevicesApiGpxDeleteGpxRoute(routeId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsDevicesApiGpxDeleteGpxRoute(routeId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsDevicesApiGpxDeleteGpxRoute(routeId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -22872,16 +26469,15 @@ export const GeofencesApiAxiosParamCreator = function (configuration?: Configura
          * Trigger a simulated test event for a geofence.  This allows users to test their webhooks and workflows without physically entering or exiting the geofence.  Args:     geofence_id: ID of the geofence     event_type: Type of event to simulate (\'enter\' or \'exit\')     test_metadata: Optional metadata to include in the test event  Returns:     Test event details including triggered webhooks and workflows
          * @summary Trigger Test Event
          * @param {string} geofenceId 
-         * @param {string} eventType 
-         * @param {TestEventRequest} [testEventRequest] 
+         * @param {TestEventRequest} testEventRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiTriggerTestEvent: async (geofenceId: string, eventType: string, testEventRequest?: TestEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        appsGeofencesApiTriggerTestEvent: async (geofenceId: string, testEventRequest: TestEventRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'geofenceId' is not null or undefined
             assertParamExists('appsGeofencesApiTriggerTestEvent', 'geofenceId', geofenceId)
-            // verify required parameter 'eventType' is not null or undefined
-            assertParamExists('appsGeofencesApiTriggerTestEvent', 'eventType', eventType)
+            // verify required parameter 'testEventRequest' is not null or undefined
+            assertParamExists('appsGeofencesApiTriggerTestEvent', 'testEventRequest', testEventRequest)
             const localVarPath = `/api/v1/geofences/{geofence_id}/test-event`
                 .replace(`{${"geofence_id"}}`, encodeURIComponent(String(geofenceId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -22901,10 +26497,6 @@ export const GeofencesApiAxiosParamCreator = function (configuration?: Configura
             // authentication JWTBearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (eventType !== undefined) {
-                localVarQueryParameter['event_type'] = eventType;
-            }
 
 
     
@@ -22971,11 +26563,11 @@ export const GeofencesApiAxiosParamCreator = function (configuration?: Configura
          * Assign or update a geofence\'s group.
          * @summary Update Geofence Group
          * @param {string} geofenceId 
-         * @param {string} [groupName] 
+         * @param {string | null} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiUpdateGeofenceGroup: async (geofenceId: string, groupName?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        appsGeofencesApiUpdateGeofenceGroup: async (geofenceId: string, body?: string | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'geofenceId' is not null or undefined
             assertParamExists('appsGeofencesApiUpdateGeofenceGroup', 'geofenceId', geofenceId)
             const localVarPath = `/api/v1/geofences/{geofence_id}/group`
@@ -22998,15 +26590,14 @@ export const GeofencesApiAxiosParamCreator = function (configuration?: Configura
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (groupName !== undefined) {
-                localVarQueryParameter['group_name'] = groupName;
-            }
-
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -23099,7 +26690,7 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiDeleteGeofence(geofenceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsGeofencesApiDeleteGeofence(geofenceId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiDeleteGeofence(geofenceId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiDeleteGeofence']?.[localVarOperationServerIndex]?.url;
@@ -23123,7 +26714,7 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiGetActiveGeofencesSummary(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsGeofencesApiGetActiveGeofencesSummary(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActiveGeofenceSummaryOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiGetActiveGeofencesSummary(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiGetActiveGeofencesSummary']?.[localVarOperationServerIndex]?.url;
@@ -23151,7 +26742,7 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiGetTestEventHistory(geofenceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsGeofencesApiGetTestEventHistory(geofenceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TestEventHistoryOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiGetTestEventHistory(geofenceId, limit, offset, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiGetTestEventHistory']?.[localVarOperationServerIndex]?.url;
@@ -23176,7 +26767,7 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiListGeofenceGroups(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsGeofencesApiListGeofenceGroups(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GeofenceGroupsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiListGeofenceGroups(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiListGeofenceGroups']?.[localVarOperationServerIndex]?.url;
@@ -23204,7 +26795,7 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiListGroupGeofences(groupId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsGeofencesApiListGroupGeofences(groupId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupGeofencesOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiListGroupGeofences(groupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiListGroupGeofences']?.[localVarOperationServerIndex]?.url;
@@ -23218,7 +26809,7 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiTestGroupPoint(groupId: string, testPointRequest: TestPointRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsGeofencesApiTestGroupPoint(groupId: string, testPointRequest: TestPointRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupTestPointOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiTestGroupPoint(groupId, testPointRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiTestGroupPoint']?.[localVarOperationServerIndex]?.url;
@@ -23241,13 +26832,12 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * Trigger a simulated test event for a geofence.  This allows users to test their webhooks and workflows without physically entering or exiting the geofence.  Args:     geofence_id: ID of the geofence     event_type: Type of event to simulate (\'enter\' or \'exit\')     test_metadata: Optional metadata to include in the test event  Returns:     Test event details including triggered webhooks and workflows
          * @summary Trigger Test Event
          * @param {string} geofenceId 
-         * @param {string} eventType 
-         * @param {TestEventRequest} [testEventRequest] 
+         * @param {TestEventRequest} testEventRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiTriggerTestEvent(geofenceId: string, eventType: string, testEventRequest?: TestEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiTriggerTestEvent(geofenceId, eventType, testEventRequest, options);
+        async appsGeofencesApiTriggerTestEvent(geofenceId: string, testEventRequest: TestEventRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiTriggerTestEvent(geofenceId, testEventRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiTriggerTestEvent']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -23270,12 +26860,12 @@ export const GeofencesApiFp = function(configuration?: Configuration) {
          * Assign or update a geofence\'s group.
          * @summary Update Geofence Group
          * @param {string} geofenceId 
-         * @param {string} [groupName] 
+         * @param {string | null} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsGeofencesApiUpdateGeofenceGroup(geofenceId: string, groupName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiUpdateGeofenceGroup(geofenceId, groupName, options);
+        async appsGeofencesApiUpdateGeofenceGroup(geofenceId: string, body?: string | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GeofenceGroupUpdateOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsGeofencesApiUpdateGeofenceGroup(geofenceId, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['GeofencesApi.appsGeofencesApiUpdateGeofenceGroup']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -23330,7 +26920,7 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiDeleteGeofence(geofenceId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsGeofencesApiDeleteGeofence(geofenceId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsGeofencesApiDeleteGeofence(geofenceId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -23348,7 +26938,7 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiGetActiveGeofencesSummary(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsGeofencesApiGetActiveGeofencesSummary(options?: RawAxiosRequestConfig): AxiosPromise<ActiveGeofenceSummaryOut> {
             return localVarFp.appsGeofencesApiGetActiveGeofencesSummary(options).then((request) => request(axios, basePath));
         },
         /**
@@ -23370,7 +26960,7 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiGetTestEventHistory(geofenceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsGeofencesApiGetTestEventHistory(geofenceId: string, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<TestEventHistoryOut> {
             return localVarFp.appsGeofencesApiGetTestEventHistory(geofenceId, limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
@@ -23389,7 +26979,7 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiListGeofenceGroups(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsGeofencesApiListGeofenceGroups(options?: RawAxiosRequestConfig): AxiosPromise<GeofenceGroupsOut> {
             return localVarFp.appsGeofencesApiListGeofenceGroups(options).then((request) => request(axios, basePath));
         },
         /**
@@ -23411,7 +27001,7 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiListGroupGeofences(groupId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsGeofencesApiListGroupGeofences(groupId: string, options?: RawAxiosRequestConfig): AxiosPromise<GroupGeofencesOut> {
             return localVarFp.appsGeofencesApiListGroupGeofences(groupId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -23422,7 +27012,7 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiTestGroupPoint(groupId: string, testPointRequest: TestPointRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsGeofencesApiTestGroupPoint(groupId: string, testPointRequest: TestPointRequest, options?: RawAxiosRequestConfig): AxiosPromise<GroupTestPointOut> {
             return localVarFp.appsGeofencesApiTestGroupPoint(groupId, testPointRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -23439,13 +27029,12 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * Trigger a simulated test event for a geofence.  This allows users to test their webhooks and workflows without physically entering or exiting the geofence.  Args:     geofence_id: ID of the geofence     event_type: Type of event to simulate (\'enter\' or \'exit\')     test_metadata: Optional metadata to include in the test event  Returns:     Test event details including triggered webhooks and workflows
          * @summary Trigger Test Event
          * @param {string} geofenceId 
-         * @param {string} eventType 
-         * @param {TestEventRequest} [testEventRequest] 
+         * @param {TestEventRequest} testEventRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiTriggerTestEvent(geofenceId: string, eventType: string, testEventRequest?: TestEventRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsGeofencesApiTriggerTestEvent(geofenceId, eventType, testEventRequest, options).then((request) => request(axios, basePath));
+        appsGeofencesApiTriggerTestEvent(geofenceId: string, testEventRequest: TestEventRequest, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+            return localVarFp.appsGeofencesApiTriggerTestEvent(geofenceId, testEventRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Update existing polygon geofence.
@@ -23462,12 +27051,12 @@ export const GeofencesApiFactory = function (configuration?: Configuration, base
          * Assign or update a geofence\'s group.
          * @summary Update Geofence Group
          * @param {string} geofenceId 
-         * @param {string} [groupName] 
+         * @param {string | null} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsGeofencesApiUpdateGeofenceGroup(geofenceId: string, groupName?: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsGeofencesApiUpdateGeofenceGroup(geofenceId, groupName, options).then((request) => request(axios, basePath));
+        appsGeofencesApiUpdateGeofenceGroup(geofenceId: string, body?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<GeofenceGroupUpdateOut> {
+            return localVarFp.appsGeofencesApiUpdateGeofenceGroup(geofenceId, body, options).then((request) => request(axios, basePath));
         },
         /**
          * Upload geofences from a file (asynchronous).  This endpoint queues a background job to process geofence imports from various file formats: - GeoJSON (.geojson, .json) - Standard geospatial format - KML (.kml) - Google Earth format - GPX (.gpx) - GPS track format (converted to polygon buffers)  The file must first be uploaded using the storage API to get a file_id. All imported geofences can optionally be assigned to a group.  Returns a job ID to track the import progress.
@@ -23651,14 +27240,13 @@ export class GeofencesApi extends BaseAPI {
      * Trigger a simulated test event for a geofence.  This allows users to test their webhooks and workflows without physically entering or exiting the geofence.  Args:     geofence_id: ID of the geofence     event_type: Type of event to simulate (\'enter\' or \'exit\')     test_metadata: Optional metadata to include in the test event  Returns:     Test event details including triggered webhooks and workflows
      * @summary Trigger Test Event
      * @param {string} geofenceId 
-     * @param {string} eventType 
-     * @param {TestEventRequest} [testEventRequest] 
+     * @param {TestEventRequest} testEventRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GeofencesApi
      */
-    public appsGeofencesApiTriggerTestEvent(geofenceId: string, eventType: string, testEventRequest?: TestEventRequest, options?: RawAxiosRequestConfig) {
-        return GeofencesApiFp(this.configuration).appsGeofencesApiTriggerTestEvent(geofenceId, eventType, testEventRequest, options).then((request) => request(this.axios, this.basePath));
+    public appsGeofencesApiTriggerTestEvent(geofenceId: string, testEventRequest: TestEventRequest, options?: RawAxiosRequestConfig) {
+        return GeofencesApiFp(this.configuration).appsGeofencesApiTriggerTestEvent(geofenceId, testEventRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -23678,13 +27266,13 @@ export class GeofencesApi extends BaseAPI {
      * Assign or update a geofence\'s group.
      * @summary Update Geofence Group
      * @param {string} geofenceId 
-     * @param {string} [groupName] 
+     * @param {string | null} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof GeofencesApi
      */
-    public appsGeofencesApiUpdateGeofenceGroup(geofenceId: string, groupName?: string, options?: RawAxiosRequestConfig) {
-        return GeofencesApiFp(this.configuration).appsGeofencesApiUpdateGeofenceGroup(geofenceId, groupName, options).then((request) => request(this.axios, this.basePath));
+    public appsGeofencesApiUpdateGeofenceGroup(geofenceId: string, body?: string | null, options?: RawAxiosRequestConfig) {
+        return GeofencesApiFp(this.configuration).appsGeofencesApiUpdateGeofenceGroup(geofenceId, body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -23712,11 +27300,11 @@ export const IntegrationsApiAxiosParamCreator = function (configuration?: Config
          * Export multiple integrations at once.  If integration_ids is not provided, exports all user\'s integrations.
          * @summary Bulk Export Integrations
          * @param {boolean} [includeSecrets] 
-         * @param {Array<string | null> | null} [requestBody] 
+         * @param {Array<string> | null} [requestBody] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsIntegrationsApiBulkExportIntegrations: async (includeSecrets?: boolean, requestBody?: Array<string | null> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        appsIntegrationsApiBulkExportIntegrations: async (includeSecrets?: boolean, requestBody?: Array<string> | null, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v1/integrations/bulk-export`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -24846,11 +28434,11 @@ export const IntegrationsApiFp = function(configuration?: Configuration) {
          * Export multiple integrations at once.  If integration_ids is not provided, exports all user\'s integrations.
          * @summary Bulk Export Integrations
          * @param {boolean} [includeSecrets] 
-         * @param {Array<string | null> | null} [requestBody] 
+         * @param {Array<string> | null} [requestBody] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsIntegrationsApiBulkExportIntegrations(includeSecrets?: boolean, requestBody?: Array<string | null> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExportIntegrationSchema>>> {
+        async appsIntegrationsApiBulkExportIntegrations(includeSecrets?: boolean, requestBody?: Array<string> | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExportIntegrationSchema>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsIntegrationsApiBulkExportIntegrations(includeSecrets, requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['IntegrationsApi.appsIntegrationsApiBulkExportIntegrations']?.[localVarOperationServerIndex]?.url;
@@ -24932,7 +28520,7 @@ export const IntegrationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsIntegrationsApiDeleteIntegration(integrationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsIntegrationsApiDeleteIntegration(integrationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsIntegrationsApiDeleteIntegration(integrationId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['IntegrationsApi.appsIntegrationsApiDeleteIntegration']?.[localVarOperationServerIndex]?.url;
@@ -24971,7 +28559,7 @@ export const IntegrationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsIntegrationsApiGetAvailableIntegrationTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
+        async appsIntegrationsApiGetAvailableIntegrationTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; } | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsIntegrationsApiGetAvailableIntegrationTypes(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['IntegrationsApi.appsIntegrationsApiGetAvailableIntegrationTypes']?.[localVarOperationServerIndex]?.url;
@@ -24996,7 +28584,7 @@ export const IntegrationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsIntegrationsApiGetIntegrationErrorStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsIntegrationsApiGetIntegrationErrorStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IntegrationErrorStatsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsIntegrationsApiGetIntegrationErrorStats(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['IntegrationsApi.appsIntegrationsApiGetIntegrationErrorStats']?.[localVarOperationServerIndex]?.url;
@@ -25121,7 +28709,7 @@ export const IntegrationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsIntegrationsApiTestAllIntegrations(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
+        async appsIntegrationsApiTestAllIntegrations(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; } | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsIntegrationsApiTestAllIntegrations(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['IntegrationsApi.appsIntegrationsApiTestAllIntegrations']?.[localVarOperationServerIndex]?.url;
@@ -25197,11 +28785,11 @@ export const IntegrationsApiFactory = function (configuration?: Configuration, b
          * Export multiple integrations at once.  If integration_ids is not provided, exports all user\'s integrations.
          * @summary Bulk Export Integrations
          * @param {boolean} [includeSecrets] 
-         * @param {Array<string | null> | null} [requestBody] 
+         * @param {Array<string> | null} [requestBody] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsIntegrationsApiBulkExportIntegrations(includeSecrets?: boolean, requestBody?: Array<string | null> | null, options?: RawAxiosRequestConfig): AxiosPromise<Array<ExportIntegrationSchema>> {
+        appsIntegrationsApiBulkExportIntegrations(includeSecrets?: boolean, requestBody?: Array<string> | null, options?: RawAxiosRequestConfig): AxiosPromise<Array<ExportIntegrationSchema>> {
             return localVarFp.appsIntegrationsApiBulkExportIntegrations(includeSecrets, requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -25265,7 +28853,7 @@ export const IntegrationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsIntegrationsApiDeleteIntegration(integrationId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsIntegrationsApiDeleteIntegration(integrationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsIntegrationsApiDeleteIntegration(integrationId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -25295,7 +28883,7 @@ export const IntegrationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsIntegrationsApiGetAvailableIntegrationTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
+        appsIntegrationsApiGetAvailableIntegrationTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; } | null>> {
             return localVarFp.appsIntegrationsApiGetAvailableIntegrationTypes(options).then((request) => request(axios, basePath));
         },
         /**
@@ -25314,7 +28902,7 @@ export const IntegrationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsIntegrationsApiGetIntegrationErrorStats(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsIntegrationsApiGetIntegrationErrorStats(options?: RawAxiosRequestConfig): AxiosPromise<IntegrationErrorStatsOut> {
             return localVarFp.appsIntegrationsApiGetIntegrationErrorStats(options).then((request) => request(axios, basePath));
         },
         /**
@@ -25412,7 +29000,7 @@ export const IntegrationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsIntegrationsApiTestAllIntegrations(options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
+        appsIntegrationsApiTestAllIntegrations(options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; } | null>> {
             return localVarFp.appsIntegrationsApiTestAllIntegrations(options).then((request) => request(axios, basePath));
         },
         /**
@@ -25473,12 +29061,12 @@ export class IntegrationsApi extends BaseAPI {
      * Export multiple integrations at once.  If integration_ids is not provided, exports all user\'s integrations.
      * @summary Bulk Export Integrations
      * @param {boolean} [includeSecrets] 
-     * @param {Array<string | null> | null} [requestBody] 
+     * @param {Array<string> | null} [requestBody] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof IntegrationsApi
      */
-    public appsIntegrationsApiBulkExportIntegrations(includeSecrets?: boolean, requestBody?: Array<string | null> | null, options?: RawAxiosRequestConfig) {
+    public appsIntegrationsApiBulkExportIntegrations(includeSecrets?: boolean, requestBody?: Array<string> | null, options?: RawAxiosRequestConfig) {
         return IntegrationsApiFp(this.configuration).appsIntegrationsApiBulkExportIntegrations(includeSecrets, requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -25844,7 +29432,7 @@ export const PoliciesApiAxiosParamCreator = function (configuration?: Configurat
         appsDevicesApiPoliciesDeletePolicy: async (policyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'policyId' is not null or undefined
             assertParamExists('appsDevicesApiPoliciesDeletePolicy', 'policyId', policyId)
-            const localVarPath = `/api/v1/policies/{policy_id}/`
+            const localVarPath = `/api/v1/policies/{policy_id}`
                 .replace(`{${"policy_id"}}`, encodeURIComponent(String(policyId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -25882,7 +29470,7 @@ export const PoliciesApiAxiosParamCreator = function (configuration?: Configurat
         appsDevicesApiPoliciesGetPolicy: async (policyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'policyId' is not null or undefined
             assertParamExists('appsDevicesApiPoliciesGetPolicy', 'policyId', policyId)
-            const localVarPath = `/api/v1/policies/{policy_id}/`
+            const localVarPath = `/api/v1/policies/{policy_id}`
                 .replace(`{${"policy_id"}}`, encodeURIComponent(String(policyId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -26006,7 +29594,7 @@ export const PoliciesApiAxiosParamCreator = function (configuration?: Configurat
             assertParamExists('appsDevicesApiPoliciesUpdatePolicy', 'policyId', policyId)
             // verify required parameter 'policyUpdateIn' is not null or undefined
             assertParamExists('appsDevicesApiPoliciesUpdatePolicy', 'policyUpdateIn', policyUpdateIn)
-            const localVarPath = `/api/v1/policies/{policy_id}/`
+            const localVarPath = `/api/v1/policies/{policy_id}`
                 .replace(`{${"policy_id"}}`, encodeURIComponent(String(policyId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -26573,7 +30161,7 @@ export const PublicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicApiGetApiDocs(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicApiGetApiDocs(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiDocsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicApiGetApiDocs(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicApi.appsPublicApiGetApiDocs']?.[localVarOperationServerIndex]?.url;
@@ -26585,7 +30173,7 @@ export const PublicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicApiGetWebsocketRoutes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicApiGetWebsocketRoutes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WebSocketRoutesOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicApiGetWebsocketRoutes(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicApi.appsPublicApiGetWebsocketRoutes']?.[localVarOperationServerIndex]?.url;
@@ -26597,7 +30185,7 @@ export const PublicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicApiHealthCheck(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicApiHealthCheck(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HealthOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicApiHealthCheck(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicApi.appsPublicApiHealthCheck']?.[localVarOperationServerIndex]?.url;
@@ -26609,7 +30197,7 @@ export const PublicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicApiRuntimeConfig(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicApiRuntimeConfig(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuntimeConfigOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicApiRuntimeConfig(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicApi.appsPublicApiRuntimeConfig']?.[localVarOperationServerIndex]?.url;
@@ -26634,7 +30222,7 @@ export const PublicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicApiStatus(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicApiStatus(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatusOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicApiStatus(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicApi.appsPublicApiStatus']?.[localVarOperationServerIndex]?.url;
@@ -26646,7 +30234,7 @@ export const PublicApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicApiSwaggerUi(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicApiSwaggerUi(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DocsUiOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicApiSwaggerUi(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicApi.appsPublicApiSwaggerUi']?.[localVarOperationServerIndex]?.url;
@@ -26678,7 +30266,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicApiGetApiDocs(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicApiGetApiDocs(options?: RawAxiosRequestConfig): AxiosPromise<ApiDocsOut> {
             return localVarFp.appsPublicApiGetApiDocs(options).then((request) => request(axios, basePath));
         },
         /**
@@ -26687,7 +30275,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicApiGetWebsocketRoutes(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicApiGetWebsocketRoutes(options?: RawAxiosRequestConfig): AxiosPromise<WebSocketRoutesOut> {
             return localVarFp.appsPublicApiGetWebsocketRoutes(options).then((request) => request(axios, basePath));
         },
         /**
@@ -26696,7 +30284,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicApiHealthCheck(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicApiHealthCheck(options?: RawAxiosRequestConfig): AxiosPromise<HealthOut> {
             return localVarFp.appsPublicApiHealthCheck(options).then((request) => request(axios, basePath));
         },
         /**
@@ -26705,7 +30293,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicApiRuntimeConfig(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicApiRuntimeConfig(options?: RawAxiosRequestConfig): AxiosPromise<RuntimeConfigOut> {
             return localVarFp.appsPublicApiRuntimeConfig(options).then((request) => request(axios, basePath));
         },
         /**
@@ -26724,7 +30312,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicApiStatus(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicApiStatus(options?: RawAxiosRequestConfig): AxiosPromise<StatusOut> {
             return localVarFp.appsPublicApiStatus(options).then((request) => request(axios, basePath));
         },
         /**
@@ -26733,7 +30321,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicApiSwaggerUi(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicApiSwaggerUi(options?: RawAxiosRequestConfig): AxiosPromise<DocsUiOut> {
             return localVarFp.appsPublicApiSwaggerUi(options).then((request) => request(axios, basePath));
         },
     };
@@ -26984,7 +30572,7 @@ export const PublicLocationIngestApiFp = function(configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsPublicLocationsApiGetIngestStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsPublicLocationsApiGetIngestStats(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IngestStatsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsPublicLocationsApiGetIngestStats(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PublicLocationIngestApi.appsPublicLocationsApiGetIngestStats']?.[localVarOperationServerIndex]?.url;
@@ -27032,7 +30620,7 @@ export const PublicLocationIngestApiFactory = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsPublicLocationsApiGetIngestStats(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsPublicLocationsApiGetIngestStats(options?: RawAxiosRequestConfig): AxiosPromise<IngestStatsOut> {
             return localVarFp.appsPublicLocationsApiGetIngestStats(options).then((request) => request(axios, basePath));
         },
         /**
@@ -27104,205 +30692,13 @@ export class PublicLocationIngestApi extends BaseAPI {
 
 
 /**
- * RouteTesterApi - axios parameter creator
- * @export
- */
-export const RouteTesterApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         *      Upload a GPX or CSV route file and test it against your geofences and workflows.      For small routes (≤500 points): Returns results immediately (200).     For large routes (>500 points): Returns pending status with test_id to poll (202).      Results include:     - Geofence events (enter, exit, dwell)     - Workflows that would trigger     - Payload previews for each action (secrets redacted)      No external actions are executed - this is preview only.     
-         * @summary Run route test
-         * @param {File} file 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiRouteTesterCreateRouteTest: async (file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'file' is not null or undefined
-            assertParamExists('appsDevicesApiRouteTesterCreateRouteTest', 'file', file)
-            const localVarPath = `/api/v1/route-tester/test`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
-            }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get the status or results of a route test. For async tests, poll this endpoint.
-         * @summary Get route test status/results
-         * @param {string} testId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiRouteTesterGetRouteTest: async (testId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'testId' is not null or undefined
-            assertParamExists('appsDevicesApiRouteTesterGetRouteTest', 'testId', testId)
-            const localVarPath = `/api/v1/route-tester/test/{test_id}`
-                .replace(`{${"test_id"}}`, encodeURIComponent(String(testId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * RouteTesterApi - functional programming interface
- * @export
- */
-export const RouteTesterApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = RouteTesterApiAxiosParamCreator(configuration)
-    return {
-        /**
-         *      Upload a GPX or CSV route file and test it against your geofences and workflows.      For small routes (≤500 points): Returns results immediately (200).     For large routes (>500 points): Returns pending status with test_id to poll (202).      Results include:     - Geofence events (enter, exit, dwell)     - Workflows that would trigger     - Payload previews for each action (secrets redacted)      No external actions are executed - this is preview only.     
-         * @summary Run route test
-         * @param {File} file 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiRouteTesterCreateRouteTest(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RouteTestResultsOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiRouteTesterCreateRouteTest(file, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RouteTesterApi.appsDevicesApiRouteTesterCreateRouteTest']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Get the status or results of a route test. For async tests, poll this endpoint.
-         * @summary Get route test status/results
-         * @param {string} testId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiRouteTesterGetRouteTest(testId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RouteTestStatusOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiRouteTesterGetRouteTest(testId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['RouteTesterApi.appsDevicesApiRouteTesterGetRouteTest']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * RouteTesterApi - factory interface
- * @export
- */
-export const RouteTesterApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = RouteTesterApiFp(configuration)
-    return {
-        /**
-         *      Upload a GPX or CSV route file and test it against your geofences and workflows.      For small routes (≤500 points): Returns results immediately (200).     For large routes (>500 points): Returns pending status with test_id to poll (202).      Results include:     - Geofence events (enter, exit, dwell)     - Workflows that would trigger     - Payload previews for each action (secrets redacted)      No external actions are executed - this is preview only.     
-         * @summary Run route test
-         * @param {File} file 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiRouteTesterCreateRouteTest(file: File, options?: RawAxiosRequestConfig): AxiosPromise<RouteTestResultsOut> {
-            return localVarFp.appsDevicesApiRouteTesterCreateRouteTest(file, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get the status or results of a route test. For async tests, poll this endpoint.
-         * @summary Get route test status/results
-         * @param {string} testId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiRouteTesterGetRouteTest(testId: string, options?: RawAxiosRequestConfig): AxiosPromise<RouteTestStatusOut> {
-            return localVarFp.appsDevicesApiRouteTesterGetRouteTest(testId, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * RouteTesterApi - object-oriented interface
- * @export
- * @class RouteTesterApi
- * @extends {BaseAPI}
- */
-export class RouteTesterApi extends BaseAPI {
-    /**
-     *      Upload a GPX or CSV route file and test it against your geofences and workflows.      For small routes (≤500 points): Returns results immediately (200).     For large routes (>500 points): Returns pending status with test_id to poll (202).      Results include:     - Geofence events (enter, exit, dwell)     - Workflows that would trigger     - Payload previews for each action (secrets redacted)      No external actions are executed - this is preview only.     
-     * @summary Run route test
-     * @param {File} file 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RouteTesterApi
-     */
-    public appsDevicesApiRouteTesterCreateRouteTest(file: File, options?: RawAxiosRequestConfig) {
-        return RouteTesterApiFp(this.configuration).appsDevicesApiRouteTesterCreateRouteTest(file, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get the status or results of a route test. For async tests, poll this endpoint.
-     * @summary Get route test status/results
-     * @param {string} testId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof RouteTesterApi
-     */
-    public appsDevicesApiRouteTesterGetRouteTest(testId: string, options?: RawAxiosRequestConfig) {
-        return RouteTesterApiFp(this.configuration).appsDevicesApiRouteTesterGetRouteTest(testId, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
  * SignalsApi - axios parameter creator
  * @export
  */
 export const SignalsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         * Retrieve a single signal event with contributing locations and geofence geometry.
          * @summary Get signal event detail
          * @param {string} signalId 
          * @param {*} [options] Override http request option.
@@ -27311,7 +30707,7 @@ export const SignalsApiAxiosParamCreator = function (configuration?: Configurati
         appsDevicesApiSignalsGetSignal: async (signalId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'signalId' is not null or undefined
             assertParamExists('appsDevicesApiSignalsGetSignal', 'signalId', signalId)
-            const localVarPath = `/api/v1/signals/{signal_id}/`
+            const localVarPath = `/api/v1/signals/{signal_id}`
                 .replace(`{${"signal_id"}}`, encodeURIComponent(String(signalId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -27340,7 +30736,7 @@ export const SignalsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         * List signal events for the authenticated user\'s workspace with optional filtering.
          * @summary List signal events
          * @param {string | null} [signalType] 
          * @param {string | null} [state] 
@@ -27428,7 +30824,7 @@ export const SignalsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = SignalsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         * Retrieve a single signal event with contributing locations and geofence geometry.
          * @summary Get signal event detail
          * @param {string} signalId 
          * @param {*} [options] Override http request option.
@@ -27441,7 +30837,7 @@ export const SignalsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * List signal events for the authenticated user\'s workspace with optional filtering.
          * @summary List signal events
          * @param {string | null} [signalType] 
          * @param {string | null} [state] 
@@ -27471,7 +30867,7 @@ export const SignalsApiFactory = function (configuration?: Configuration, basePa
     const localVarFp = SignalsApiFp(configuration)
     return {
         /**
-         * 
+         * Retrieve a single signal event with contributing locations and geofence geometry.
          * @summary Get signal event detail
          * @param {string} signalId 
          * @param {*} [options] Override http request option.
@@ -27481,7 +30877,7 @@ export const SignalsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.appsDevicesApiSignalsGetSignal(signalId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List signal events for the authenticated user\'s workspace with optional filtering.
          * @summary List signal events
          * @param {string | null} [signalType] 
          * @param {string | null} [state] 
@@ -27508,7 +30904,7 @@ export const SignalsApiFactory = function (configuration?: Configuration, basePa
  */
 export class SignalsApi extends BaseAPI {
     /**
-     * 
+     * Retrieve a single signal event with contributing locations and geofence geometry.
      * @summary Get signal event detail
      * @param {string} signalId 
      * @param {*} [options] Override http request option.
@@ -27520,7 +30916,7 @@ export class SignalsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List signal events for the authenticated user\'s workspace with optional filtering.
      * @summary List signal events
      * @param {string | null} [signalType] 
      * @param {string | null} [state] 
@@ -27536,1311 +30932,6 @@ export class SignalsApi extends BaseAPI {
      */
     public appsDevicesApiSignalsListSignals(signalType?: string | null, state?: string | null, deviceId?: string | null, geofenceId?: string | null, startDate?: string | null, endDate?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
         return SignalsApiFp(this.configuration).appsDevicesApiSignalsListSignals(signalType, state, deviceId, geofenceId, startDate, endDate, limit, offset, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-
-/**
- * SimulationCenterApi - axios parameter creator
- * @export
- */
-export const SimulationCenterApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * Create a new simulation session.  Simulations start in \'draft\' status. Add routes, then start the simulation.  Returns:     201: Created simulation     400: Invalid request     401: Unauthorized
-         * @summary Create Simulation
-         * @param {CreateSimulationRequest} createSimulationRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationCreateSimulation: async (createSimulationRequest: CreateSimulationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'createSimulationRequest' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationCreateSimulation', 'createSimulationRequest', createSimulationRequest)
-            const localVarPath = `/api/v1/simulations`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createSimulationRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Delete a simulation and all associated data.  Running simulations will be cancelled first.
-         * @summary Delete Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationDeleteSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationDeleteSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get track points for a simulation route.  Returns the full list of coordinates for drawing the route on a map.
-         * @summary Get Route Track Points
-         * @param {string} simulationId 
-         * @param {string} routeId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationGetRouteTrackPoints: async (simulationId: string, routeId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationGetRouteTrackPoints', 'simulationId', simulationId)
-            // verify required parameter 'routeId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationGetRouteTrackPoints', 'routeId', routeId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/routes/{route_id}/track-points`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)))
-                .replace(`{${"route_id"}}`, encodeURIComponent(String(routeId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Get detailed simulation info including routes and recent events.
-         * @summary Get Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationGetSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationGetSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List events from a simulation.  Args:     event_type: Optional filter by event type     limit: Maximum number of results     offset: Pagination offset
-         * @summary List Simulation Events
-         * @param {string} simulationId 
-         * @param {string | null} [eventType] 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationListSimulationEvents: async (simulationId: string, eventType?: string | null, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationListSimulationEvents', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/events`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (eventType !== undefined) {
-                localVarQueryParameter['event_type'] = eventType;
-            }
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List simulations for the authenticated user.  Args:     status: Optional filter by status     limit: Maximum number of results     offset: Pagination offset  Returns:     List of simulations
-         * @summary List Simulations
-         * @param {string | null} [status] 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationListSimulations: async (status?: string | null, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/v1/simulations`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (status !== undefined) {
-                localVarQueryParameter['status'] = status;
-            }
-
-            if (limit !== undefined) {
-                localVarQueryParameter['limit'] = limit;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Pause simulation playback.  All routes will stop at their current point and can be resumed.
-         * @summary Pause Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationPauseSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationPauseSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/pause`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Remove a route from the simulation.  Can only remove routes when simulation is in \'draft\' or \'ready\' state.
-         * @summary Remove Route
-         * @param {string} simulationId 
-         * @param {string} routeId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationRemoveRoute: async (simulationId: string, routeId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationRemoveRoute', 'simulationId', simulationId)
-            // verify required parameter 'routeId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationRemoveRoute', 'routeId', routeId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/routes/{route_id}`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)))
-                .replace(`{${"route_id"}}`, encodeURIComponent(String(routeId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Reset a completed/cancelled/failed simulation to \'ready\' state.  Clears all events and resets route progress.
-         * @summary Reset Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationResetSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationResetSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/reset`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Resume a paused simulation.  Routes continue from their checkpointed positions.
-         * @summary Resume Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationResumeSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationResumeSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/resume`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Start simulation playback.  Creates transient devices and queues Celery tasks for each route.
-         * @summary Start Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationStartSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationStartSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/start`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Stop simulation and reset all routes.  Running tasks will be cancelled. Routes are reset to start positions.
-         * @summary Stop Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationStopSimulation: async (simulationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationStopSimulation', 'simulationId', simulationId)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/stop`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Update simulation settings.  Can only update simulations in \'draft\' or \'ready\' state. Speed multiplier can be updated during \'running\' state.
-         * @summary Update Simulation
-         * @param {string} simulationId 
-         * @param {UpdateSimulationRequest} updateSimulationRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationUpdateSimulation: async (simulationId: string, updateSimulationRequest: UpdateSimulationRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationUpdateSimulation', 'simulationId', simulationId)
-            // verify required parameter 'updateSimulationRequest' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationUpdateSimulation', 'updateSimulationRequest', updateSimulationRequest)
-            const localVarPath = `/api/v1/simulations/{simulation_id}`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateSimulationRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Upload a CSV time-series file and add it as a route to the simulation.  CSV must have columns: latitude, longitude, timestamp Optional columns: elevation, speed, heading
-         * @summary Upload Csv Route
-         * @param {string} simulationId 
-         * @param {File} file 
-         * @param {string} [simulatedDeviceName] 
-         * @param {string} [simulatedDeviceType] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationUploadCsvRoute: async (simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationUploadCsvRoute', 'simulationId', simulationId)
-            // verify required parameter 'file' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationUploadCsvRoute', 'file', file)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/routes/upload-csv`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
-            }
-    
-            if (simulatedDeviceName !== undefined) { 
-                localVarFormParams.append('simulated_device_name', simulatedDeviceName as any);
-            }
-    
-            if (simulatedDeviceType !== undefined) { 
-                localVarFormParams.append('simulated_device_type', simulatedDeviceType as any);
-            }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Upload a GPX file and add it as a route to the simulation.
-         * @summary Upload Gpx Route
-         * @param {string} simulationId 
-         * @param {File} file 
-         * @param {string} [simulatedDeviceName] 
-         * @param {string} [simulatedDeviceType] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationUploadGpxRoute: async (simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'simulationId' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationUploadGpxRoute', 'simulationId', simulationId)
-            // verify required parameter 'file' is not null or undefined
-            assertParamExists('appsDevicesApiSimulationUploadGpxRoute', 'file', file)
-            const localVarPath = `/api/v1/simulations/{simulation_id}/routes/upload-gpx`
-                .replace(`{${"simulation_id"}}`, encodeURIComponent(String(simulationId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-            // authentication APIKeyBearer required
-            await setApiKeyToObject(localVarHeaderParameter, "X-API-KEY", configuration)
-
-            // authentication JWTBearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-            if (file !== undefined) { 
-                localVarFormParams.append('file', file as any);
-            }
-    
-            if (simulatedDeviceName !== undefined) { 
-                localVarFormParams.append('simulated_device_name', simulatedDeviceName as any);
-            }
-    
-            if (simulatedDeviceType !== undefined) { 
-                localVarFormParams.append('simulated_device_type', simulatedDeviceType as any);
-            }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * SimulationCenterApi - functional programming interface
- * @export
- */
-export const SimulationCenterApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = SimulationCenterApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * Create a new simulation session.  Simulations start in \'draft\' status. Add routes, then start the simulation.  Returns:     201: Created simulation     400: Invalid request     401: Unauthorized
-         * @summary Create Simulation
-         * @param {CreateSimulationRequest} createSimulationRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationCreateSimulation(createSimulationRequest: CreateSimulationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationCreateSimulation(createSimulationRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationCreateSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Delete a simulation and all associated data.  Running simulations will be cancelled first.
-         * @summary Delete Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationDeleteSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationDeleteSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationDeleteSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Get track points for a simulation route.  Returns the full list of coordinates for drawing the route on a map.
-         * @summary Get Route Track Points
-         * @param {string} simulationId 
-         * @param {string} routeId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationGetRouteTrackPoints(simulationId: string, routeId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RouteTrackPointsOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationGetRouteTrackPoints(simulationId, routeId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationGetRouteTrackPoints']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Get detailed simulation info including routes and recent events.
-         * @summary Get Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationGetSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationDetailOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationGetSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationGetSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * List events from a simulation.  Args:     event_type: Optional filter by event type     limit: Maximum number of results     offset: Pagination offset
-         * @summary List Simulation Events
-         * @param {string} simulationId 
-         * @param {string | null} [eventType] 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationListSimulationEvents(simulationId: string, eventType?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SimulationEventOut>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationListSimulationEvents(simulationId, eventType, limit, offset, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationListSimulationEvents']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * List simulations for the authenticated user.  Args:     status: Optional filter by status     limit: Maximum number of results     offset: Pagination offset  Returns:     List of simulations
-         * @summary List Simulations
-         * @param {string | null} [status] 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationListSimulations(status?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SimulationOut>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationListSimulations(status, limit, offset, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationListSimulations']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Pause simulation playback.  All routes will stop at their current point and can be resumed.
-         * @summary Pause Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationPauseSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationPauseSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationPauseSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Remove a route from the simulation.  Can only remove routes when simulation is in \'draft\' or \'ready\' state.
-         * @summary Remove Route
-         * @param {string} simulationId 
-         * @param {string} routeId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationRemoveRoute(simulationId: string, routeId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationRemoveRoute(simulationId, routeId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationRemoveRoute']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Reset a completed/cancelled/failed simulation to \'ready\' state.  Clears all events and resets route progress.
-         * @summary Reset Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationResetSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationResetSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationResetSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Resume a paused simulation.  Routes continue from their checkpointed positions.
-         * @summary Resume Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationResumeSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationResumeSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationResumeSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Start simulation playback.  Creates transient devices and queues Celery tasks for each route.
-         * @summary Start Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationStartSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationStartSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationStartSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Stop simulation and reset all routes.  Running tasks will be cancelled. Routes are reset to start positions.
-         * @summary Stop Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationStopSimulation(simulationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationStopSimulation(simulationId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationStopSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Update simulation settings.  Can only update simulations in \'draft\' or \'ready\' state. Speed multiplier can be updated during \'running\' state.
-         * @summary Update Simulation
-         * @param {string} simulationId 
-         * @param {UpdateSimulationRequest} updateSimulationRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationUpdateSimulation(simulationId: string, updateSimulationRequest: UpdateSimulationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SimulationOut>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationUpdateSimulation(simulationId, updateSimulationRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationUpdateSimulation']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Upload a CSV time-series file and add it as a route to the simulation.  CSV must have columns: latitude, longitude, timestamp Optional columns: elevation, speed, heading
-         * @summary Upload Csv Route
-         * @param {string} simulationId 
-         * @param {File} file 
-         * @param {string} [simulatedDeviceName] 
-         * @param {string} [simulatedDeviceType] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationUploadCsvRoute(simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RouteUploadResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationUploadCsvRoute(simulationId, file, simulatedDeviceName, simulatedDeviceType, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationUploadCsvRoute']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Upload a GPX file and add it as a route to the simulation.
-         * @summary Upload Gpx Route
-         * @param {string} simulationId 
-         * @param {File} file 
-         * @param {string} [simulatedDeviceName] 
-         * @param {string} [simulatedDeviceType] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appsDevicesApiSimulationUploadGpxRoute(simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RouteUploadResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appsDevicesApiSimulationUploadGpxRoute(simulationId, file, simulatedDeviceName, simulatedDeviceType, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SimulationCenterApi.appsDevicesApiSimulationUploadGpxRoute']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-    }
-};
-
-/**
- * SimulationCenterApi - factory interface
- * @export
- */
-export const SimulationCenterApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = SimulationCenterApiFp(configuration)
-    return {
-        /**
-         * Create a new simulation session.  Simulations start in \'draft\' status. Add routes, then start the simulation.  Returns:     201: Created simulation     400: Invalid request     401: Unauthorized
-         * @summary Create Simulation
-         * @param {CreateSimulationRequest} createSimulationRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationCreateSimulation(createSimulationRequest: CreateSimulationRequest, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationCreateSimulation(createSimulationRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Delete a simulation and all associated data.  Running simulations will be cancelled first.
-         * @summary Delete Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationDeleteSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsDevicesApiSimulationDeleteSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get track points for a simulation route.  Returns the full list of coordinates for drawing the route on a map.
-         * @summary Get Route Track Points
-         * @param {string} simulationId 
-         * @param {string} routeId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationGetRouteTrackPoints(simulationId: string, routeId: string, options?: RawAxiosRequestConfig): AxiosPromise<RouteTrackPointsOut> {
-            return localVarFp.appsDevicesApiSimulationGetRouteTrackPoints(simulationId, routeId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get detailed simulation info including routes and recent events.
-         * @summary Get Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationGetSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SimulationDetailOut> {
-            return localVarFp.appsDevicesApiSimulationGetSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List events from a simulation.  Args:     event_type: Optional filter by event type     limit: Maximum number of results     offset: Pagination offset
-         * @summary List Simulation Events
-         * @param {string} simulationId 
-         * @param {string | null} [eventType] 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationListSimulationEvents(simulationId: string, eventType?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<SimulationEventOut>> {
-            return localVarFp.appsDevicesApiSimulationListSimulationEvents(simulationId, eventType, limit, offset, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List simulations for the authenticated user.  Args:     status: Optional filter by status     limit: Maximum number of results     offset: Pagination offset  Returns:     List of simulations
-         * @summary List Simulations
-         * @param {string | null} [status] 
-         * @param {number} [limit] 
-         * @param {number} [offset] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationListSimulations(status?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<SimulationOut>> {
-            return localVarFp.appsDevicesApiSimulationListSimulations(status, limit, offset, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Pause simulation playback.  All routes will stop at their current point and can be resumed.
-         * @summary Pause Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationPauseSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationPauseSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Remove a route from the simulation.  Can only remove routes when simulation is in \'draft\' or \'ready\' state.
-         * @summary Remove Route
-         * @param {string} simulationId 
-         * @param {string} routeId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationRemoveRoute(simulationId: string, routeId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
-            return localVarFp.appsDevicesApiSimulationRemoveRoute(simulationId, routeId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Reset a completed/cancelled/failed simulation to \'ready\' state.  Clears all events and resets route progress.
-         * @summary Reset Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationResetSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationResetSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Resume a paused simulation.  Routes continue from their checkpointed positions.
-         * @summary Resume Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationResumeSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationResumeSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Start simulation playback.  Creates transient devices and queues Celery tasks for each route.
-         * @summary Start Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationStartSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationStartSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Stop simulation and reset all routes.  Running tasks will be cancelled. Routes are reset to start positions.
-         * @summary Stop Simulation
-         * @param {string} simulationId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationStopSimulation(simulationId: string, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationStopSimulation(simulationId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Update simulation settings.  Can only update simulations in \'draft\' or \'ready\' state. Speed multiplier can be updated during \'running\' state.
-         * @summary Update Simulation
-         * @param {string} simulationId 
-         * @param {UpdateSimulationRequest} updateSimulationRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationUpdateSimulation(simulationId: string, updateSimulationRequest: UpdateSimulationRequest, options?: RawAxiosRequestConfig): AxiosPromise<SimulationOut> {
-            return localVarFp.appsDevicesApiSimulationUpdateSimulation(simulationId, updateSimulationRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Upload a CSV time-series file and add it as a route to the simulation.  CSV must have columns: latitude, longitude, timestamp Optional columns: elevation, speed, heading
-         * @summary Upload Csv Route
-         * @param {string} simulationId 
-         * @param {File} file 
-         * @param {string} [simulatedDeviceName] 
-         * @param {string} [simulatedDeviceType] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationUploadCsvRoute(simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options?: RawAxiosRequestConfig): AxiosPromise<RouteUploadResponse> {
-            return localVarFp.appsDevicesApiSimulationUploadCsvRoute(simulationId, file, simulatedDeviceName, simulatedDeviceType, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Upload a GPX file and add it as a route to the simulation.
-         * @summary Upload Gpx Route
-         * @param {string} simulationId 
-         * @param {File} file 
-         * @param {string} [simulatedDeviceName] 
-         * @param {string} [simulatedDeviceType] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appsDevicesApiSimulationUploadGpxRoute(simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options?: RawAxiosRequestConfig): AxiosPromise<RouteUploadResponse> {
-            return localVarFp.appsDevicesApiSimulationUploadGpxRoute(simulationId, file, simulatedDeviceName, simulatedDeviceType, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * SimulationCenterApi - object-oriented interface
- * @export
- * @class SimulationCenterApi
- * @extends {BaseAPI}
- */
-export class SimulationCenterApi extends BaseAPI {
-    /**
-     * Create a new simulation session.  Simulations start in \'draft\' status. Add routes, then start the simulation.  Returns:     201: Created simulation     400: Invalid request     401: Unauthorized
-     * @summary Create Simulation
-     * @param {CreateSimulationRequest} createSimulationRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationCreateSimulation(createSimulationRequest: CreateSimulationRequest, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationCreateSimulation(createSimulationRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Delete a simulation and all associated data.  Running simulations will be cancelled first.
-     * @summary Delete Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationDeleteSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationDeleteSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get track points for a simulation route.  Returns the full list of coordinates for drawing the route on a map.
-     * @summary Get Route Track Points
-     * @param {string} simulationId 
-     * @param {string} routeId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationGetRouteTrackPoints(simulationId: string, routeId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationGetRouteTrackPoints(simulationId, routeId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get detailed simulation info including routes and recent events.
-     * @summary Get Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationGetSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationGetSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List events from a simulation.  Args:     event_type: Optional filter by event type     limit: Maximum number of results     offset: Pagination offset
-     * @summary List Simulation Events
-     * @param {string} simulationId 
-     * @param {string | null} [eventType] 
-     * @param {number} [limit] 
-     * @param {number} [offset] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationListSimulationEvents(simulationId: string, eventType?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationListSimulationEvents(simulationId, eventType, limit, offset, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List simulations for the authenticated user.  Args:     status: Optional filter by status     limit: Maximum number of results     offset: Pagination offset  Returns:     List of simulations
-     * @summary List Simulations
-     * @param {string | null} [status] 
-     * @param {number} [limit] 
-     * @param {number} [offset] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationListSimulations(status?: string | null, limit?: number, offset?: number, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationListSimulations(status, limit, offset, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Pause simulation playback.  All routes will stop at their current point and can be resumed.
-     * @summary Pause Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationPauseSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationPauseSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Remove a route from the simulation.  Can only remove routes when simulation is in \'draft\' or \'ready\' state.
-     * @summary Remove Route
-     * @param {string} simulationId 
-     * @param {string} routeId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationRemoveRoute(simulationId: string, routeId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationRemoveRoute(simulationId, routeId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Reset a completed/cancelled/failed simulation to \'ready\' state.  Clears all events and resets route progress.
-     * @summary Reset Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationResetSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationResetSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Resume a paused simulation.  Routes continue from their checkpointed positions.
-     * @summary Resume Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationResumeSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationResumeSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Start simulation playback.  Creates transient devices and queues Celery tasks for each route.
-     * @summary Start Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationStartSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationStartSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Stop simulation and reset all routes.  Running tasks will be cancelled. Routes are reset to start positions.
-     * @summary Stop Simulation
-     * @param {string} simulationId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationStopSimulation(simulationId: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationStopSimulation(simulationId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Update simulation settings.  Can only update simulations in \'draft\' or \'ready\' state. Speed multiplier can be updated during \'running\' state.
-     * @summary Update Simulation
-     * @param {string} simulationId 
-     * @param {UpdateSimulationRequest} updateSimulationRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationUpdateSimulation(simulationId: string, updateSimulationRequest: UpdateSimulationRequest, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationUpdateSimulation(simulationId, updateSimulationRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Upload a CSV time-series file and add it as a route to the simulation.  CSV must have columns: latitude, longitude, timestamp Optional columns: elevation, speed, heading
-     * @summary Upload Csv Route
-     * @param {string} simulationId 
-     * @param {File} file 
-     * @param {string} [simulatedDeviceName] 
-     * @param {string} [simulatedDeviceType] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationUploadCsvRoute(simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationUploadCsvRoute(simulationId, file, simulatedDeviceName, simulatedDeviceType, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Upload a GPX file and add it as a route to the simulation.
-     * @summary Upload Gpx Route
-     * @param {string} simulationId 
-     * @param {File} file 
-     * @param {string} [simulatedDeviceName] 
-     * @param {string} [simulatedDeviceType] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SimulationCenterApi
-     */
-    public appsDevicesApiSimulationUploadGpxRoute(simulationId: string, file: File, simulatedDeviceName?: string, simulatedDeviceType?: string, options?: RawAxiosRequestConfig) {
-        return SimulationCenterApiFp(this.configuration).appsDevicesApiSimulationUploadGpxRoute(simulationId, file, simulatedDeviceName, simulatedDeviceType, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -29113,7 +31204,7 @@ export const StorageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsStorageApiDeleteFile(fileType: string, filename: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteFileResponse>> {
+        async appsStorageApiDeleteFile(fileType: string, filename: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsStorageApiDeleteFile(fileType, filename, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StorageApi.appsStorageApiDeleteFile']?.[localVarOperationServerIndex]?.url;
@@ -29138,7 +31229,7 @@ export const StorageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsStorageApiGetFileTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsStorageApiGetFileTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileTypesOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsStorageApiGetFileTypes(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StorageApi.appsStorageApiGetFileTypes']?.[localVarOperationServerIndex]?.url;
@@ -29197,7 +31288,7 @@ export const StorageApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsStorageApiDeleteFile(fileType: string, filename: string, options?: RawAxiosRequestConfig): AxiosPromise<DeleteFileResponse> {
+        appsStorageApiDeleteFile(fileType: string, filename: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsStorageApiDeleteFile(fileType, filename, options).then((request) => request(axios, basePath));
         },
         /**
@@ -29216,7 +31307,7 @@ export const StorageApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsStorageApiGetFileTypes(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsStorageApiGetFileTypes(options?: RawAxiosRequestConfig): AxiosPromise<FileTypesOut> {
             return localVarFp.appsStorageApiGetFileTypes(options).then((request) => request(axios, basePath));
         },
         /**
@@ -29724,7 +31815,7 @@ export const SubscriptionsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsSubscriptionsApiHandleStripeWebhook(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsSubscriptionsApiHandleStripeWebhook(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsSubscriptionsApiHandleStripeWebhook(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SubscriptionsApi.appsSubscriptionsApiHandleStripeWebhook']?.[localVarOperationServerIndex]?.url;
@@ -29826,7 +31917,7 @@ export const SubscriptionsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsSubscriptionsApiHandleStripeWebhook(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsSubscriptionsApiHandleStripeWebhook(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsSubscriptionsApiHandleStripeWebhook(options).then((request) => request(axios, basePath));
         },
         /**
@@ -30429,7 +32520,7 @@ export const TilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsTilesApiHealthCheck(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsTilesApiHealthCheck(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsTilesApiHealthCheck(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TilesApi.appsTilesApiHealthCheck']?.[localVarOperationServerIndex]?.url;
@@ -30506,7 +32597,7 @@ export const TilesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsTilesApiHealthCheck(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsTilesApiHealthCheck(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsTilesApiHealthCheck(options).then((request) => request(axios, basePath));
         },
         /**
@@ -30611,7 +32702,7 @@ export class TilesApi extends BaseAPI {
 export const TripsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         * Cancel a planned trip. Only trips with status \'planned\' can be cancelled.
          * @summary Cancel a planned trip
          * @param {string} tripId 
          * @param {*} [options] Override http request option.
@@ -30649,7 +32740,7 @@ export const TripsApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * 
+         * Create a new planned trip for a device with an optional route.
          * @summary Create a planned trip
          * @param {TripCreateIn} tripCreateIn 
          * @param {*} [options] Override http request option.
@@ -30689,7 +32780,7 @@ export const TripsApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * 
+         * Retrieve a single trip with planned route and track geometry.
          * @summary Get trip detail
          * @param {string} tripId 
          * @param {*} [options] Override http request option.
@@ -30698,7 +32789,7 @@ export const TripsApiAxiosParamCreator = function (configuration?: Configuration
         appsDevicesApiTripsGetTrip: async (tripId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'tripId' is not null or undefined
             assertParamExists('appsDevicesApiTripsGetTrip', 'tripId', tripId)
-            const localVarPath = `/api/v1/trips/{trip_id}/`
+            const localVarPath = `/api/v1/trips/{trip_id}`
                 .replace(`{${"trip_id"}}`, encodeURIComponent(String(tripId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -30727,7 +32818,7 @@ export const TripsApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * 
+         * List trips for the authenticated user\'s workspace with optional filtering.
          * @summary List trips
          * @param {string | null} [deviceId] 
          * @param {string | null} [status] 
@@ -30795,7 +32886,7 @@ export const TripsApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * 
+         * Update a trip\'s name, planned route, or metadata.
          * @summary Update a trip
          * @param {string} tripId 
          * @param {TripUpdateIn} tripUpdateIn 
@@ -30807,7 +32898,7 @@ export const TripsApiAxiosParamCreator = function (configuration?: Configuration
             assertParamExists('appsDevicesApiTripsUpdateTrip', 'tripId', tripId)
             // verify required parameter 'tripUpdateIn' is not null or undefined
             assertParamExists('appsDevicesApiTripsUpdateTrip', 'tripUpdateIn', tripUpdateIn)
-            const localVarPath = `/api/v1/trips/{trip_id}/`
+            const localVarPath = `/api/v1/trips/{trip_id}`
                 .replace(`{${"trip_id"}}`, encodeURIComponent(String(tripId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -30849,7 +32940,7 @@ export const TripsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = TripsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         * Cancel a planned trip. Only trips with status \'planned\' can be cancelled.
          * @summary Cancel a planned trip
          * @param {string} tripId 
          * @param {*} [options] Override http request option.
@@ -30862,7 +32953,7 @@ export const TripsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * Create a new planned trip for a device with an optional route.
          * @summary Create a planned trip
          * @param {TripCreateIn} tripCreateIn 
          * @param {*} [options] Override http request option.
@@ -30875,7 +32966,7 @@ export const TripsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * Retrieve a single trip with planned route and track geometry.
          * @summary Get trip detail
          * @param {string} tripId 
          * @param {*} [options] Override http request option.
@@ -30888,7 +32979,7 @@ export const TripsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * List trips for the authenticated user\'s workspace with optional filtering.
          * @summary List trips
          * @param {string | null} [deviceId] 
          * @param {string | null} [status] 
@@ -30906,7 +32997,7 @@ export const TripsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 
+         * Update a trip\'s name, planned route, or metadata.
          * @summary Update a trip
          * @param {string} tripId 
          * @param {TripUpdateIn} tripUpdateIn 
@@ -30930,7 +33021,7 @@ export const TripsApiFactory = function (configuration?: Configuration, basePath
     const localVarFp = TripsApiFp(configuration)
     return {
         /**
-         * 
+         * Cancel a planned trip. Only trips with status \'planned\' can be cancelled.
          * @summary Cancel a planned trip
          * @param {string} tripId 
          * @param {*} [options] Override http request option.
@@ -30940,7 +33031,7 @@ export const TripsApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsDevicesApiTripsCancelTrip(tripId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * Create a new planned trip for a device with an optional route.
          * @summary Create a planned trip
          * @param {TripCreateIn} tripCreateIn 
          * @param {*} [options] Override http request option.
@@ -30950,7 +33041,7 @@ export const TripsApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsDevicesApiTripsCreateTrip(tripCreateIn, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * Retrieve a single trip with planned route and track geometry.
          * @summary Get trip detail
          * @param {string} tripId 
          * @param {*} [options] Override http request option.
@@ -30960,7 +33051,7 @@ export const TripsApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsDevicesApiTripsGetTrip(tripId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List trips for the authenticated user\'s workspace with optional filtering.
          * @summary List trips
          * @param {string | null} [deviceId] 
          * @param {string | null} [status] 
@@ -30975,7 +33066,7 @@ export const TripsApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.appsDevicesApiTripsListTrips(deviceId, status, startDate, endDate, limit, offset, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * Update a trip\'s name, planned route, or metadata.
          * @summary Update a trip
          * @param {string} tripId 
          * @param {TripUpdateIn} tripUpdateIn 
@@ -30996,7 +33087,7 @@ export const TripsApiFactory = function (configuration?: Configuration, basePath
  */
 export class TripsApi extends BaseAPI {
     /**
-     * 
+     * Cancel a planned trip. Only trips with status \'planned\' can be cancelled.
      * @summary Cancel a planned trip
      * @param {string} tripId 
      * @param {*} [options] Override http request option.
@@ -31008,7 +33099,7 @@ export class TripsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * Create a new planned trip for a device with an optional route.
      * @summary Create a planned trip
      * @param {TripCreateIn} tripCreateIn 
      * @param {*} [options] Override http request option.
@@ -31020,7 +33111,7 @@ export class TripsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * Retrieve a single trip with planned route and track geometry.
      * @summary Get trip detail
      * @param {string} tripId 
      * @param {*} [options] Override http request option.
@@ -31032,7 +33123,7 @@ export class TripsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List trips for the authenticated user\'s workspace with optional filtering.
      * @summary List trips
      * @param {string | null} [deviceId] 
      * @param {string | null} [status] 
@@ -31049,7 +33140,7 @@ export class TripsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * Update a trip\'s name, planned route, or metadata.
      * @summary Update a trip
      * @param {string} tripId 
      * @param {TripUpdateIn} tripUpdateIn 
@@ -31797,7 +33888,7 @@ export const WebhooksApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWebhooksApiDeleteWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponse>> {
+        async appsWebhooksApiDeleteWebhook(webhookId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWebhooksApiDeleteWebhook(webhookId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WebhooksApi.appsWebhooksApiDeleteWebhook']?.[localVarOperationServerIndex]?.url;
@@ -32023,7 +34114,7 @@ export const WebhooksApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWebhooksApiDeleteWebhook(webhookId: string, options?: RawAxiosRequestConfig): AxiosPromise<SuccessResponse> {
+        appsWebhooksApiDeleteWebhook(webhookId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsWebhooksApiDeleteWebhook(webhookId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -33834,7 +35925,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiDeleteWorkflow(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsWorkflowsApiDeleteWorkflow(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiDeleteWorkflow(workflowId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiDeleteWorkflow']?.[localVarOperationServerIndex]?.url;
@@ -33900,7 +35991,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetExecutionDetails(executionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsWorkflowsApiGetExecutionDetails(executionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExecutionDetailOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetExecutionDetails(executionId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetExecutionDetails']?.[localVarOperationServerIndex]?.url;
@@ -33912,7 +36003,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetSystemPerformanceSummary(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsWorkflowsApiGetSystemPerformanceSummary(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PerformanceSummaryOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetSystemPerformanceSummary(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetSystemPerformanceSummary']?.[localVarOperationServerIndex]?.url;
@@ -33952,7 +36043,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetWorkflowBottlenecks(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
+        async appsWorkflowsApiGetWorkflowBottlenecks(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; } | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetWorkflowBottlenecks(workflowId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetWorkflowBottlenecks']?.[localVarOperationServerIndex]?.url;
@@ -33966,7 +36057,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetWorkflowExecutionDetail(workflowId: string, executionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsWorkflowsApiGetWorkflowExecutionDetail(workflowId: string, executionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowExecutionDetailOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetWorkflowExecutionDetail(workflowId, executionId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetWorkflowExecutionDetail']?.[localVarOperationServerIndex]?.url;
@@ -34023,7 +36114,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetWorkflowStatistics(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsWorkflowsApiGetWorkflowStatistics(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowStatisticsOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetWorkflowStatistics(workflowId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetWorkflowStatistics']?.[localVarOperationServerIndex]?.url;
@@ -34036,7 +36127,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetWorkflowStepPerformance(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
+        async appsWorkflowsApiGetWorkflowStepPerformance(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; } | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetWorkflowStepPerformance(workflowId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetWorkflowStepPerformance']?.[localVarOperationServerIndex]?.url;
@@ -34049,7 +36140,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiGetWorkflowTemplate(templateId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any; }>> {
+        async appsWorkflowsApiGetWorkflowTemplate(templateId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WorkflowTemplateDetailOut>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiGetWorkflowTemplate(templateId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiGetWorkflowTemplate']?.[localVarOperationServerIndex]?.url;
@@ -34117,7 +36208,7 @@ export const WorkflowsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkflowsApiListWorkflowVersions(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; }>>> {
+        async appsWorkflowsApiListWorkflowVersions(workflowId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<{ [key: string]: any; } | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkflowsApiListWorkflowVersions(workflowId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkflowsApi.appsWorkflowsApiListWorkflowVersions']?.[localVarOperationServerIndex]?.url;
@@ -34257,7 +36348,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiDeleteWorkflow(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsWorkflowsApiDeleteWorkflow(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsWorkflowsApiDeleteWorkflow(workflowId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34308,7 +36399,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetExecutionDetails(executionId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsWorkflowsApiGetExecutionDetails(executionId: string, options?: RawAxiosRequestConfig): AxiosPromise<ExecutionDetailOut> {
             return localVarFp.appsWorkflowsApiGetExecutionDetails(executionId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34317,7 +36408,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetSystemPerformanceSummary(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsWorkflowsApiGetSystemPerformanceSummary(options?: RawAxiosRequestConfig): AxiosPromise<PerformanceSummaryOut> {
             return localVarFp.appsWorkflowsApiGetSystemPerformanceSummary(options).then((request) => request(axios, basePath));
         },
         /**
@@ -34348,7 +36439,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetWorkflowBottlenecks(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
+        appsWorkflowsApiGetWorkflowBottlenecks(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; } | null>> {
             return localVarFp.appsWorkflowsApiGetWorkflowBottlenecks(workflowId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34359,7 +36450,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetWorkflowExecutionDetail(workflowId: string, executionId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsWorkflowsApiGetWorkflowExecutionDetail(workflowId: string, executionId: string, options?: RawAxiosRequestConfig): AxiosPromise<WorkflowExecutionDetailOut> {
             return localVarFp.appsWorkflowsApiGetWorkflowExecutionDetail(workflowId, executionId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34404,7 +36495,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetWorkflowStatistics(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsWorkflowsApiGetWorkflowStatistics(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<WorkflowStatisticsOut> {
             return localVarFp.appsWorkflowsApiGetWorkflowStatistics(workflowId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34414,7 +36505,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetWorkflowStepPerformance(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
+        appsWorkflowsApiGetWorkflowStepPerformance(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; } | null>> {
             return localVarFp.appsWorkflowsApiGetWorkflowStepPerformance(workflowId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34424,7 +36515,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiGetWorkflowTemplate(templateId: string, options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any; }> {
+        appsWorkflowsApiGetWorkflowTemplate(templateId: string, options?: RawAxiosRequestConfig): AxiosPromise<WorkflowTemplateDetailOut> {
             return localVarFp.appsWorkflowsApiGetWorkflowTemplate(templateId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -34477,7 +36568,7 @@ export const WorkflowsApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkflowsApiListWorkflowVersions(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; }>> {
+        appsWorkflowsApiListWorkflowVersions(workflowId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<{ [key: string]: any; } | null>> {
             return localVarFp.appsWorkflowsApiListWorkflowVersions(workflowId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -35071,6 +37162,50 @@ export const WorkspacesApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
+         * Extend the expiry of a pending invitation (PRD §4 — Phase 78).  Available to owners and managers. Permits extending an already-expired invitation (recovery path) but blocks extending a used or revoked one. The original invitation token is preserved — no new email is sent; the recipient\'s existing email link will continue to work until the new expires_at. Validates expires_at strictly in the future and at most 90 days from now. Atomic with select_for_update to prevent race conditions with concurrent revoke.
+         * @summary Extend Invitation
+         * @param {string} inviteId 
+         * @param {ExtendInvitationIn} extendInvitationIn 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsWorkspacesApiExtendInvitation: async (inviteId: string, extendInvitationIn: ExtendInvitationIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inviteId' is not null or undefined
+            assertParamExists('appsWorkspacesApiExtendInvitation', 'inviteId', inviteId)
+            // verify required parameter 'extendInvitationIn' is not null or undefined
+            assertParamExists('appsWorkspacesApiExtendInvitation', 'extendInvitationIn', extendInvitationIn)
+            const localVarPath = `/api/v1/workspaces/invitations/{invite_id}`
+                .replace(`{${"invite_id"}}`, encodeURIComponent(String(inviteId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(extendInvitationIn, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get the SAML SSO configuration for the workspace.  Only workspace owners can view SSO configuration. Returns 404 if no configuration exists.
          * @summary Get Saml Config
          * @param {*} [options] Override http request option.
@@ -35241,6 +37376,40 @@ export const WorkspacesApiAxiosParamCreator = function (configuration?: Configur
             };
         },
         /**
+         * Return mobile workspace-picker state for signed-in mobile tracking users.
+         * @summary Mobile Workspace Bootstrap
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsWorkspacesApiMobileWorkspaceBootstrap: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/workspaces/mobile/bootstrap`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Remove a member from the workspace (PRD §4).  Role-based removal rules: - Owners: Can remove any member (including other owners, except last) - Managers: Can remove field_workers and members (NOT owners or managers) - Field workers/members: Cannot remove anyone  Immediately invalidates all tokens for the removed user. The user will receive 401 on subsequent requests and must re-authenticate.  Note: This assumes single-workspace-per-user model. On removal, user.workspace is cleared. If multi-workspace membership is added later, this logic and the last-owner checks will need to be updated.
          * @summary Remove Member
          * @param {string} userId 
@@ -35344,6 +37513,46 @@ export const WorkspacesApiAxiosParamCreator = function (configuration?: Configur
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Set or confirm the selected mobile workspace and return fresh tokens.
+         * @summary Select Mobile Workspace
+         * @param {MobileWorkspaceSelectIn} mobileWorkspaceSelectIn 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsWorkspacesApiSelectMobileWorkspace: async (mobileWorkspaceSelectIn: MobileWorkspaceSelectIn, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'mobileWorkspaceSelectIn' is not null or undefined
+            assertParamExists('appsWorkspacesApiSelectMobileWorkspace', 'mobileWorkspaceSelectIn', mobileWorkspaceSelectIn)
+            const localVarPath = `/api/v1/workspaces/mobile/select`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWTBearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(mobileWorkspaceSelectIn, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -35523,6 +37732,20 @@ export const WorkspacesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Extend the expiry of a pending invitation (PRD §4 — Phase 78).  Available to owners and managers. Permits extending an already-expired invitation (recovery path) but blocks extending a used or revoked one. The original invitation token is preserved — no new email is sent; the recipient\'s existing email link will continue to work until the new expires_at. Validates expires_at strictly in the future and at most 90 days from now. Atomic with select_for_update to prevent race conditions with concurrent revoke.
+         * @summary Extend Invitation
+         * @param {string} inviteId 
+         * @param {ExtendInvitationIn} extendInvitationIn 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsWorkspacesApiExtendInvitation(inviteId: string, extendInvitationIn: ExtendInvitationIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvitationOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkspacesApiExtendInvitation(inviteId, extendInvitationIn, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkspacesApi.appsWorkspacesApiExtendInvitation']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get the SAML SSO configuration for the workspace.  Only workspace owners can view SSO configuration. Returns 404 if no configuration exists.
          * @summary Get Saml Config
          * @param {*} [options] Override http request option.
@@ -35583,13 +37806,25 @@ export const WorkspacesApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Return mobile workspace-picker state for signed-in mobile tracking users.
+         * @summary Mobile Workspace Bootstrap
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsWorkspacesApiMobileWorkspaceBootstrap(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MobileWorkspaceBootstrapOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkspacesApiMobileWorkspaceBootstrap(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkspacesApi.appsWorkspacesApiMobileWorkspaceBootstrap']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Remove a member from the workspace (PRD §4).  Role-based removal rules: - Owners: Can remove any member (including other owners, except last) - Managers: Can remove field_workers and members (NOT owners or managers) - Field workers/members: Cannot remove anyone  Immediately invalidates all tokens for the removed user. The user will receive 401 on subsequent requests and must re-authenticate.  Note: This assumes single-workspace-per-user model. On removal, user.workspace is cleared. If multi-workspace membership is added later, this logic and the last-owner checks will need to be updated.
          * @summary Remove Member
          * @param {string} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appsWorkspacesApiRemoveMember(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MemberActionOut>> {
+        async appsWorkspacesApiRemoveMember(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkspacesApiRemoveMember(userId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkspacesApi.appsWorkspacesApiRemoveMember']?.[localVarOperationServerIndex]?.url;
@@ -35618,6 +37853,19 @@ export const WorkspacesApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkspacesApiRevokeAllWorkspaceSessions(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WorkspacesApi.appsWorkspacesApiRevokeAllWorkspaceSessions']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Set or confirm the selected mobile workspace and return fresh tokens.
+         * @summary Select Mobile Workspace
+         * @param {MobileWorkspaceSelectIn} mobileWorkspaceSelectIn 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appsWorkspacesApiSelectMobileWorkspace(mobileWorkspaceSelectIn: MobileWorkspaceSelectIn, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MobileWorkspaceSelectionOut>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appsWorkspacesApiSelectMobileWorkspace(mobileWorkspaceSelectIn, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['WorkspacesApi.appsWorkspacesApiSelectMobileWorkspace']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -35700,6 +37948,17 @@ export const WorkspacesApiFactory = function (configuration?: Configuration, bas
             return localVarFp.appsWorkspacesApiDeleteSamlConfig(options).then((request) => request(axios, basePath));
         },
         /**
+         * Extend the expiry of a pending invitation (PRD §4 — Phase 78).  Available to owners and managers. Permits extending an already-expired invitation (recovery path) but blocks extending a used or revoked one. The original invitation token is preserved — no new email is sent; the recipient\'s existing email link will continue to work until the new expires_at. Validates expires_at strictly in the future and at most 90 days from now. Atomic with select_for_update to prevent race conditions with concurrent revoke.
+         * @summary Extend Invitation
+         * @param {string} inviteId 
+         * @param {ExtendInvitationIn} extendInvitationIn 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsWorkspacesApiExtendInvitation(inviteId: string, extendInvitationIn: ExtendInvitationIn, options?: RawAxiosRequestConfig): AxiosPromise<InvitationOut> {
+            return localVarFp.appsWorkspacesApiExtendInvitation(inviteId, extendInvitationIn, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get the SAML SSO configuration for the workspace.  Only workspace owners can view SSO configuration. Returns 404 if no configuration exists.
          * @summary Get Saml Config
          * @param {*} [options] Override http request option.
@@ -35745,13 +38004,22 @@ export const WorkspacesApiFactory = function (configuration?: Configuration, bas
             return localVarFp.appsWorkspacesApiListWorkspaceMembers(options).then((request) => request(axios, basePath));
         },
         /**
+         * Return mobile workspace-picker state for signed-in mobile tracking users.
+         * @summary Mobile Workspace Bootstrap
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsWorkspacesApiMobileWorkspaceBootstrap(options?: RawAxiosRequestConfig): AxiosPromise<MobileWorkspaceBootstrapOut> {
+            return localVarFp.appsWorkspacesApiMobileWorkspaceBootstrap(options).then((request) => request(axios, basePath));
+        },
+        /**
          * Remove a member from the workspace (PRD §4).  Role-based removal rules: - Owners: Can remove any member (including other owners, except last) - Managers: Can remove field_workers and members (NOT owners or managers) - Field workers/members: Cannot remove anyone  Immediately invalidates all tokens for the removed user. The user will receive 401 on subsequent requests and must re-authenticate.  Note: This assumes single-workspace-per-user model. On removal, user.workspace is cleared. If multi-workspace membership is added later, this logic and the last-owner checks will need to be updated.
          * @summary Remove Member
          * @param {string} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appsWorkspacesApiRemoveMember(userId: string, options?: RawAxiosRequestConfig): AxiosPromise<MemberActionOut> {
+        appsWorkspacesApiRemoveMember(userId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.appsWorkspacesApiRemoveMember(userId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -35772,6 +38040,16 @@ export const WorkspacesApiFactory = function (configuration?: Configuration, bas
          */
         appsWorkspacesApiRevokeAllWorkspaceSessions(options?: RawAxiosRequestConfig): AxiosPromise<RevokeAllSessionsOut> {
             return localVarFp.appsWorkspacesApiRevokeAllWorkspaceSessions(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Set or confirm the selected mobile workspace and return fresh tokens.
+         * @summary Select Mobile Workspace
+         * @param {MobileWorkspaceSelectIn} mobileWorkspaceSelectIn 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appsWorkspacesApiSelectMobileWorkspace(mobileWorkspaceSelectIn: MobileWorkspaceSelectIn, options?: RawAxiosRequestConfig): AxiosPromise<MobileWorkspaceSelectionOut> {
+            return localVarFp.appsWorkspacesApiSelectMobileWorkspace(mobileWorkspaceSelectIn, options).then((request) => request(axios, basePath));
         },
         /**
          * Update a member\'s role (PRD §4).  Role management rules: - Owners: Can change any role (including promoting to owner) - Managers: Can change to manager, field_worker, or member (NOT owner) - Field workers/members: Cannot change roles  Cannot demote the last owner.  On any permission downgrade, immediately invalidates all tokens for the affected user. They must re-authenticate to get new tokens with the updated role.
@@ -35850,6 +38128,19 @@ export class WorkspacesApi extends BaseAPI {
     }
 
     /**
+     * Extend the expiry of a pending invitation (PRD §4 — Phase 78).  Available to owners and managers. Permits extending an already-expired invitation (recovery path) but blocks extending a used or revoked one. The original invitation token is preserved — no new email is sent; the recipient\'s existing email link will continue to work until the new expires_at. Validates expires_at strictly in the future and at most 90 days from now. Atomic with select_for_update to prevent race conditions with concurrent revoke.
+     * @summary Extend Invitation
+     * @param {string} inviteId 
+     * @param {ExtendInvitationIn} extendInvitationIn 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WorkspacesApi
+     */
+    public appsWorkspacesApiExtendInvitation(inviteId: string, extendInvitationIn: ExtendInvitationIn, options?: RawAxiosRequestConfig) {
+        return WorkspacesApiFp(this.configuration).appsWorkspacesApiExtendInvitation(inviteId, extendInvitationIn, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get the SAML SSO configuration for the workspace.  Only workspace owners can view SSO configuration. Returns 404 if no configuration exists.
      * @summary Get Saml Config
      * @param {*} [options] Override http request option.
@@ -35905,6 +38196,17 @@ export class WorkspacesApi extends BaseAPI {
     }
 
     /**
+     * Return mobile workspace-picker state for signed-in mobile tracking users.
+     * @summary Mobile Workspace Bootstrap
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WorkspacesApi
+     */
+    public appsWorkspacesApiMobileWorkspaceBootstrap(options?: RawAxiosRequestConfig) {
+        return WorkspacesApiFp(this.configuration).appsWorkspacesApiMobileWorkspaceBootstrap(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Remove a member from the workspace (PRD §4).  Role-based removal rules: - Owners: Can remove any member (including other owners, except last) - Managers: Can remove field_workers and members (NOT owners or managers) - Field workers/members: Cannot remove anyone  Immediately invalidates all tokens for the removed user. The user will receive 401 on subsequent requests and must re-authenticate.  Note: This assumes single-workspace-per-user model. On removal, user.workspace is cleared. If multi-workspace membership is added later, this logic and the last-owner checks will need to be updated.
      * @summary Remove Member
      * @param {string} userId 
@@ -35937,6 +38239,18 @@ export class WorkspacesApi extends BaseAPI {
      */
     public appsWorkspacesApiRevokeAllWorkspaceSessions(options?: RawAxiosRequestConfig) {
         return WorkspacesApiFp(this.configuration).appsWorkspacesApiRevokeAllWorkspaceSessions(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Set or confirm the selected mobile workspace and return fresh tokens.
+     * @summary Select Mobile Workspace
+     * @param {MobileWorkspaceSelectIn} mobileWorkspaceSelectIn 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WorkspacesApi
+     */
+    public appsWorkspacesApiSelectMobileWorkspace(mobileWorkspaceSelectIn: MobileWorkspaceSelectIn, options?: RawAxiosRequestConfig) {
+        return WorkspacesApiFp(this.configuration).appsWorkspacesApiSelectMobileWorkspace(mobileWorkspaceSelectIn, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
