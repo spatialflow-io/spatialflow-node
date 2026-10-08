@@ -17,9 +17,9 @@ import { Configuration } from "./_generated/configuration";
 import { BASE_PATH } from "./_generated/base";
 import { SpatialFlowError, raiseForStatus } from "./errors";
 
-export const VERSION = "1.1.0";
+export const VERSION = "2.0.0";
 export const DEFAULT_BASE_URL = BASE_PATH;
-const DEFAULT_TIMEOUT = 30000; // 30 seconds
+const DEFAULT_TIMEOUT = 30000; // milliseconds
 const DEFAULT_MAX_RETRIES = 3;
 
 export interface SpatialFlowOptions {
@@ -86,7 +86,6 @@ export class SpatialFlow {
   private readonly config: Configuration;
   private readonly maxRetries: number;
 
-  // Lazy-initialized API instances
   private _geofences?: GeofencesApi;
   private _workflows?: WorkflowsApi;
   private _webhooks?: WebhooksApi;
@@ -107,7 +106,6 @@ export class SpatialFlow {
 
     this.maxRetries = maxRetries ?? DEFAULT_MAX_RETRIES;
 
-    // Create axios instance with defaults
     this.axiosInstance = axios.create({
       baseURL: baseUrl ?? DEFAULT_BASE_URL,
       timeout: timeout ?? DEFAULT_TIMEOUT,
@@ -116,7 +114,6 @@ export class SpatialFlow {
       },
     });
 
-    // Add request interceptor for auth
     this.axiosInstance.interceptors.request.use((config) => {
       if (apiKey) {
         config.headers["X-API-KEY"] = apiKey;
@@ -126,13 +123,11 @@ export class SpatialFlow {
       return config;
     });
 
-    // Add response interceptor for error handling
     this.axiosInstance.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => this.handleError(error)
     );
 
-    // Create configuration for generated APIs
     this.config = new Configuration({
       basePath: baseUrl ?? DEFAULT_BASE_URL,
       apiKey: apiKey ? () => apiKey : undefined,
@@ -140,9 +135,6 @@ export class SpatialFlow {
     });
   }
 
-  /**
-   * Handle axios errors and convert to SpatialFlow errors.
-   */
   private async handleError(error: AxiosError): Promise<never> {
     if (error.response) {
       const { status, data, headers } = error.response;
@@ -172,9 +164,6 @@ export class SpatialFlow {
     throw new SpatialFlowError(error.message || "Unknown error");
   }
 
-  /**
-   * Access geofence operations.
-   */
   get geofences(): GeofencesApi {
     if (!this._geofences) {
       this._geofences = new GeofencesApi(
@@ -186,9 +175,6 @@ export class SpatialFlow {
     return this._geofences;
   }
 
-  /**
-   * Access workflow operations.
-   */
   get workflows(): WorkflowsApi {
     if (!this._workflows) {
       this._workflows = new WorkflowsApi(
@@ -200,9 +186,6 @@ export class SpatialFlow {
     return this._workflows;
   }
 
-  /**
-   * Access webhook operations.
-   */
   get webhooks(): WebhooksApi {
     if (!this._webhooks) {
       this._webhooks = new WebhooksApi(
@@ -214,9 +197,6 @@ export class SpatialFlow {
     return this._webhooks;
   }
 
-  /**
-   * Access device operations.
-   */
   get devices(): DevicesApi {
     if (!this._devices) {
       this._devices = new DevicesApi(
@@ -228,9 +208,6 @@ export class SpatialFlow {
     return this._devices;
   }
 
-  /**
-   * Access account operations.
-   */
   get account(): AccountApi {
     if (!this._account) {
       this._account = new AccountApi(
@@ -242,9 +219,6 @@ export class SpatialFlow {
     return this._account;
   }
 
-  /**
-   * Access storage operations.
-   */
   get storage(): StorageApi {
     if (!this._storage) {
       this._storage = new StorageApi(

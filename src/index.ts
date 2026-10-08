@@ -19,10 +19,8 @@
  * @packageDocumentation
  */
 
-// Main client
 export { SpatialFlow, SpatialFlowOptions, VERSION, DEFAULT_BASE_URL } from "./client";
 
-// Custom errors
 export {
   SpatialFlowError,
   AuthenticationError,
@@ -37,19 +35,18 @@ export {
   raiseForStatus,
 } from "./errors";
 
-// Webhook verification
 export {
   verifyWebhookSignature,
+  verifyWorkflowSignature,
   verifySignature,
   WebhookSignatureError,
   VerifyWebhookOptions,
+  VerifyWorkflowOptions,
   WebhookEvent,
 } from "./webhooks";
 
-// Pagination helpers
 export { paginate, collectAll, PaginateOptions } from "./pagination";
 
-// Job polling helpers
 export {
   pollJob,
   JobResult,
@@ -58,7 +55,6 @@ export {
   PollJobOptions,
 } from "./jobs";
 
-// File upload helpers
 export { uploadGeofences, UploadGeofencesOptions } from "./uploads";
 
 // Re-export generated types and APIs for advanced usage

@@ -2,7 +2,7 @@
 
 The official Node.js/TypeScript SDK for [SpatialFlow](https://spatialflow.io) - a real-time geospatial automation platform.
 
-> **Beta Notice:** This SDK is in beta. APIs are usable for early integrations but may change before a stable v1.0 release.
+Versions follow [Semantic Versioning](https://semver.org/): breaking changes bump the major version, so 2.x is stable to build on. Upgrading from 1.1.0 is a major version: the changelog lists what was removed.
 
 ## Installation
 
@@ -84,15 +84,18 @@ client.webhooks.appsWebhooksApiCreateWebhook({ ... })
 ```
 
 Use your IDE's autocomplete to discover available methods, or see the
-[API Reference](https://docs.spatialflow.io/sdk/node) for the full list.
+[SDK guide](https://docs.spatialflow.io/sdks/node/) for setup and
+authentication.
 
 ## Webhook Verification
+
+A workspace webhook, created through the API, receives test deliveries only for now. To receive real geofence events at an endpoint, add a Webhook action to a workflow, which signs differently (see the docs for the workflow Webhook action).
 
 ```typescript
 import { verifyWebhookSignature, WebhookSignatureError } from "@spatialflow/sdk";
 
 // In your Express webhook handler
-app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+app.post('/webhook', express.raw({ type: 'application/json', limit: '1mb' }), (req, res) => {
   try {
     const event = verifyWebhookSignature({
       payload: req.body,
@@ -186,7 +189,7 @@ try {
 
 ## Documentation
 
-- [API Reference](https://docs.spatialflow.io/sdk/node)
+- [SDK guide](https://docs.spatialflow.io/sdks/node/)
 - [Examples](./examples/)
 - [Changelog](./CHANGELOG.md)
 

@@ -42,7 +42,6 @@ describe("uploadGeofences", () => {
   });
 
   afterEach(() => {
-    // Cleanup
     try {
       fs.unlinkSync(testFilePath);
       fs.rmdirSync(tempDir);
@@ -192,12 +191,85 @@ describe("uploadGeofences", () => {
       ).rejects.toThrow("Storage API called");
 
       expect(mockClient.storage.appsStorageApiCreatePresignedUrl).toHaveBeenCalledWith({
-        presignedUrlRequest: {
-          file_type: "geofences",
-          filename: "test.geojson",
-          file_size: expect.any(Number),
-        },
+        file_type: "geofences",
+        filename: "test.geojson",
+        file_size: expect.any(Number),
       });
+    });
+
+    it("should complete the upload before starting the import", async () => {
+      const callOrder: string[] = [];
+      const mockClient = {
+        storage: {
+          appsStorageApiCreatePresignedUrl: vi.fn().mockResolvedValue({
+            upload_url: "https://s3.example.com/upload",
+            file_id: "file-123",
+          }),
+          appsStorageApiCompletePresignedUpload: vi
+            .fn()
+            .mockImplementation(async () => {
+              callOrder.push("complete");
+              return { file_id: "file-123", status: "complete" };
+            }),
+        },
+        geofences: {
+          appsGeofencesApiUploadGeofencesAsync: vi
+            .fn()
+            .mockImplementation(async () => {
+              callOrder.push("import");
+              return { job_id: "job-123" };
+            }),
+          appsGeofencesApiGetUploadJobStatus: vi
+            .fn()
+            .mockImplementation(async () => {
+              callOrder.push("status");
+              return {
+                job_id: "job-123",
+                status: "completed",
+                created_count: 1,
+                failed_count: 0,
+                total_features: 1,
+                results: {},
+              };
+            }),
+        },
+      };
+
+      const originalFetch = global.fetch;
+      const fetchMock = vi.fn().mockImplementation(async () => {
+        callOrder.push("s3_put");
+        return {
+          ok: true,
+          text: () => Promise.resolve(""),
+        };
+      });
+      global.fetch = fetchMock;
+
+      try {
+        const result = await uploadGeofences({
+          client: mockClient as unknown as UploadGeofencesOptions["client"],
+          filePath: testFilePath,
+        });
+
+        expect(result.status).toBe("completed");
+        expect(callOrder).toEqual(["s3_put", "complete", "import", "status"]);
+        expect(mockClient.storage.appsStorageApiCompletePresignedUpload).toHaveBeenCalledWith(
+          "file-123"
+        );
+        expect(fetchMock).toHaveBeenCalledWith(
+          "https://s3.example.com/upload",
+          expect.objectContaining({
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/geo+json",
+              "Content-Length": String(fs.statSync(testFilePath).size),
+              "If-None-Match": "*",
+            },
+          })
+        );
+      } finally {
+        global.fetch = originalFetch;
+      }
     });
   });
 });
@@ -213,6 +285,10 @@ describe("extractData", () => {
             file_id: "file-123",
           },
         }),
+        appsStorageApiCompletePresignedUpload: vi.fn().mockResolvedValue({
+          file_id: "file-123",
+          status: "complete",
+        }),
       },
       geofences: {
         appsGeofencesApiUploadGeofencesAsync: vi.fn(),
@@ -220,7 +296,6 @@ describe("extractData", () => {
       },
     };
 
-    // Mock fetch
     const originalFetch = global.fetch;
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
@@ -228,7 +303,6 @@ describe("extractData", () => {
     });
 
     try {
-      // Should proceed past presigned URL extraction
       mockClient.geofences.appsGeofencesApiUploadGeofencesAsync.mockRejectedValue(
         new Error("Reached job start - data extracted correctly")
       );

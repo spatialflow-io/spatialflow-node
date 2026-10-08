@@ -52,37 +52,22 @@ export class JobFailedError extends SpatialFlowError {
   }
 }
 
-/**
- * Result of a completed job.
- */
 export interface JobResult {
-  /** The job ID */
   jobId: string;
-  /** Final job status */
   status: string;
-  /** Number of items created */
   createdCount: number;
-  /** Number of items that failed */
   failedCount: number;
-  /** Total features processed */
   totalFeatures: number;
-  /** Detailed results object */
   results: Record<string, unknown>;
   /** Duration in seconds (if available) */
   duration?: number;
-  /** Raw response from the API */
   rawResponse: unknown;
-  /** List of created geofence info (from results.created_geofences) */
+  /** From results.created_geofences */
   createdGeofences: Array<{ id: string; name: string }>;
-  /** List of errors from processing */
   errors: Array<{ index: number; name: string; error: string }>;
-  /** List of warnings from processing */
   warnings: string[];
 }
 
-/**
- * Options for polling a job.
- */
 export interface PollJobOptions<T> {
   /**
    * Async function that fetches the current job status.
@@ -177,7 +162,6 @@ export async function pollJob<T>(options: PollJobOptions<T>): Promise<JobResult>
     elapsed += pollInterval;
   }
 
-  // Timeout
   const jobId = lastResponse ? extractJobId(lastResponse) : "unknown";
   throw new JobTimeoutError(jobId, timeout, lastStatus);
 }
@@ -196,7 +180,6 @@ function defaultExtractJobId(response: unknown): string {
     if (typeof data.jobId === "string") return data.jobId;
   }
 
-  // Direct access
   if (typeof r.job_id === "string") return r.job_id;
   if (typeof r.jobId === "string") return r.jobId;
 
@@ -212,7 +195,6 @@ function defaultExtractStatus(response: unknown): string {
     if (typeof data.status === "string") return data.status;
   }
 
-  // Direct access
   if (typeof r.status === "string") return r.status;
 
   return "unknown";
@@ -231,7 +213,6 @@ function getField<T>(
     if (name in data) return data[name] as T;
   }
 
-  // Direct access
   if (name in r) return r[name] as T;
 
   return defaultValue;
@@ -242,7 +223,6 @@ function buildJobResult(
   status: string,
   response: unknown
 ): JobResult {
-  // Check for failure
   if (status === "failed") {
     const errorMessage = getField<string | undefined>(
       response,

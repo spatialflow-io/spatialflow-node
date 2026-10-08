@@ -7,9 +7,6 @@
 import crypto from "crypto";
 import { SpatialFlowError } from "./errors";
 
-/**
- * Error thrown when webhook signature verification fails.
- */
 export class WebhookSignatureError extends SpatialFlowError {
   constructor(message: string) {
     super(message);
@@ -28,14 +25,15 @@ export interface VerifyWebhookOptions {
    */
   signature: string;
 
-  /**
-   * Your webhook signing secret.
-   */
   secret: string;
 
   /**
-   * Maximum age of the webhook in seconds (default 300 = 5 minutes).
-   * Set to 0 to disable timestamp checking.
+   * Deprecated and ignored. The SpatialFlow signature does not include a
+   * timestamp, so there is no time-based replay window. To guard against
+   * replays, deduplicate on the signed `id` in the payload, recording it in
+   * the same transaction as the work and acknowledging only committed work;
+   * the `X-Idempotency-Key` and `X-SF-Event-ID` headers are not signed. The
+   * default payload has an `id`; a custom payload template must include one.
    */
   tolerance?: number;
 }
@@ -46,9 +44,6 @@ export interface WebhookEvent {
    */
   type: string;
 
-  /**
-   * The event data.
-   */
   data: Record<string, unknown>;
 
   /**
@@ -56,22 +51,18 @@ export interface WebhookEvent {
    */
   created_at?: string;
 
-  /**
-   * Unique event ID.
-   */
   id?: string;
 }
 
 /**
  * Verify a webhook signature and return the parsed payload.
  *
- * SpatialFlow webhooks include an HMAC-SHA256 signature in the
- * `X-SF-Signature` header. This function verifies that signature
- * and optionally checks the timestamp to prevent replay attacks.
+ * SpatialFlow signs each delivery with an HMAC-SHA256 of the raw request
+ * body and sends it in the `X-SF-Signature` header, hex-encoded and prefixed
+ * with `sha256=`. This function recomputes that HMAC and compares it in
+ * constant time.
  *
- * @param options - Verification options
- * @returns The parsed webhook event
- * @throws {WebhookSignatureError} If signature is invalid or timestamp is too old
+ * @throws {WebhookSignatureError} If the signature is missing, malformed, does not match, or the payload is not valid JSON
  *
  * @example
  * ```typescript
@@ -100,77 +91,157 @@ export interface WebhookEvent {
  * ```
  */
 export function verifyWebhookSignature(options: VerifyWebhookOptions): WebhookEvent {
-  const { payload, signature, secret, tolerance = 300 } = options;
+  const { payload, signature, secret } = options;
 
-  // Normalize payload to string
+  // Normalize payload to bytes (the signature covers the raw body)
   const payloadStr = Buffer.isBuffer(payload) ? payload.toString("utf-8") : payload;
   const payloadBytes = Buffer.from(payloadStr, "utf-8");
 
-  // Parse the signature header
-  // Format: t=<timestamp>,v1=<signature>
-  const parts: Record<string, string> = {};
-  for (const part of signature.split(",")) {
-    const [key, value] = part.split("=", 2);
-    if (key && value) {
-      parts[key] = value;
-    }
+  if (!signature) {
+    throw new WebhookSignatureError("Missing signature header");
   }
 
-  const timestampStr = parts["t"];
-  const sigHash = parts["v1"];
-
-  if (!timestampStr || !sigHash) {
+  // The header is `sha256=<hex>`; tolerate a bare hex digest as well.
+  let sigHash = signature.trim();
+  if (sigHash.startsWith("sha256=")) {
+    sigHash = sigHash.slice("sha256=".length);
+  }
+  if (!sigHash) {
     throw new WebhookSignatureError(
-      "Invalid signature format. Expected: t=<timestamp>,v1=<signature>"
+      "Invalid signature format. Expected: sha256=<hex digest>"
     );
   }
 
-  const timestamp = parseInt(timestampStr, 10);
-  if (isNaN(timestamp)) {
-    throw new WebhookSignatureError("Invalid timestamp in signature");
-  }
-
-  // Check timestamp tolerance (replay attack prevention)
-  if (tolerance > 0) {
-    const now = Math.floor(Date.now() / 1000);
-    const age = now - timestamp;
-
-    if (age > tolerance) {
-      throw new WebhookSignatureError(
-        `Webhook timestamp too old: ${age}s (tolerance: ${tolerance}s)`
-      );
-    }
-    if (age < -tolerance) {
-      throw new WebhookSignatureError(
-        `Webhook timestamp in future: ${-age}s (tolerance: ${tolerance}s)`
-      );
-    }
-  }
-
-  // Compute expected signature
-  // The signed payload is: timestamp.payload
-  const signedPayload = Buffer.concat([
-    Buffer.from(`${timestamp}.`, "utf-8"),
-    payloadBytes,
-  ]);
-
+  // Compute expected signature: HMAC-SHA256 of the raw request body.
   const expectedSig = crypto
     .createHmac("sha256", secret)
-    .update(signedPayload)
+    .update(payloadBytes)
     .digest("hex");
 
-  // Constant-time comparison to prevent timing attacks
-  if (!crypto.timingSafeEqual(Buffer.from(expectedSig), Buffer.from(sigHash))) {
+  // Constant-time comparison to prevent timing attacks. Guard the length so
+  // timingSafeEqual does not throw on a malformed (wrong-length) signature.
+  const expectedBuf = Buffer.from(expectedSig);
+  const providedBuf = Buffer.from(sigHash);
+  if (
+    expectedBuf.length !== providedBuf.length ||
+    !crypto.timingSafeEqual(expectedBuf, providedBuf)
+  ) {
     throw new WebhookSignatureError("Signature verification failed");
   }
 
-  // Parse and return the payload
+  // The backend delivers { id, event, timestamp, data }; normalize to this
+  // SDK's WebhookEvent shape so event.type carries the backend "event" value.
   try {
-    return JSON.parse(payloadStr) as WebhookEvent;
+    const parsed = JSON.parse(payloadStr) as Record<string, unknown>;
+    return {
+      ...parsed,
+      type: (parsed.event ?? parsed.type) as string,
+      created_at: (parsed.timestamp ?? parsed.created_at) as string | undefined,
+    } as WebhookEvent;
   } catch (e) {
     throw new WebhookSignatureError(`Failed to parse webhook payload as JSON: ${e}`);
   }
 }
 
-// Convenience alias
 export const verifySignature = verifyWebhookSignature;
+
+export interface VerifyWorkflowOptions {
+  /**
+   * The raw request body, exactly as received.
+   */
+  payload: string | Buffer;
+
+  /**
+   * The X-SpatialFlow-Signature header (`sha256=<hex>`).
+   */
+  signature: string;
+
+  /**
+   * The X-SpatialFlow-Timestamp header (unix seconds).
+   */
+  timestamp: string;
+
+  secret: string;
+
+  /**
+   * Maximum age of the timestamp, in seconds, in either direction.
+   * Defaults to 300.
+   */
+  tolerance?: number;
+}
+
+/**
+ * Verify a workflow webhook action delivery and return the parsed body.
+ *
+ * A workflow Webhook action with a signing secret sends
+ * `X-SpatialFlow-Timestamp` (unix seconds) and `X-SpatialFlow-Signature`
+ * (`sha256=<hex>`), an HMAC-SHA256 of `"<timestamp>.<raw body>"`. This is a
+ * different contract from the workspace webhook header handled by
+ * {@link verifyWebhookSignature}.
+ *
+ * The workflow action sends whatever body the workflow configures, so the
+ * parsed JSON is returned as is, and a body that isn't JSON is returned as
+ * text.
+ *
+ * @throws {WebhookSignatureError} If the signature or timestamp is missing or malformed, the timestamp is outside the tolerance, or the signature does not match
+ *
+ * @example
+ * ```typescript
+ * const body = verifyWorkflowSignature({
+ *   payload: req.body,
+ *   signature: req.headers["x-spatialflow-signature"] as string,
+ *   timestamp: req.headers["x-spatialflow-timestamp"] as string,
+ *   secret: process.env.WEBHOOK_SECRET!,
+ * });
+ * ```
+ */
+export function verifyWorkflowSignature(options: VerifyWorkflowOptions): unknown {
+  const { payload, signature, secret, tolerance = 300 } = options;
+
+  if (!signature) {
+    throw new WebhookSignatureError("Missing signature header");
+  }
+
+  const timestamp = (options.timestamp ?? "").trim();
+  if (!/^[0-9]+$/.test(timestamp)) {
+    throw new WebhookSignatureError("Missing or invalid timestamp header");
+  }
+  if (Math.abs(Date.now() / 1000 - Number(timestamp)) > tolerance) {
+    throw new WebhookSignatureError("Timestamp outside the tolerance window");
+  }
+
+  let sigHash = signature.trim();
+  if (sigHash.startsWith("sha256=")) {
+    sigHash = sigHash.slice("sha256=".length);
+  }
+  if (!sigHash) {
+    throw new WebhookSignatureError(
+      "Invalid signature format. Expected: sha256=<hex digest>"
+    );
+  }
+
+  // Sign the original bytes: decoding a Buffer to a string first would replace
+  // invalid UTF-8 and let an altered body verify.
+  const payloadBytes = Buffer.isBuffer(payload) ? payload : Buffer.from(payload, "utf-8");
+  const expectedBuf = Buffer.from(
+    crypto
+      .createHmac("sha256", secret)
+      .update(`${timestamp}.`, "utf-8")
+      .update(payloadBytes)
+      .digest("hex")
+  );
+  const providedBuf = Buffer.from(sigHash);
+  if (
+    expectedBuf.length !== providedBuf.length ||
+    !crypto.timingSafeEqual(expectedBuf, providedBuf)
+  ) {
+    throw new WebhookSignatureError("Signature verification failed");
+  }
+
+  const text = payloadBytes.toString("utf-8");
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+}

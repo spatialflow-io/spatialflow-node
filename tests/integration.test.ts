@@ -12,7 +12,6 @@ const API_KEY = process.env.SPATIALFLOW_API_KEY;
 const BASE_URL = process.env.SPATIALFLOW_BASE_URL || "https://api.spatialflow.io";
 const RUN_CRUD = process.env.SPATIALFLOW_RUN_CRUD_TESTS === "true";
 
-// Skip all tests if no API key
 const describeIntegration = API_KEY ? describe : describe.skip;
 
 describeIntegration("SDK Integration Tests", () => {
@@ -66,7 +65,7 @@ describeIntegration("SDK Integration Tests", () => {
         limit: 10,
       })) {
         count++;
-        if (count >= 5) break; // Don't iterate through everything
+        if (count >= 5) break;
       }
 
       // Test passed if no exceptions
@@ -90,12 +89,10 @@ describeIntegration("SDK Integration Tests", () => {
     });
   });
 
-  // CRUD tests - only run if explicitly enabled
   const describeCrud = RUN_CRUD ? describe : describe.skip;
 
   describeCrud("Geofence CRUD", () => {
     it("should create and delete a geofence", async () => {
-      // Create
       const createResponse = await client.geofences.appsGeofencesApiCreateGeofence({
         createGeofenceRequest: {
           name: "SDK Integration Test Geofence",
@@ -118,15 +115,12 @@ describeIntegration("SDK Integration Tests", () => {
       expect(geofence.name).toBe("SDK Integration Test Geofence");
       expect(geofence.id).toBeDefined();
 
-      // Delete
       await client.geofences.appsGeofencesApiDeleteGeofence({ id: geofence.id });
 
-      // Verify deleted
       try {
         await client.geofences.appsGeofencesApiGetGeofence({ id: geofence.id });
         expect.fail("Should have thrown after delete");
       } catch (e) {
-        // Expected
         expect(e).toBeDefined();
       }
     });

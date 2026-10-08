@@ -8,33 +8,22 @@ import * as fs from "fs";
 import * as path from "path";
 import { JobResult, pollJob, PollJobOptions } from "./jobs";
 
-/**
- * Options for uploading geofences.
- */
 export interface UploadGeofencesOptions {
-  /**
-   * SpatialFlow client instance.
-   */
   client: {
     storage: {
-      appsStorageApiCreatePresignedUrl: (params: {
-        presignedUrlRequest: {
-          file_type: string;
-          filename: string;
-          file_size: number;
-        };
+      appsStorageApiCreatePresignedUrl: (request: {
+        file_type: string;
+        filename: string;
+        file_size: number;
       }) => Promise<unknown>;
+      appsStorageApiCompletePresignedUpload: (fileId: string) => Promise<unknown>;
     };
     geofences: {
-      appsGeofencesApiUploadGeofencesAsync: (params: {
-        uploadGeofencesRequest: {
-          file_id: string;
-          group_name?: string;
-        };
+      appsGeofencesApiUploadGeofencesAsync: (request: {
+        file_id: string;
+        group_name?: string;
       }) => Promise<unknown>;
-      appsGeofencesApiGetUploadJobStatus: (params: {
-        jobId: string;
-      }) => Promise<unknown>;
+      appsGeofencesApiGetUploadJobStatus: (jobId: string) => Promise<unknown>;
     };
   };
 
@@ -43,9 +32,6 @@ export interface UploadGeofencesOptions {
    */
   filePath: string;
 
-  /**
-   * Optional name for the geofence group.
-   */
   groupName?: string;
 
   /**
@@ -61,7 +47,7 @@ export interface UploadGeofencesOptions {
   pollInterval?: number;
 
   /**
-   * Optional callback called on each poll with (status, response).
+   * Called on each poll.
    */
   onStatus?: (status: string, response: unknown) => void;
 }
@@ -79,8 +65,9 @@ const CONTENT_TYPES: Record<string, string> = {
  * This is a convenience method that:
  * 1. Requests a presigned upload URL
  * 2. Uploads the file to S3
- * 3. Starts the geofence import job
- * 4. Polls until completion
+ * 3. Finalizes the upload so the API verifies the S3 object metadata
+ * 4. Starts the geofence import job
+ * 5. Polls until completion
  *
  * @example
  * ```typescript
@@ -109,17 +96,14 @@ export async function uploadGeofences(
     onStatus,
   } = options;
 
-  // Validate file exists
   if (!fs.existsSync(filePath)) {
     throw new Error(`File not found: ${filePath}`);
   }
 
-  // Get file info
   const filename = path.basename(filePath);
   const fileSize = fs.statSync(filePath).size;
   const ext = path.extname(filePath).toLowerCase();
 
-  // Validate file type
   const contentType = CONTENT_TYPES[ext];
   if (!contentType) {
     throw new Error(
@@ -127,13 +111,10 @@ export async function uploadGeofences(
     );
   }
 
-  // Step 1: Get presigned upload URL
   const presignedResponse = await client.storage.appsStorageApiCreatePresignedUrl({
-    presignedUrlRequest: {
-      file_type: "geofences",
-      filename,
-      file_size: fileSize,
-    },
+    file_type: "geofences",
+    filename,
+    file_size: fileSize,
   });
 
   const presignedData = extractData(presignedResponse);
@@ -153,8 +134,7 @@ export async function uploadGeofences(
     );
   }
 
-  // Step 2: Upload file to S3
-  // Note: For large files, consider using streaming. This reads the entire file into memory.
+  // Reads the entire file into memory; consider streaming for large files.
   // Requires Node.js 18+ for global fetch, or a polyfill for older versions.
   const fileContent = fs.readFileSync(filePath);
 
@@ -163,6 +143,8 @@ export async function uploadGeofences(
     body: fileContent,
     headers: {
       "Content-Type": contentType,
+      "Content-Length": String(fileSize),
+      "If-None-Match": "*",
     },
   });
 
@@ -173,12 +155,13 @@ export async function uploadGeofences(
     );
   }
 
-  // Step 3: Start the geofence import job
+  // The API verifies the S3 object's actual size and content type before
+  // making it available to import jobs.
+  await client.storage.appsStorageApiCompletePresignedUpload(fileId);
+
   const jobResponse = await client.geofences.appsGeofencesApiUploadGeofencesAsync({
-    uploadGeofencesRequest: {
-      file_id: fileId,
-      ...(groupName && { group_name: groupName }),
-    },
+    file_id: fileId,
+    ...(groupName && { group_name: groupName }),
   });
 
   const jobData = extractData(jobResponse);
@@ -190,10 +173,8 @@ export async function uploadGeofences(
     );
   }
 
-  // Step 4: Poll for completion
   return pollJob({
-    fetchStatus: () =>
-      client.geofences.appsGeofencesApiGetUploadJobStatus({ jobId }),
+    fetchStatus: () => client.geofences.appsGeofencesApiGetUploadJobStatus(jobId),
     timeout,
     pollInterval,
     onStatus,
@@ -203,12 +184,10 @@ export async function uploadGeofences(
 function extractData(response: unknown): Record<string, unknown> {
   const r = response as Record<string, unknown>;
 
-  // Handle axios-style response
   if (r.data && typeof r.data === "object") {
     return r.data as Record<string, unknown>;
   }
 
-  // Direct object
   if (typeof response === "object" && response !== null) {
     return response as Record<string, unknown>;
   }

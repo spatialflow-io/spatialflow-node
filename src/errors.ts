@@ -11,9 +11,6 @@ export interface ErrorDetails {
   headers?: Record<string, string>;
 }
 
-/**
- * Base error class for all SpatialFlow SDK errors.
- */
 export class SpatialFlowError extends Error {
   readonly statusCode?: number;
   readonly detail?: string;
@@ -193,9 +190,6 @@ export class ConnectionError extends SpatialFlowError {
   }
 }
 
-/**
- * Raise the appropriate error based on HTTP status code.
- */
 export function raiseForStatus(
   statusCode: number,
   message: string = "API request failed",
