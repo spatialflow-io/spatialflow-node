@@ -34,6 +34,11 @@ jobs:
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
+      # Trusted publishing needs npm 11.5.1+; the npm bundled with Node 22 is older and publishes unauthenticated.
+      - name: Upgrade npm
+        run: |
+          npm install -g npm@^11.5.1
+          npm --version
       - run: npm ci
       - name: Build
         run: npx tsup
@@ -45,5 +50,5 @@ jobs:
           echo "Build artifacts verified"
       - name: Publish to npm
         run: npm publish --provenance --access public
-        # Uses OIDC trusted publishing — no NPM_TOKEN needed
-        # Configured at npmjs.com → package settings → Trusted Publishing
+        # Authenticates with OIDC, so no NPM_TOKEN. Needs the trusted publisher configured on
+        # npmjs.com (package settings → Trusted Publisher) for this repository and publish.yml.
