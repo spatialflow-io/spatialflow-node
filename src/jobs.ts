@@ -72,11 +72,13 @@ export interface PollJobOptions<T> {
   /**
    * Async function that fetches the current job status.
    * Should return a response object with status information.
+   * The signal aborts when the timeout passes mid-call; pass it on to the
+   * request so the call stops too.
    */
-  fetchStatus: () => Promise<T>;
+  fetchStatus: (signal: AbortSignal) => Promise<T>;
 
   /**
-   * Maximum time to wait in milliseconds.
+   * Maximum wall-clock time to wait in milliseconds, status calls included.
    * @default 300000 (5 minutes)
    */
   timeout?: number;
@@ -139,12 +141,20 @@ export async function pollJob<T>(options: PollJobOptions<T>): Promise<JobResult>
     extractStatus = defaultExtractStatus,
   } = options;
 
-  let elapsed = 0;
+  // performance.now() is monotonic, so a wall-clock change can't move the deadline.
+  const deadline = performance.now() + timeout;
   let lastStatus: string | undefined;
   let lastResponse: T | undefined;
 
-  while (elapsed < timeout) {
-    const response = await fetchStatus();
+  const timeoutError = () =>
+    new JobTimeoutError(
+      lastResponse ? extractJobId(lastResponse) : "unknown",
+      timeout,
+      lastStatus
+    );
+
+  while (deadline - performance.now() > 0) {
+    const response = await fetchBefore(deadline, fetchStatus, timeoutError);
     lastResponse = response;
     const status = extractStatus(response);
     lastStatus = status;
@@ -158,12 +168,34 @@ export async function pollJob<T>(options: PollJobOptions<T>): Promise<JobResult>
       return buildJobResult(jobId, status, response);
     }
 
-    await sleep(pollInterval);
-    elapsed += pollInterval;
+    await sleep(Math.max(0, Math.min(pollInterval, deadline - performance.now())));
   }
 
-  const jobId = lastResponse ? extractJobId(lastResponse) : "unknown";
-  throw new JobTimeoutError(jobId, timeout, lastStatus);
+  throw timeoutError();
+}
+
+// Rejects with the timeout error at the deadline even when fetchStatus
+// ignores the abort signal.
+async function fetchBefore<T>(
+  deadline: number,
+  fetchStatus: (signal: AbortSignal) => Promise<T>,
+  timeoutError: () => Error
+): Promise<T> {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const expired = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      // Settle the race before aborting, so a status call that rejects from
+      // its abort listener can't win it.
+      reject(timeoutError());
+      controller.abort();
+    }, deadline - performance.now());
+  });
+  try {
+    return await Promise.race([fetchStatus(controller.signal), expired]);
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function sleep(ms: number): Promise<void> {

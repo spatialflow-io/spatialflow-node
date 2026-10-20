@@ -11,7 +11,7 @@
  *
  * // List geofences
  * const response = await client.geofences.appsGeofencesApiListGeofences();
- * for (const geofence of response.data.results) {
+ * for (const geofence of response.data.geofences) {
  *   console.log(geofence.name);
  * }
  * ```

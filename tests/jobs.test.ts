@@ -237,4 +237,101 @@ describe("JobFailedError", () => {
     const error = new JobFailedError("job-abc", "Validation failed", results);
     expect(error.results).toEqual(results);
   });
+
+  describe("wall-clock deadline", () => {
+    it("counts the time spent in status calls", async () => {
+      const fetchStatus = vi.fn().mockImplementation(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 60));
+        return { data: { job_id: "slow", status: "processing" } };
+      });
+
+      const started = Date.now();
+      await expect(
+        pollJob({ fetchStatus, timeout: 200, pollInterval: 5 })
+      ).rejects.toBeInstanceOf(JobTimeoutError);
+
+      expect(Date.now() - started).toBeLessThan(450);
+    });
+
+    it("rejects with JobTimeoutError when a status call never returns", async () => {
+      const fetchStatus = vi.fn().mockReturnValue(new Promise(() => {}));
+
+      const started = Date.now();
+      await expect(
+        pollJob({ fetchStatus, timeout: 100, pollInterval: 10 })
+      ).rejects.toBeInstanceOf(JobTimeoutError);
+
+      expect(Date.now() - started).toBeLessThan(400);
+    });
+
+    it("aborts the in-flight status call at the deadline", async () => {
+      let signal: AbortSignal | undefined;
+      const fetchStatus = vi.fn().mockImplementation((s?: AbortSignal) => {
+        signal = s;
+        return new Promise(() => {});
+      });
+
+      await expect(
+        pollJob({ fetchStatus, timeout: 50, pollInterval: 10 })
+      ).rejects.toBeInstanceOf(JobTimeoutError);
+
+      expect(signal?.aborted).toBe(true);
+    });
+
+    it("rejects with JobTimeoutError when the status call rejects on abort", async () => {
+      const fetchStatus = (signal: AbortSignal) =>
+        new Promise<never>((_, reject) => {
+          signal.addEventListener("abort", () => reject(new Error("aborted")));
+        });
+
+      await expect(
+        pollJob({ fetchStatus, timeout: 50, pollInterval: 10 })
+      ).rejects.toBeInstanceOf(JobTimeoutError);
+    });
+
+    it("is not shifted by a wall-clock change", async () => {
+      vi.useFakeTimers({ toFake: ["Date"] });
+      try {
+        let calls = 0;
+        const fetchStatus = vi.fn().mockImplementation(async () => {
+          calls++;
+          if (calls === 1) {
+            vi.setSystemTime(Date.now() + 3_600_000);
+            return { data: { job_id: "j", status: "processing" } };
+          }
+          return { data: { job_id: "j", status: "completed", results: {} } };
+        });
+
+        const result = await pollJob({ fetchStatus, timeout: 5000, pollInterval: 10 });
+
+        expect(result.status).toBe("completed");
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it("does not sleep past the deadline", async () => {
+      const fetchStatus = vi
+        .fn()
+        .mockResolvedValue({ data: { job_id: "j", status: "processing" } });
+
+      const started = Date.now();
+      await expect(
+        pollJob({ fetchStatus, timeout: 80, pollInterval: 5000 })
+      ).rejects.toBeInstanceOf(JobTimeoutError);
+
+      expect(Date.now() - started).toBeLessThan(400);
+    });
+
+    it("reports the job id and last status of the last response", async () => {
+      const fetchStatus = vi
+        .fn()
+        .mockResolvedValueOnce({ data: { job_id: "j-9", status: "processing" } })
+        .mockReturnValue(new Promise(() => {}));
+
+      await expect(
+        pollJob({ fetchStatus, timeout: 60, pollInterval: 5 })
+      ).rejects.toMatchObject({ jobId: "j-9", lastStatus: "processing" });
+    });
+  });
 });

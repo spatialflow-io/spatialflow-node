@@ -2,7 +2,7 @@
 
 The official Node.js/TypeScript SDK for [SpatialFlow](https://spatialflow.io) - a real-time geospatial automation platform.
 
-Versions follow [Semantic Versioning](https://semver.org/): breaking changes bump the major version, so 2.x is stable to build on. Upgrading from 1.1.0 is a major version: the changelog lists what was removed.
+Versions follow [Semantic Versioning](https://semver.org/): breaking changes bump the major version, so read the changelog before a major upgrade.
 
 ## Installation
 
@@ -22,22 +22,22 @@ import { SpatialFlow } from "@spatialflow/sdk";
 // Initialize with API key
 const client = new SpatialFlow({ apiKey: "sf_xxx" });
 
-// List geofences
+// List geofences. Generated methods take positional arguments and return an
+// Axios response, so the payload is on `.data`.
 const response = await client.geofences.appsGeofencesApiListGeofences();
-for (const geofence of response.data.results) {
+for (const geofence of response.data.geofences) {
   console.log(`${geofence.name}: ${geofence.id}`);
 }
 
 // Create a geofence
-const geofence = await client.geofences.appsGeofencesApiCreateGeofence({
-  createGeofenceRequest: {
-    name: "My Region",
-    geometry: {
-      type: "Polygon",
-      coordinates: [[[-122.4, 37.8], [-122.4, 37.7], [-122.3, 37.7], [-122.3, 37.8], [-122.4, 37.8]]]
-    }
+const created = await client.geofences.appsGeofencesApiCreateGeofence({
+  name: "My Region",
+  geometry: {
+    type: "Polygon",
+    coordinates: [[[-122.4, 37.8], [-122.4, 37.7], [-122.3, 37.7], [-122.3, 37.8], [-122.4, 37.8]]]
   }
 });
+console.log(created.data.id);
 ```
 
 ## Authentication
@@ -64,15 +64,16 @@ const client = new SpatialFlow({ accessToken: "eyJ..." });
 ## Method Naming
 
 API methods are auto-generated from the OpenAPI spec and follow the pattern:
-`apps{Resource}Api{Operation}`. For example:
+`apps{Resource}Api{Operation}`. They take positional arguments, with the request
+body last, and return an Axios response. For example:
 
 ```typescript
 // Geofences
 client.geofences.appsGeofencesApiListGeofences()
-client.geofences.appsGeofencesApiCreateGeofence({ createGeofenceRequest: {...} })
-client.geofences.appsGeofencesApiGetGeofence({ id: "..." })
-client.geofences.appsGeofencesApiUpdateGeofence({ id: "...", ... })
-client.geofences.appsGeofencesApiDeleteGeofence({ id: "..." })
+client.geofences.appsGeofencesApiCreateGeofence({ name: "...", geometry: {...} })
+client.geofences.appsGeofencesApiGetGeofence(geofenceId)
+client.geofences.appsGeofencesApiUpdateGeofence(geofenceId, { name: "..." })
+client.geofences.appsGeofencesApiDeleteGeofence(geofenceId)
 
 // Workflows
 client.workflows.appsWorkflowsApiListWorkflows()
@@ -126,7 +127,7 @@ import { paginate } from "@spatialflow/sdk";
 // Iterate through all geofences
 for await (const geofence of paginate({
   fetchPage: (offset, limit) =>
-    client.geofences.appsGeofencesApiListGeofences({ offset, limit }),
+    client.geofences.appsGeofencesApiListGeofences(limit, offset),
 })) {
   console.log(geofence.name);
 }
@@ -136,7 +137,7 @@ import { collectAll } from "@spatialflow/sdk";
 
 const allGeofences = await collectAll({
   fetchPage: (offset, limit) =>
-    client.geofences.appsGeofencesApiListGeofences({ offset, limit }),
+    client.geofences.appsGeofencesApiListGeofences(limit, offset),
 });
 ```
 

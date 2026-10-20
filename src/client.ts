@@ -4,7 +4,12 @@
  * The main entry point for the SpatialFlow API.
  */
 
-import axios, { AxiosInstance, AxiosError } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  CanceledError,
+  InternalAxiosRequestConfig,
+} from "axios";
 import {
   GeofencesApi,
   WorkflowsApi,
@@ -15,12 +20,24 @@ import {
 } from "./_generated/api";
 import { Configuration } from "./_generated/configuration";
 import { BASE_PATH } from "./_generated/base";
-import { SpatialFlowError, raiseForStatus } from "./errors";
+import {
+  ConnectionError,
+  SpatialFlowError,
+  TimeoutError,
+  raiseForStatus,
+} from "./errors";
 
-export const VERSION = "2.0.0";
+export const VERSION = "3.0.0";
 export const DEFAULT_BASE_URL = BASE_PATH;
 const DEFAULT_TIMEOUT = 30000; // milliseconds
 const DEFAULT_MAX_RETRIES = 3;
+const RETRY_BASE_DELAY = 500; // milliseconds
+const RETRY_MAX_DELAY = 30000; // milliseconds
+const IDEMPOTENT_METHODS = new Set(["get", "head", "options", "put", "delete"]);
+const RETRYABLE_STATUSES = new Set([429, 500, 502, 503, 504]);
+const TIMEOUT_CODES = new Set(["ECONNABORTED", "ETIMEDOUT"]);
+
+type RetryableConfig = InternalAxiosRequestConfig & { retryCount?: number };
 
 export interface SpatialFlowOptions {
   /**
@@ -48,7 +65,10 @@ export interface SpatialFlowOptions {
   timeout?: number;
 
   /**
-   * Maximum retry attempts for failed requests.
+   * Maximum retry attempts for failed requests. Only idempotent requests
+   * (GET, HEAD, OPTIONS, PUT, DELETE) are retried, on timeouts, connection
+   * failures, and 429, 500, 502, 503 and 504 responses, with exponential backoff. A Retry-After
+   * header sets the wait when present.
    * @default 3
    */
   maxRetries?: number;
@@ -63,22 +83,22 @@ export interface SpatialFlowOptions {
  * ```typescript
  * const client = new SpatialFlow({ apiKey: "sf_xxx" });
  *
- * // List geofences
+ * // List geofences. Generated methods take positional arguments and
+ * // return an Axios response, so the payload is on `.data`.
  * const response = await client.geofences.appsGeofencesApiListGeofences();
- * for (const geofence of response.data.results) {
+ * for (const geofence of response.data.geofences) {
  *   console.log(`${geofence.name}: ${geofence.id}`);
  * }
  *
  * // Create a geofence
- * const geofence = await client.geofences.appsGeofencesApiCreateGeofence({
- *   createGeofenceRequest: {
- *     name: "My Region",
- *     geometry: {
- *       type: "Polygon",
- *       coordinates: [[[-122.4, 37.8], [-122.4, 37.7], [-122.3, 37.7], [-122.3, 37.8], [-122.4, 37.8]]]
- *     }
+ * const created = await client.geofences.appsGeofencesApiCreateGeofence({
+ *   name: "My Region",
+ *   geometry: {
+ *     type: "Polygon",
+ *     coordinates: [[[-122.4, 37.8], [-122.4, 37.7], [-122.3, 37.7], [-122.3, 37.8], [-122.4, 37.8]]]
  *   }
  * });
+ * console.log(created.data.id);
  * ```
  */
 export class SpatialFlow {
@@ -135,7 +155,20 @@ export class SpatialFlow {
     });
   }
 
-  private async handleError(error: AxiosError): Promise<never> {
+  private async handleError(error: AxiosError): Promise<unknown> {
+    // A caller's abort is theirs to handle, so it is neither retried nor
+    // reclassified as a connection failure.
+    if (axios.isCancel(error)) throw error;
+
+    const config = error.config as RetryableConfig | undefined;
+    const attempt = config?.retryCount ?? 0;
+
+    if (config && attempt < this.maxRetries && this.isRetryable(error, config)) {
+      config.retryCount = attempt + 1;
+      await sleep(this.retryDelay(error, attempt), config.signal as AbortSignal | undefined, config);
+      return this.axiosInstance.request(config);
+    }
+
     if (error.response) {
       const { status, data, headers } = error.response;
       const headerRecord: Record<string, string> = {};
@@ -151,17 +184,45 @@ export class SpatialFlow {
         body: data,
         headers: headerRecord,
       });
-    } else if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
-      throw new SpatialFlowError("Request timed out", {
-        detail: error.message,
-      });
-    } else if (error.code === "ENOTFOUND" || error.code === "ECONNREFUSED") {
-      throw new SpatialFlowError("Unable to connect to API", {
+    } else if (
+      TIMEOUT_CODES.has(error.code ?? "") ||
+      error.message.includes("timeout")
+    ) {
+      throw new TimeoutError("Request timed out", { detail: error.message });
+    } else if (error.request) {
+      throw new ConnectionError("Unable to connect to API", {
         detail: error.message,
       });
     }
 
     throw new SpatialFlowError(error.message || "Unknown error");
+  }
+
+  private isRetryable(error: AxiosError, config: RetryableConfig): boolean {
+    if (!IDEMPOTENT_METHODS.has((config.method ?? "get").toLowerCase())) {
+      return false;
+    }
+    if (error.response) {
+      // A wait longer than the cap means the limit is still active when we
+      // would retry, so surface the error and its retryAfter instead.
+      const retryAfter = this.retryAfterMs(error);
+      if (retryAfter !== undefined && retryAfter > RETRY_MAX_DELAY) return false;
+      return RETRYABLE_STATUSES.has(error.response.status);
+    }
+    // A request that never got a response, unless the caller cancelled it.
+    return error.code !== "ERR_CANCELED" && Boolean(error.request);
+  }
+
+  private retryAfterMs(error: AxiosError): number | undefined {
+    const seconds = Number(error.response?.headers?.["retry-after"]);
+    return Number.isFinite(seconds) && seconds >= 0 ? seconds * 1000 : undefined;
+  }
+
+  private retryDelay(error: AxiosError, attempt: number): number {
+    const retryAfter = this.retryAfterMs(error);
+    if (retryAfter !== undefined) return retryAfter;
+    const backoff = Math.min(RETRY_BASE_DELAY * 2 ** attempt, RETRY_MAX_DELAY);
+    return backoff / 2 + Math.random() * (backoff / 2);
   }
 
   get geofences(): GeofencesApi {
@@ -229,4 +290,25 @@ export class SpatialFlow {
     }
     return this._storage;
   }
+}
+
+// Rejects with the same cancellation axios gives when the caller aborts
+// during the wait.
+function sleep(
+  ms: number,
+  signal: AbortSignal | undefined,
+  config: InternalAxiosRequestConfig
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const cancel = () => {
+      clearTimeout(timer);
+      reject(new CanceledError(undefined, undefined, config));
+    };
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", cancel);
+      resolve();
+    }, ms);
+    if (signal?.aborted) return cancel();
+    signal?.addEventListener("abort", cancel, { once: true });
+  });
 }

@@ -5,6 +5,36 @@ All notable changes to the SpatialFlow Node.js SDK will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [3.0.0] - 2026-10-19
+
+**Breaking changes.** The GPX simulator endpoints and the `gpx_simulator` API are gone from the generated client, and `appsWorkflowsApiExecuteWorkflow(workflowId, executeWorkflowIn?)` takes the optional `test_data` as a JSON request body instead of a `testData` query parameter.
+
+### Added
+
+- Geofence group workflow lookup (spec v1.55.0). `GET /api/v1/geofences/groups/workflows` takes repeated `group_id` and an optional `destination_name` and returns the active workflows whose geofence trigger expands any of those groups (`GroupWorkflowsOut`; each `GroupWorkflowItemOut` has `id`, `name`, the matched `group_ids` and the trigger's own `geofence_ids`), plus `destination_group_id`, the id that name resolves to even when the group has no active members. It needs the `workflows:read` and `geofences:read` permissions.
+- Failed workflow runs can be retried (spec v1.53.0). `POST /api/v1/workflows/{workflow_id}/runs/{run_id}/retry` retries one run (`RunRetryOut`). `GET /api/v1/workflows/{workflow_id}/retry-failed-runs` counts the runs a batch would retry (`RetryFailedRunsPreviewOut`, whose `blocked_reason` says why when the workflow itself prevents retries, such as test mode), and `POST` to it queues up to `batch_limit` of them, oldest first (`RetryFailedRunsOut`; `not_queued` lists runs whose retries couldn't be queued). Both POSTs return 409 for a run or batch that can't be retried and 503 when nothing could be queued. Run history executions (`ExecutionOut`) carry optional `retry_of`, `retried_by`, `retryable` and `retry_blocked_reason`.
+- Run history actions (`ActionDeliveryOut`) carry two optional properties for a failed webhook delivery: `response_status_code`, the receiver's HTTP status, and `response_excerpt`, the start of its reply as plain text with echoed secrets withheld.
+- The Google and Apple mobile token exchanges (`GoogleTokenExchangeResponse`, `AppleTokenExchangeResponse`, spec v1.56.0) carry two optional properties when the request accepted an invitation: `already_member`, true when the account already belonged to the invited workspace, and `role`, the role it holds there. Accepting an invitation never changes an existing member's role.
+
+### Changed
+
+- Creating an integration (`CreateIntegrationSchema`) no longer requires `name`. Leave it out or send it blank, and the API names the integration after its type, numbered when the name is taken ("Webhook", "Webhook 2", ...). The create returns 409 with `error_code` `INTEGRATION_NAME_BUSY` when concurrent creates in the workspace took every name it tried; retry it.
+- The generated client is rebuilt from OpenAPI spec v1.52.0. `appsWorkflowsApiExecuteWorkflow(workflowId, executeWorkflowIn?)` takes the optional `test_data` as a JSON request body (`ExecuteWorkflowIn`) instead of a `testData` query parameter, which the endpoint could not parse.
+
+### Fixed
+
+- `paginate` and `collectAll` work on the list endpoints without custom extractors. The default extractors read the `geofences`, `workflows`, `webhooks` and `deliveries` arrays (or a plain array, as the device events endpoint returns), and end the loop from `next`, `pagination.has_more`, `page`/`page_size`/`total` or the `X-Has-More` header, whichever the response has. Geofence lists carry none of these, so a short page ends the loop.
+- `maxRetries` takes effect. GET, HEAD, OPTIONS, PUT and DELETE requests are retried up to `maxRetries` times on timeouts, connection failures, and 429, 500, 502, 503 and 504 responses, with exponential backoff, or the `Retry-After` wait when the response has one. A `Retry-After` over 30 seconds is not waited out: the request rejects with the error, whose `retryAfter` says when to retry. POST and PATCH requests are not retried. A request cancelled with an `AbortSignal` rejects with axios's `CanceledError`, including during a retry wait.
+- Timeouts reject with `TimeoutError` and connection failures with `ConnectionError`, as the exports suggest. Both extend `SpatialFlowError`, so existing catch blocks still match.
+- `pollJob` and `uploadGeofences` treat `timeout` as a wall-clock deadline. Time spent in status calls counts, the wait between polls is cut short at the deadline, and a status call still running then is aborted. `fetchStatus` receives an `AbortSignal` for that call and the rejection is a `JobTimeoutError` even when the call ignores the signal.
+- The `SpatialFlow` doc comments show the positional call style and the `.data` response property.
+
+### Removed
+
+- The GPX simulator endpoints (spec v1.54.0): `/api/v1/gpx/routes`, `/api/v1/gpx/routes/upload`, `/api/v1/gpx/routes/{route_id}`, `/api/v1/gpx/routes/{route_id}/playback` and `/api/v1/gpx/playbacks` with its get, pause, resume and cancel routes, along with the `GPXRouteOut`, `GPXPlaybackOut` and `StartPlaybackRequest` models. The feature was retired and the service held no routes or playbacks. The generated client no longer has the `gpx_simulator` API. Geofence uploads still accept GPX files.
+
 ## [2.0.0] - 2026-10-08
 
 **Breaking changes.** The generated methods for endpoints that no longer exist are removed. See Removed below.

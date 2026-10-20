@@ -23,7 +23,10 @@ export interface UploadGeofencesOptions {
         file_id: string;
         group_name?: string;
       }) => Promise<unknown>;
-      appsGeofencesApiGetUploadJobStatus: (jobId: string) => Promise<unknown>;
+      appsGeofencesApiGetUploadJobStatus: (
+        jobId: string,
+        options?: { signal?: AbortSignal }
+      ) => Promise<unknown>;
     };
   };
 
@@ -174,7 +177,8 @@ export async function uploadGeofences(
   }
 
   return pollJob({
-    fetchStatus: () => client.geofences.appsGeofencesApiGetUploadJobStatus(jobId),
+    fetchStatus: (signal) =>
+      client.geofences.appsGeofencesApiGetUploadJobStatus(jobId, { signal }),
     timeout,
     pollInterval,
     onStatus,

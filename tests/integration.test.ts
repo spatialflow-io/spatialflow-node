@@ -29,9 +29,7 @@ describeIntegration("SDK Integration Tests", () => {
 
   describe("Authentication", () => {
     it("should authenticate and list geofences", async () => {
-      const response = await client.geofences.appsGeofencesApiListGeofences({
-        limit: 1,
-      });
+      const response = await client.geofences.appsGeofencesApiListGeofences(1);
 
       // Verify response structure - generated models use 'geofences' and 'count'
       expect(response).toBeDefined();
@@ -61,7 +59,7 @@ describeIntegration("SDK Integration Tests", () => {
       let count = 0;
       for await (const geofence of paginate({
         fetchPage: (offset, limit) =>
-          client.geofences.appsGeofencesApiListGeofences({ offset, limit }),
+          client.geofences.appsGeofencesApiListGeofences(limit, offset),
         limit: 10,
       })) {
         count++;

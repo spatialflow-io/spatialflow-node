@@ -8,17 +8,21 @@ export interface PaginateOptions<T, R> {
   fetchPage: (offset: number, limit: number) => Promise<R>;
 
   /**
-   * @default (r) => r.data?.results ?? r.results ?? []
+   * @default the response body's array, or its `results`, `geofences`,
+   * `workflows`, `webhooks` or `deliveries` array
    */
   extractItems?: (response: R) => T[];
 
   /**
-   * @default (r) => r.data?.count ?? r.count ?? 0
+   * @default the body's `count`, `total_count` or `total`
    */
   extractCount?: (response: R) => number;
 
   /**
-   * @default (r) => r.data?.next ?? r.next ?? null
+   * A falsy return ends the loop. The default reads `next`,
+   * `pagination.has_more`, `page * page_size < total` or the `x-has-more`
+   * header, whichever the response has, and otherwise relies on a short page
+   * ending the loop.
    */
   extractNext?: (response: R) => string | null | undefined;
 
@@ -38,7 +42,7 @@ export interface PaginateOptions<T, R> {
  * // Iterate through all geofences
  * for await (const geofence of paginate({
  *   fetchPage: (offset, limit) =>
- *     client.geofences.appsGeofencesApiListGeofences({ offset, limit }),
+ *     client.geofences.appsGeofencesApiListGeofences(limit, offset),
  * })) {
  *   console.log(geofence.name);
  * }
@@ -85,7 +89,7 @@ export async function* paginate<T, R = unknown>(
  *
  * const allGeofences = await collectAll({
  *   fetchPage: (offset, limit) =>
- *     client.geofences.appsGeofencesApiListGeofences({ offset, limit }),
+ *     client.geofences.appsGeofencesApiListGeofences(limit, offset),
  * });
  * console.log(`Found ${allGeofences.length} geofences`);
  * ```
@@ -100,37 +104,60 @@ export async function collectAll<T, R = unknown>(
   return items;
 }
 
+const LIST_KEYS = ["results", "geofences", "workflows", "webhooks", "deliveries"];
+
+// A response is an Axios response ({ data, headers }) or the bare body.
+function bodyOf(response: unknown): unknown {
+  const r = response as Record<string, unknown> | null;
+  return r && typeof r === "object" && "data" in r ? r.data : response;
+}
+
 function defaultExtractItems<T>(response: unknown): T[] {
-  const r = response as Record<string, unknown>;
-  // Handle axios response shape (data.results) or direct shape (results)
-  if (r.data && typeof r.data === "object") {
-    const data = r.data as Record<string, unknown>;
-    if (Array.isArray(data.results)) return data.results as T[];
+  const body = bodyOf(response);
+  if (Array.isArray(body)) return body as T[];
+  const record = (body ?? {}) as Record<string, unknown>;
+  for (const key of LIST_KEYS) {
+    if (Array.isArray(record[key])) return record[key] as T[];
   }
-  if (Array.isArray(r.results)) return r.results as T[];
   return [];
 }
 
 function defaultExtractCount(response: unknown): number {
-  const r = response as Record<string, unknown>;
-  if (r.data && typeof r.data === "object") {
-    const data = r.data as Record<string, unknown>;
-    if (typeof data.count === "number") return data.count;
+  const record = (bodyOf(response) ?? {}) as Record<string, unknown>;
+  for (const key of ["count", "total_count", "total"]) {
+    if (typeof record[key] === "number") return record[key] as number;
   }
-  if (typeof r.count === "number") return r.count;
   return 0;
 }
 
-function defaultExtractNext(response: unknown): string | null | undefined {
-  const r = response as Record<string, unknown>;
-  if (r.data && typeof r.data === "object") {
-    const data = r.data as Record<string, unknown>;
-    if (typeof data.next === "string" || data.next === null) {
-      return data.next as string | null;
-    }
+/**
+ * The list endpoints signal the end differently: a `next` link, a
+ * `pagination.has_more` flag, `page`/`page_size`/`total`, or an `X-Has-More`
+ * header. Geofences signal nothing, so a full page is taken to mean more.
+ */
+function defaultExtractNext(response: unknown): string | null {
+  const body = bodyOf(response);
+  const record = (body ?? {}) as Record<string, unknown>;
+
+  if (typeof record.next === "string") return record.next;
+  if (record.next === null) return null;
+
+  const pagination = record.pagination as Record<string, unknown> | undefined;
+  if (typeof pagination?.has_more === "boolean") {
+    return pagination.has_more ? "more" : null;
   }
-  if (typeof r.next === "string" || r.next === null) {
-    return r.next as string | null;
+
+  if (
+    typeof record.page === "number" &&
+    typeof record.page_size === "number" &&
+    typeof record.total === "number"
+  ) {
+    return record.page * record.page_size < record.total ? "more" : null;
   }
-  return undefined;
+
+  const headers = (response as { headers?: Record<string, unknown> }).headers;
+  const hasMore = headers?.["x-has-more"];
+  if (hasMore !== undefined) return String(hasMore) === "true" ? "more" : null;
+
+  return "more";
 }

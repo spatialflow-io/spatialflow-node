@@ -163,4 +163,73 @@ describe("collectAll", () => {
 
     expect(items).toEqual([]);
   });
+
+  describe("default extractors on the list responses", () => {
+    const collect = async <T>(pages: unknown[], limit: number) => {
+      let i = 0;
+      const requested: number[] = [];
+      const items = await collectAll<T>({
+        fetchPage: async (offset) => {
+          requested.push(offset);
+          return pages[i++] ?? { data: {} };
+        },
+        limit,
+      });
+      return { items, requested };
+    };
+
+    it("pages geofences, which have no next link, until a short page", async () => {
+      const { items, requested } = await collect<{ id: number }>(
+        [
+          { data: { geofences: [{ id: 1 }, { id: 2 }], count: 2, total_count: 3 } },
+          { data: { geofences: [{ id: 3 }], count: 1, total_count: 3 } },
+        ],
+        2
+      );
+
+      expect(items.map((g) => g.id)).toEqual([1, 2, 3]);
+      expect(requested).toEqual([0, 2]);
+    });
+
+    it("pages workflows by page, page_size and total", async () => {
+      const { items, requested } = await collect<{ id: number }>(
+        [
+          { data: { workflows: [{ id: 1 }, { id: 2 }], total: 4, page: 1, page_size: 2 } },
+          { data: { workflows: [{ id: 3 }, { id: 4 }], total: 4, page: 2, page_size: 2 } },
+        ],
+        2
+      );
+
+      expect(items.map((w) => w.id)).toEqual([1, 2, 3, 4]);
+      expect(requested).toEqual([0, 2]);
+    });
+
+    it("pages webhooks and deliveries by pagination.has_more", async () => {
+      for (const key of ["webhooks", "deliveries"]) {
+        const { items, requested } = await collect<{ id: number }>(
+          [
+            { data: { [key]: [{ id: 1 }, { id: 2 }], pagination: { has_more: true } } },
+            { data: { [key]: [{ id: 3 }, { id: 4 }], pagination: { has_more: false } } },
+          ],
+          2
+        );
+
+        expect(items.map((x) => x.id)).toEqual([1, 2, 3, 4]);
+        expect(requested).toEqual([0, 2]);
+      }
+    });
+
+    it("pages device events, a plain array, by the x-has-more header", async () => {
+      const { items, requested } = await collect<{ id: number }>(
+        [
+          { data: [{ id: 1 }, { id: 2 }], headers: { "x-has-more": "true" } },
+          { data: [{ id: 3 }, { id: 4 }], headers: { "x-has-more": "false" } },
+        ],
+        2
+      );
+
+      expect(items.map((e) => e.id)).toEqual([1, 2, 3, 4]);
+      expect(requested).toEqual([0, 2]);
+    });
+  });
 });
