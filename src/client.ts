@@ -27,7 +27,7 @@ import {
   raiseForStatus,
 } from "./errors";
 
-export const VERSION = "3.0.0";
+export const VERSION = "3.1.0";
 export const DEFAULT_BASE_URL = BASE_PATH;
 const DEFAULT_TIMEOUT = 30000; // milliseconds
 const DEFAULT_MAX_RETRIES = 3;
